@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import login from "../../graphql/authentication"
 
-class AuthPage extends Component {
+class Authentication extends Component {
   state = {
     isLogin: true
   };
@@ -26,17 +27,7 @@ class AuthPage extends Component {
       return;
     }
 
-    let requestBody = {
-      query: `
-        query {
-          login(email: "${email}", password: "${password}") {
-            userId
-            token
-            tokenExpiration
-          }
-        }
-      `
-    };
+    let requestBody = login(email, password);
 
     if (!this.state.isLogin) {
       requestBody = {
@@ -51,7 +42,7 @@ class AuthPage extends Component {
       };
     }
 
-    fetch('http://localhost:4000/graphql', {
+    fetch('http://18.218.142.78/test/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
@@ -94,4 +85,4 @@ class AuthPage extends Component {
   }
 }
 
-export default AuthPage;
+export default Authentication
