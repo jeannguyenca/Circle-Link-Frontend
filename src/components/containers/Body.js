@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Authentication from "../pages/Authentication"
 import { Route, Link } from "react-router-dom"
 
 import Header from "./Header"
