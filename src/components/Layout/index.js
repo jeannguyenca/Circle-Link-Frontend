@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import logo from '../../media/logo_text.png';
 import {
-    AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography, withStyles
+    AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, withStyles
 } from '@material-ui/core';
 import{
-    Face, LocalOffer, Menu, Mail, MoveToInbox
+    Face, LocalOffer, Menu
 } from '@material-ui/icons'
 import Dashboard from './Components/Dashboard'
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom'
 import Customer from './Components/Customer';
 import CreateCoupon from './Components/CreateCoupon';
+import ViewCoupon from './Components/ViewCoupon'
 
 
 const drawerWidth = 240;
@@ -64,7 +65,7 @@ class Layout extends React.Component {
   };
 
   render() {
-    const { classes, theme, children } = this.props;
+    const { classes, theme } = this.props;
 
     const drawer = (
       
@@ -212,6 +213,7 @@ class Layout extends React.Component {
                 <Route exact path="/" render={() => <Dashboard />} />
                 <Route path="/Customers" render={() => <Customer />} />
                 <Route path="/CreateCoupon" render={() => <CreateCoupon />} />
+                <Route path="/Manage" render={() => <ViewCoupon />} />
             </Switch>
 
 
