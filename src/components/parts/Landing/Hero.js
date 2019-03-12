@@ -54,7 +54,7 @@ class Hero extends Component {
               align="center"
             />
             {this.props.button && (
-              <Link to="/signup">
+              <Link to="/signup" style={{'textDecoration': 'none'}}>
                 <Button
                   color="primary"
                   className={classes.button}

@@ -19,16 +19,12 @@ let Figure = Styled.figure`
   display: flex;
   justify-content: center;
   img {
-    width: 320px;
-    height: 72px;
+    width: 360px;
+    height: 92px;
   }
   @media only screen and (min-width: 1150px){
     justify-content: flex-start;
     margin-left: 0;
-    img {
-      width: 360px;
-      height: 92px;
-    }
 
 
   }
@@ -84,7 +80,7 @@ let Login = Styled.div`
     text-align: center;
   } 
   h1{
-    font-size: 35pt;
+    font-size: 42pt;
     letter-spacing: 2pt;
     text-shadow: 1px 2px 3px rgb(0, 0, 0);
   }
@@ -144,7 +140,6 @@ let Login = Styled.div`
     .loginForm{
       width: 400px
     }
-    h1{font-size: 42pt;}
   }
   @media only screen and (min-width: 1150px){
     .lWrapper{
@@ -174,7 +169,7 @@ let Login = Styled.div`
 
 `;
 
-class Register extends Component {
+class Forgot extends Component {
   state = {
     isLogin: true,
     email: '',
@@ -253,21 +248,20 @@ class Register extends Component {
         <Login>
           <div className="lWrapper">
             <div className="Gtitle">
-              <Link to="/">
-                <Figure>
-                  <img src={logoText} alt="Logo Text"/>
-                </Figure>
-              </Link>
-              <h1>Welcome to Circle Link!</h1>
+              <Figure>
+                <img src={logoText} alt="Logo Text"/>
+              </Figure>
+              <h1>Hello Partner!</h1>
     
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
             </div>
     
             <form className="auth-form loginForm" onSubmit={this.submitHandler}>
-              <h2>Register</h2>
-              <p style={{marginBottom: 0}}>Already have Account ?</p>
+              <h2>Forgot Passrord</h2>
+              <p style={{marginBottom: 0}}>Go back to Login?</p>
               <Link className="signUp" to="/login">Login</Link>
 
+              <p style={{marginBottom: 0}}>Enter Your Email to get Verify Link?</p>
               <div className="email">
                 <Grid container spacing={8} alignItems="flex-end">
                   <Grid item>
@@ -287,28 +281,6 @@ class Register extends Component {
                 </Grid>
               </div>
 
-              <div className="password">
-                <Grid className="field" container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '55px'}}>
-                  <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
-                  </Grid>
-                  <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Password" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Password"
-                               name="password"
-                               onChange={HandleChange}
-                               
-                               />
-                  </Grid>
-                </Grid>
-              </div>
-              <Link className="forgot" style={{}} to="/forgot">Forgot Password</Link>
-
-
               {/* <div className="form-control">
                 <label htmlFor="email">E-Mail</label>
                 <input type="email" id="email" ref={this.emailEl} />
@@ -320,8 +292,7 @@ class Register extends Component {
               </div> */}
 
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Log In</Button>
-                <Button className="btnForm btnGmail" type="submit">Log In with Gmail</Button>
+                <Button className=" btnForm btnLogin" type="submit">Submit</Button>
               </div>
 
             </form>
@@ -332,4 +303,4 @@ class Register extends Component {
   }
 }
 
-export default Register
+export default Forgot
