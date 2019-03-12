@@ -55,7 +55,7 @@ const Landing = props => {
       <div className="hero">
         <Header/>
         <Hero
-          header="Collaboration, Evolvement and Prosperity"
+          header="Collaborate, Evolve and Prosper"
           para="We scale up your business by fitting in perfectly between consumers and your system. We will help your business to bring the same consumer back and enhance the consumer experiments. "
           button="Join now"
           img={cover}
