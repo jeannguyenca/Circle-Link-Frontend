@@ -14,50 +14,49 @@ import user from '../../media/icons/profile.svg';
 import lock from '../../media/icons/password.svg';
 
 
-let Figure = Styled.figure`
+let Figure = Styled.figure `
   margin-top: 0;
   display: flex;
   justify-content: center;
   img {
-    width: 360px;
-    height: 92px;
+    width: 320px;
+    height: 72px;
   }
   @media only screen and (min-width: 1150px){
     justify-content: flex-start;
     margin-left: 0;
+    img {
+      width: 360px;
+      height: 92px;
+    }
 
 
   }
 `;
 
 
-let TextField1 = Styled(TextField)`
-  width: 200px;
-  label{
-    left: 55px !important
-  }
+let TextField1 = Styled(TextField)
+`
+  width: 220px;
   input[placeholder] { text-align: center }
-  .MuiFormLabel-focused-114{
-    left: 0!important
-  }
-  
   fieldset{ 
     border-radius: 24.5px !important;
   }
 
 `;
 
-let Login = Styled.div`
+let Login = Styled.div `
   background: url(${backGround});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   .lWrapper{
+    width: 100%;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -68,6 +67,7 @@ let Login = Styled.div`
     font-size: 14pt;
   }
   .Gtitle{
+    width: 100%;
     p {
       color: white;
       text-shadow: 1px 2px 3px rgb(0, 0, 0);
@@ -80,7 +80,7 @@ let Login = Styled.div`
     text-align: center;
   } 
   h1{
-    font-size: 42pt;
+    font-size: 35pt;
     letter-spacing: 2pt;
     text-shadow: 1px 2px 3px rgb(0, 0, 0);
   }
@@ -96,26 +96,37 @@ let Login = Styled.div`
     justify-content: center;
     flex-flow: column nowrap;
     height: 600px;
-    width: 320px;
+    max-width: 320px;
     box-shadow: 1px 2px 3px rgb(0, 0, 0);
+    padding: 16px 0;
     h2{margin: 0 auto }
+    p{
+      color: black;
+      text-align: center;
+      padding: 0 16px;
+    }
     .signUp{
       color: ${ props => props.theme.second }
       margin: 8px auto 24px auto;
       &:hover {
         font-weight: 700;
       }
-      p{
-        color: black;
-      }
+    }
+    .emailField label {left: 75px !important}
+    .passField label {left: 65px !important}
+    .pass2Field label {left: 45px !important}
+    .emailField .MuiFormLabel-focused-114, .passField .MuiFormLabel-focused-114, .pass2Field .MuiFormLabel-focused-114{
+      left: 0 !important
     }
   }
   .forgot{color: black;  margin: 12px auto 16px auto }
   .form-actions{
     display: flex;
+    margin-left: 20px;
     flex-flow: column nowrap;
     .btnForm{
-      width: 200px;
+      width: 220px;
+      height: 53px;
       margin: 8px auto;
       font-size: 14pt;
       
@@ -137,9 +148,11 @@ let Login = Styled.div`
   }
 
   @media only screen and (min-width: 550px){
+    height: 100vh;
     .loginForm{
-      width: 400px
+      max-width: 400px
     }
+    h1{font-size: 42pt;}
   }
   @media only screen and (min-width: 1150px){
     .lWrapper{
@@ -152,6 +165,7 @@ let Login = Styled.div`
     .Gtitle{
       h1{
         margin: 24px auto; 
+        width: 400px
       }
       h1, h2{text-align: left;}
       p{width: 400px; display: initial}
@@ -268,7 +282,7 @@ class Authentication extends Component {
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
                   </Grid>
-                  <Grid item style={{marginRight: '55px'}}>
+                  <Grid item style={{marginRight: '35px'}}>
                     <TextField1 id="outlined-with-placeholder" 
                                label="Email" 
                                margin="normal"
@@ -284,7 +298,7 @@ class Authentication extends Component {
 
               <div className="password">
                 <Grid className="field" container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '55px'}}>
+                      style={{marginRight: '35px'}}>
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
                   </Grid>

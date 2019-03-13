@@ -36,15 +36,8 @@ let Figure = Styled.figure`
 
 
 let TextField1 = Styled(TextField)`
-  width: 200px;
-  label{
-    left: 55px !important
-  }
+  width: 220px;
   input[placeholder] { text-align: center }
-  .MuiFormLabel-focused-114{
-    left: 0!important
-  }
-  
   fieldset{ 
     border-radius: 24.5px !important;
   }
@@ -57,11 +50,12 @@ let Login = Styled.div`
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   .lWrapper{
+    width: 100%;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -72,6 +66,7 @@ let Login = Styled.div`
     font-size: 14pt;
   }
   .Gtitle{
+    width: 100%;
     p {
       color: white;
       text-shadow: 1px 2px 3px rgb(0, 0, 0);
@@ -100,26 +95,35 @@ let Login = Styled.div`
     justify-content: center;
     flex-flow: column nowrap;
     height: 600px;
-    width: 320px;
+    max-width: 320px;
     box-shadow: 1px 2px 3px rgb(0, 0, 0);
+    padding: 16px 0;
     h2{margin: 0 auto }
+    p{
+      color: black;
+    }
     .signUp{
       color: ${ props => props.theme.second }
       margin: 8px auto 24px auto;
       &:hover {
         font-weight: 700;
       }
-      p{
-        color: black;
-      }
+    }
+    .emailField label {left: 75px !important}
+    .passField label {left: 65px !important}
+    .pass2Field label {left: 45px !important}
+    .emailField .MuiFormLabel-focused-114, .passField .MuiFormLabel-focused-114, .pass2Field .MuiFormLabel-focused-114{
+      left: 0 !important
     }
   }
   .forgot{color: black;  margin: 12px auto 16px auto }
   .form-actions{
     display: flex;
+    margin-left: 20px;
     flex-flow: column nowrap;
     .btnForm{
-      width: 200px;
+      width: 220px;
+      height: 53px;
       margin: 8px auto;
       font-size: 14pt;
       
@@ -141,8 +145,9 @@ let Login = Styled.div`
   }
 
   @media only screen and (min-width: 550px){
+    height: 100vh;
     .loginForm{
-      width: 400px
+      max-width: 400px
     }
     h1{font-size: 42pt;}
   }
@@ -157,6 +162,7 @@ let Login = Styled.div`
     .Gtitle{
       h1{
         margin: 24px auto; 
+        width: 400px
       }
       h1, h2{text-align: left;}
       p{width: 400px; display: initial}
@@ -273,7 +279,7 @@ class Register extends Component {
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
                   </Grid>
-                  <Grid item style={{marginRight: '55px'}}>
+                  <Grid item style={{marginRight: '35px'}}>
                     <TextField1 id="outlined-with-placeholder" 
                                label="Email" 
                                margin="normal"
@@ -281,15 +287,15 @@ class Register extends Component {
                                placeholder="Email"
                                name="email"
                                onChange={HandleChange}
-
+                               className="emailField filed"
                                />
                   </Grid>
                 </Grid>
               </div>
 
               <div className="password">
-                <Grid className="field" container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '55px'}}>
+                <Grid container spacing={8}                  alignItems="flex-end" 
+                      style={{marginRight: '35px'}}>
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
                   </Grid>
@@ -301,7 +307,26 @@ class Register extends Component {
                                placeholder="Password"
                                name="password"
                                onChange={HandleChange}
-                               
+                               className="passField field"
+                               />
+                  </Grid>
+                </Grid>
+              </div>
+              <div className="password2">
+                <Grid container spacing={8}                  alignItems="flex-end" 
+                      style={{marginRight: '35px'}}>
+                  <Grid item>
+                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                  </Grid>
+                  <Grid item>
+                    <TextField1 id="outlined-with-placeholder" 
+                               label="Confirm Password" 
+                               margin="normal"
+                               variant="outlined"
+                               placeholder="Confirm Password"
+                               name="password2"
+                               onChange={HandleChange}
+                               className="pass2Field filed"
                                />
                   </Grid>
                 </Grid>
@@ -320,8 +345,8 @@ class Register extends Component {
               </div> */}
 
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Log In</Button>
-                <Button className="btnForm btnGmail" type="submit">Log In with Gmail</Button>
+                <Button className=" btnForm btnLogin" type="submit">Register</Button>
+                <Button className="btnForm btnGmail" type="submit">Gmail Register</Button>
               </div>
 
             </form>
