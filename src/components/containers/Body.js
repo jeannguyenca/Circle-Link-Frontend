@@ -10,6 +10,7 @@ class Body extends Component {
     const { match } = this.props
     return (
       <React.Fragment>
+        <Menu />
         <Header />
 
         <div className="container">

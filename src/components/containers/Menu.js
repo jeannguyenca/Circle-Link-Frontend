@@ -49,13 +49,17 @@ const styles = theme => ({
   },
 });
 
+const groups = ["My stats", "Coupon Sys", "Collab", "Help"]
+const items =[["Customers", "Coupons"],
+              ["Create", "Manage"],
+              ["Create", "Manage"],
+              ["Support", "Feedback"]]
+
 function PermanentDrawerLeft(props) {
   const { classes } = props;
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-  
+    <div className={classes.root}>  
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -64,108 +68,32 @@ function PermanentDrawerLeft(props) {
         }}
         anchor="left"
       >
-       {/* <div className={classes.toolbar} /> */}
-       <div style={{padding: 20}}>
        <img src={logo} alt="Logo" className={classes.responsiveImg}/>
-       </div>
         
        
         <Divider />
-        
-        <List>
-            <p  className="textDraw" >
-            My Statistics
-            </p>
-            <ListItem button key='1'>
-                <ListItemIcon><Face /></ListItemIcon>
-                <ListItemText  primary='Customers'/>
-            </ListItem>
 
-            <ListItem button key='2'>
-                <ListItemIcon><Coupon /></ListItemIcon>
-                <ListItemText  primary='Coupons'/>
-            </ListItem>
-        </List>
+        {groups.map((section, index) => {
+          return (
+            <List>
+              <p className="textDraw">{section}</p>
+              <React.Fragment>
+                <ListItem button key={0}>
+                  <ListItemIcon><Face /></ListItemIcon>
+                  <ListItemText primary={items[index][0]} />
+                </ListItem>
 
-        <List>
-            <p  className="textDraw" >
-            Coupon System
-            </p>
-            <ListItem button key='1'>
-                <ListItemIcon><Face /></ListItemIcon>
-                <ListItemText  primary='Create'/>
-            </ListItem>
-
-            <ListItem button key='2'>
-                <ListItemIcon><Coupon /></ListItemIcon>
-                <ListItemText  primary='Manage'/>
-            </ListItem>
-
-        </List>
-      
-
-        <List>
-            <p  className="textDraw" >
-            Collaboration
-            </p>
-            <ListItem button key='1'>
-                <ListItemIcon><Face /></ListItemIcon>
-                <ListItemText  primary='Manage'/>
-            </ListItem>
-
-            <ListItem button key='2'>
-                <ListItemIcon><Coupon /></ListItemIcon>
-                <ListItemText  primary='Create'/>
-            </ListItem>
-
-        </List>
-        
-
-        <List>
-            <p  className="textDraw" >
-            Support
-            </p>
-            <ListItem button key='1'>
-                <ListItemIcon><Face /></ListItemIcon>
-                <ListItemText  primary='Support'/>
-            </ListItem>
-
-            <ListItem button key='2'>
-                <ListItemIcon><Coupon /></ListItemIcon>
-                <ListItemText  primary='Feedback'/>
-            </ListItem>
-
-        </List>
-        
-        
+                <ListItem button key={1}>
+                  <ListItemIcon><Coupon /></ListItemIcon>
+                  <ListItemText primary={items[index][1]} />
+                </ListItem>
+              </React.Fragment>
+            </List>
+          )
+        })}
 
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </main>
+      
     </div>
   );
 }
