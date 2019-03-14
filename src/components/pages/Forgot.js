@@ -14,7 +14,7 @@ import user from '../../media/icons/profile.svg';
 import lock from '../../media/icons/password.svg';
 
 
-let Figure = Styled.figure `
+let Figure = Styled.figure`
   margin-top: 0;
   display: flex;
   justify-content: center;
@@ -35,8 +35,7 @@ let Figure = Styled.figure `
 `;
 
 
-let TextField1 = Styled(TextField)
-`
+let TextField1 = Styled(TextField)`
   width: 220px;
   input[placeholder] { text-align: center }
   fieldset{ 
@@ -45,7 +44,7 @@ let TextField1 = Styled(TextField)
 
 `;
 
-let Login = Styled.div `
+let Login = Styled.div`
   background: url(${backGround});
   background-repeat: no-repeat;
   background-position: center;
@@ -102,8 +101,6 @@ let Login = Styled.div `
     h2{margin: 0 auto }
     p{
       color: black;
-      text-align: center;
-      padding: 0 16px;
     }
     .signUp{
       color: ${ props => props.theme.second }
@@ -183,7 +180,7 @@ let Login = Styled.div `
 
 `;
 
-class Authentication extends Component {
+class Forgot extends Component {
   state = {
     isLogin: true,
     email: '',
@@ -262,27 +259,26 @@ class Authentication extends Component {
         <Login>
           <div className="lWrapper">
             <div className="Gtitle">
-              <Link to="/">
-                <Figure>
-                  <img src={logoText} alt="Logo Text"/>
-                </Figure>
-              </Link>
+              <Figure>
+                <img src={logoText} alt="Logo Text"/>
+              </Figure>
               <h1>Hello Partner!</h1>
     
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
             </div>
     
             <form className="auth-form loginForm" onSubmit={this.submitHandler}>
-              <h2>Log in</h2>
-              <p style={{marginBottom: 0, padding: 'auto 12px'}}>Welcome back! If you not a member yet.</p>
-              <Link className="signUp" to="/signup">Sign up free!</Link>
+              <h2>Forgot Passrord</h2>
+              <p style={{marginBottom: 0}}>Go back to Login?</p>
+              <Link className="signUp" to="/login">Login</Link>
 
+              <p style={{marginBottom: 0}}>Enter Your Email to get Verify Link?</p>
               <div className="email">
                 <Grid container spacing={8} alignItems="flex-end">
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
                   </Grid>
-                  <Grid item style={{marginRight: '35px'}}>
+                  <Grid item style={{marginRight: '55px'}}>
                     <TextField1 id="outlined-with-placeholder" 
                                label="Email" 
                                margin="normal"
@@ -296,28 +292,6 @@ class Authentication extends Component {
                 </Grid>
               </div>
 
-              <div className="password">
-                <Grid className="field" container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '35px'}}>
-                  <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
-                  </Grid>
-                  <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Password" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Password"
-                               name="password"
-                               onChange={HandleChange}
-                               
-                               />
-                  </Grid>
-                </Grid>
-              </div>
-              <Link className="forgot" style={{}} to="/forgot">Forgot Password</Link>
-
-
               {/* <div className="form-control">
                 <label htmlFor="email">E-Mail</label>
                 <input type="email" id="email" ref={this.emailEl} />
@@ -329,8 +303,7 @@ class Authentication extends Component {
               </div> */}
 
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Log In</Button>
-                <Button className="btnForm btnGmail" type="submit">Log In with Gmail</Button>
+                <Button className=" btnForm btnLogin" type="submit">Submit</Button>
               </div>
 
             </form>
@@ -341,4 +314,4 @@ class Authentication extends Component {
   }
 }
 
-export default Authentication
+export default Forgot

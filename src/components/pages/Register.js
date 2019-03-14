@@ -14,7 +14,7 @@ import user from '../../media/icons/profile.svg';
 import lock from '../../media/icons/password.svg';
 
 
-let Figure = Styled.figure `
+let Figure = Styled.figure`
   margin-top: 0;
   display: flex;
   justify-content: center;
@@ -35,8 +35,7 @@ let Figure = Styled.figure `
 `;
 
 
-let TextField1 = Styled(TextField)
-`
+let TextField1 = Styled(TextField)`
   width: 220px;
   input[placeholder] { text-align: center }
   fieldset{ 
@@ -45,7 +44,7 @@ let TextField1 = Styled(TextField)
 
 `;
 
-let Login = Styled.div `
+let Login = Styled.div`
   background: url(${backGround});
   background-repeat: no-repeat;
   background-position: center;
@@ -102,8 +101,6 @@ let Login = Styled.div `
     h2{margin: 0 auto }
     p{
       color: black;
-      text-align: center;
-      padding: 0 16px;
     }
     .signUp{
       color: ${ props => props.theme.second }
@@ -183,7 +180,7 @@ let Login = Styled.div `
 
 `;
 
-class Authentication extends Component {
+class Register extends Component {
   state = {
     isLogin: true,
     email: '',
@@ -267,15 +264,15 @@ class Authentication extends Component {
                   <img src={logoText} alt="Logo Text"/>
                 </Figure>
               </Link>
-              <h1>Hello Partner!</h1>
+              <h1>Welcome to Circle Link!</h1>
     
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
             </div>
     
             <form className="auth-form loginForm" onSubmit={this.submitHandler}>
-              <h2>Log in</h2>
-              <p style={{marginBottom: 0, padding: 'auto 12px'}}>Welcome back! If you not a member yet.</p>
-              <Link className="signUp" to="/signup">Sign up free!</Link>
+              <h2>Register</h2>
+              <p style={{marginBottom: 0}}>Already have Account ?</p>
+              <Link className="signUp" to="/login">Login</Link>
 
               <div className="email">
                 <Grid container spacing={8} alignItems="flex-end">
@@ -290,14 +287,14 @@ class Authentication extends Component {
                                placeholder="Email"
                                name="email"
                                onChange={HandleChange}
-
+                               className="emailField filed"
                                />
                   </Grid>
                 </Grid>
               </div>
 
               <div className="password">
-                <Grid className="field" container spacing={8}                  alignItems="flex-end" 
+                <Grid container spacing={8}                  alignItems="flex-end" 
                       style={{marginRight: '35px'}}>
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
@@ -310,7 +307,26 @@ class Authentication extends Component {
                                placeholder="Password"
                                name="password"
                                onChange={HandleChange}
-                               
+                               className="passField field"
+                               />
+                  </Grid>
+                </Grid>
+              </div>
+              <div className="password2">
+                <Grid container spacing={8}                  alignItems="flex-end" 
+                      style={{marginRight: '35px'}}>
+                  <Grid item>
+                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                  </Grid>
+                  <Grid item>
+                    <TextField1 id="outlined-with-placeholder" 
+                               label="Confirm Password" 
+                               margin="normal"
+                               variant="outlined"
+                               placeholder="Confirm Password"
+                               name="password2"
+                               onChange={HandleChange}
+                               className="pass2Field filed"
                                />
                   </Grid>
                 </Grid>
@@ -329,8 +345,8 @@ class Authentication extends Component {
               </div> */}
 
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Log In</Button>
-                <Button className="btnForm btnGmail" type="submit">Log In with Gmail</Button>
+                <Button className=" btnForm btnLogin" type="submit">Register</Button>
+                <Button className="btnForm btnGmail" type="submit">Gmail Register</Button>
               </div>
 
             </form>
@@ -341,4 +357,4 @@ class Authentication extends Component {
   }
 }
 
-export default Authentication
+export default Register

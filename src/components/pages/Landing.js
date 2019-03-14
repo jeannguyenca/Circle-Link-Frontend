@@ -80,7 +80,7 @@ const Landing = props => {
         <GetInTouch
           header="Contact Us"
           paraDark="Let us know more about you!"
-          id="Contact us"
+          id="ContactUs"
         />
         <Footer/>
       </div>

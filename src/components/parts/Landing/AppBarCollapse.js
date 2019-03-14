@@ -2,12 +2,12 @@ import React, { Component } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import ButtonAppBarCollapse from "../Landing/ButtonAppBarCollapse"
 import PropTypes from "prop-types"
-import Button from "@material-ui/core/Button"
+// import Button from "@material-ui/core/Button"
 import { Link, animateScroll as scroll } from "react-scroll";
-
 
 import LogoText from "../../../assets/logo_text.svg"
 import LogoIcon from "../../../assets/logo_icon.svg"
+import AuthButtonGroup from "./AuthButtonGroup"
 
 
 const styles = theme => ({
@@ -65,21 +65,6 @@ const styles = theme => ({
     },
     cursor: "pointer"
   },
-  button: {
-    borderRadius: "50px",
-    boxShadow: "none",
-    "-webkit-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
-    "-moz-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
-    "box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "300px",
-      margin: "0 auto"
-    },
-    "&:hover": {
-      background: "white",
-      color: theme.palette.primary.main,
-    }
-  }, 
   logoText: {
     [theme.breakpoints.down("sm")]: {
       display: "none"
@@ -92,7 +77,7 @@ const styles = theme => ({
   }
 })
 
-const menus = ["Overview", "Features", "Contact us"]
+const menus = ["Overview", "Features", "ContactUs"]
 
 class AppBarCollapse extends Component {
   constructor(props) {
@@ -105,7 +90,7 @@ class AppBarCollapse extends Component {
     const classes = this.props.classes
     return (
       <div className={classes.root}>
-        <Link to="Home" spy={true} smooth={true} className={classes.link} offset={-136}>
+        <Link to="/Home" spy={true} smooth={true} className={classes.link} offset={-136}>
           <img src={LogoText} className={classes.logoText} alt="c3d logo" />
           <img src={LogoIcon} className={classes.logoIcon} alt="c3d logo" />
         </Link>
@@ -122,17 +107,7 @@ class AppBarCollapse extends Component {
             })}
           </div>
           <div className={classes.right}>
-            <Link to="links" spy={true} smooth={true} 
-              color="inherit" className={classes.link}>
-              Log in
-            </Link>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-            >
-              Sign up
-            </Button>
+            <AuthButtonGroup/> 
           </div>
         </div>
         <ButtonAppBarCollapse dataTarget="#appbar-collapse" />

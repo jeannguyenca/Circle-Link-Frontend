@@ -4,6 +4,7 @@ import { withStyles, MuiThemeProvider } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 
 import InformationBlock from "./InformationBlock"
+import { Link } from 'react-router-dom';
 
 const styles = (theme, props) => ({
   root: {
@@ -53,14 +54,15 @@ class Hero extends Component {
               align="center"
             />
             {this.props.button && (
-              <Button
-              href="#"
-              color="primary"
-              className={classes.button}
-              variant="contained"
-              >
-                {this.props.button}
-              </Button>
+              <Link to="/signup" style={{'textDecoration': 'none'}}>
+                <Button
+                  color="primary"
+                  className={classes.button}
+                  variant="contained"
+                >
+                  {this.props.button}
+                </Button>
+              </Link>
             )}
           </Grid>
           <Grid item xs={10}className={classes.item}>
