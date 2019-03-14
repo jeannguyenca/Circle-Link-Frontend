@@ -82,7 +82,7 @@ class App extends Component {
             <Route exact path='/forgot' component={Forgot} /> 
 
             
-            <Route exact path='/dashboard' component={Body} /> 
+            <Route path='/dashboard' component={Body} /> 
           </Switch>
         </BrowserRouter>
       </div>

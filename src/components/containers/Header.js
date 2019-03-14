@@ -20,7 +20,6 @@ class Header extends Component {
     return (
 
           <Wrapper>
-
             <AppBar />
       </Wrapper>
     );
