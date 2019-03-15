@@ -60,7 +60,10 @@ const styles = theme => ({
     }
   },
   selected: {
-    background: `${theme.palette.primary.main} !important`
+    background: `${theme.palette.primary.main} !important`,
+    "&>h6": {
+      color: "white !important"
+    }
   },
   sectionName: {
     textTransform: "uppercase",
@@ -139,7 +142,9 @@ class ResponsiveDrawer extends React.Component {
 
     const drawer = (
       <div className={classes.drawer}>
-        <img src={logo} alt="Logo" className={classes.responsiveImg} />
+        <Link to="/dashboard">
+          <img src={logo} alt="Logo" className={classes.responsiveImg} />
+        </Link>
 
         {groups.map((section, index) => {
           return (
@@ -191,19 +196,18 @@ class ResponsiveDrawer extends React.Component {
 
     return (
       <nav className={classes.nav}>
-      {
-          this.state.selectedIndex ? 
+        {this.state.selectedIndex ? (
           <AppBar
             handleDrawerToggle={this.handleDrawerToggle}
             header={
-              header[Math.round(this.state.selectedIndex / 10)][this.state.selectedIndex % 10]
+              header[Math.round(this.state.selectedIndex / 10)][
+                this.state.selectedIndex % 10
+              ]
             }
-          />: 
-            <AppBar
-              handleDrawerToggle={this.handleDrawerToggle}
-            />
-      }
-
+          />
+        ) : (
+          <AppBar handleDrawerToggle={this.handleDrawerToggle} />
+        )}
 
         <Hidden smUp implementation="css">
           <Drawer
