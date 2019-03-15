@@ -27,7 +27,7 @@ const data = [
 ]
 
 const Stats = props => {
-  return <BarChartCustom width={600} height={300} data={data} keyData="cust" />
+  return <BarChartCustom data={data} keyData="cust" />
 }
 
 export default Stats

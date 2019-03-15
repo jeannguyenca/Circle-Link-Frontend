@@ -3,12 +3,11 @@ import { withStyles } from "@material-ui/core/styles"
 import ButtonAppBarCollapse from "../Landing/ButtonAppBarCollapse"
 import PropTypes from "prop-types"
 // import Button from "@material-ui/core/Button"
-import { Link, animateScroll as scroll } from "react-scroll";
+import { Link, animateScroll as scroll } from "react-scroll"
 
 import LogoText from "../../../assets/logo_text.svg"
 import LogoIcon from "../../../assets/logo_icon.svg"
 import AuthButtonGroup from "./AuthButtonGroup"
-
 
 const styles = theme => ({
   root: {
@@ -17,7 +16,7 @@ const styles = theme => ({
     display: "flex",
     "justify-content": "space-between",
     position: "sticky",
-    top: 0,
+    top: 0
   },
   wrapper: {
     [theme.breakpoints.down("sm")]: {
@@ -40,7 +39,7 @@ const styles = theme => ({
     "justify-self": "start",
     [theme.breakpoints.down("sm")]: {
       display: "flex",
-      "flex-direction": "column",
+      "flex-direction": "column"
     }
   },
   right: {
@@ -90,24 +89,45 @@ class AppBarCollapse extends Component {
     const classes = this.props.classes
     return (
       <div className={classes.root}>
-        <Link to="/Home" spy={true} smooth={true} className={classes.link} offset={-136}>
-          <img src={LogoText} className={classes.logoText} alt="c3d logo" />
-          <img src={LogoIcon} className={classes.logoIcon} alt="c3d logo" />
+        <Link
+          to="/Home"
+          spy={true}
+          smooth={true}
+          className={classes.link}
+          offset={-136}
+        >
+          <img
+            src={LogoText}
+            className={classes.logoText}
+            alt="CircleLink logo"
+          />
+          <img
+            src={LogoIcon}
+            className={classes.logoIcon}
+            alt="CircleLink logo"
+          />
         </Link>
 
         <div className={classes.wrapper} id="appbar-collapse">
           <div className={classes.left}>
-            {menus.map((menu,index) => {
-              console.log(menus[index])
-              return <Link
-                to={menus[index]} spy={true} smooth={true}
-                color="inherit" className={classes.link} offset={-50} key={menu}>
-                {menu}
+            {menus.map((menu, index) => {
+              return (
+                <Link
+                  to={menus[index]}
+                  spy={true}
+                  smooth={true}
+                  color="inherit"
+                  className={classes.link}
+                  offset={-50}
+                  key={menu}
+                >
+                  {menu}
                 </Link>
+              )
             })}
           </div>
           <div className={classes.right}>
-            <AuthButtonGroup/> 
+            <AuthButtonGroup />
           </div>
         </div>
         <ButtonAppBarCollapse dataTarget="#appbar-collapse" />

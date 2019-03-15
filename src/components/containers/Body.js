@@ -1,27 +1,33 @@
 import React, { Component } from "react"
+import { withStyles } from "@material-ui/core/styles"
 import { Route, Link, Switch } from "react-router-dom"
 import Stats from "../pages/Stats"
 
-import Header from "./Header"
 import Menu from "./Menu"
-//user ROUTE to switch from different pages
+
+const drawerWidth = 220
+
+const styles = theme => ({
+  container: {
+    width: `calc(100% - drawerWidth)`,
+    marginLeft: drawerWidth,
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      marginLeft: 0
+    }
+  }
+})
 class Body extends Component {
   render() {
-    const { match } = this.props
+    const { classes } = this.props
     return (
-      <React.Fragment>
+      <div className={classes.container}>
         <Menu />
-        <Header />
-
-        <div className="container">
-          <div>This is dashboard</div>
-
-          <Route path={`${match.path}/stat`} component={Stats} />
-
-          {/* <Menu /> */}
-        </div>
-      </React.Fragment>
+        <Switch>
+          <Route path="/dashboard/stat/customers" component={Stats} />
+        </Switch>
+      </div>
     )
   }
 }
-export default Body
+export default withStyles(styles)(Body)

@@ -13,7 +13,7 @@ import "./BarChart.css"
 
 const BarChartCustom = props => {
   return (
-    <ResponsiveContainer width={700} height={600}>
+    <ResponsiveContainer width="100%" height={600}>
       <BarChart
         data={props.data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}

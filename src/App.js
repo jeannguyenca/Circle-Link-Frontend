@@ -64,7 +64,7 @@ const theme = createMuiTheme({
         fontSize: 16,
       }
     }
-  }
+}
 })
 
 class App extends Component {
