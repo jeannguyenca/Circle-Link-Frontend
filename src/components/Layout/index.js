@@ -7,11 +7,11 @@ import {
 import{
     Face, LocalOffer, Menu
 } from '@material-ui/icons'
-import Dashboard from './Components/Dashboard'
+import Dashboard from '../pages/Dashboard'
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom'
-import Customer from './Components/Customer';
-import CreateCoupon from './Components/CreateCoupon';
-import ViewCoupon from './Components/ViewCoupon'
+import Customer from '../pages/Customer';
+import CreateCoupon from '../pages/CreateCoupon';
+import ViewCoupon from '../pages/ViewCoupon'
 
 
 const drawerWidth = 240;
@@ -72,7 +72,7 @@ class Layout extends React.Component {
       <div>
         {/* <div className={classes.toolbar} /> */}
         <div style={{padding: 20}}>
-            <a href="/"><img src={logo} alt="Logo" className={classes.responsiveImg} /></a>
+            <Link to="/dashboard"><img src={logo} alt="Logo" className={classes.responsiveImg} /></Link>
         </div>
 
         <Divider />
@@ -81,7 +81,7 @@ class Layout extends React.Component {
             <p  className="textDraw" >
             My Statistics
             </p>
-            <ListItem button key='1' className="custo" component={Link} to="/Customers">
+            <ListItem button key='1' className="custo" component={Link} to="/dashboard/customers">
                 <ListItemIcon><Face /></ListItemIcon>
                 <ListItemText  primary='Customers'/>
             </ListItem>
@@ -96,12 +96,12 @@ class Layout extends React.Component {
             <p  className="textDraw" >
             Coupon System
             </p>
-            <ListItem button key='3' component={Link} to="/CreateCoupon">
+            <ListItem button key='3' component={Link} to="/dashboard/create-coupon">
                 <ListItemIcon><Face /></ListItemIcon>
                 <ListItemText  primary='Create'/>
             </ListItem>
 
-            <ListItem button key='4' component={Link} to="/Manage">
+            <ListItem button key='4' component={Link} to="/dashboard/manage">
                 <ListItemIcon><LocalOffer /></ListItemIcon>
                 <ListItemText  primary='Manage'/>
             </ListItem>
@@ -210,10 +210,10 @@ class Layout extends React.Component {
           
           
             <Switch>
-                <Route exact path="/" render={() => <Dashboard />} />
-                <Route path="/Customers" render={() => <Customer />} />
-                <Route path="/CreateCoupon" render={() => <CreateCoupon />} />
-                <Route path="/Manage" render={() => <ViewCoupon />} />
+                <Route exact path="/dashboard" render={() => <Dashboard />} />
+                <Route path="/dashboard/customers" render={() => <Customer />} />
+                <Route path="/dashboard/create-coupon" render={() => <CreateCoupon />} />
+                <Route path="/dashboard/manage" render={() => <ViewCoupon />} />
             </Switch>
 
 

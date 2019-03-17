@@ -1,0 +1,7 @@
+.recharts-layer.recharts-bar-rectangle .recharts-rectangle:hover {
+   fill: #4FC95B;
+}
+
+.recharts-tooltip-cursor{
+  display: none
+}

@@ -1,15 +1,22 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
+import { styled } from "@material-ui/styles"
 
+import AppBar from "../parts/Landing/AppBarCollapse"
+
+const Wrapper = styled("div")({
+  padding: "5px 30px",
+  position: "sticky",
+  top: 0,
+  background: "white",
+  zIndex: 999
+})
 
 class Header extends Component {
   render() {
-    return (
-      <header>
-        <h1>This is the header</h1>
-      </header>
-    );
+    const { match } = this.props
+    return <Wrapper>{match.path === "/" && <AppBar />}</Wrapper>
   }
 }
 
-
-export default Header;
+export default withRouter(Header)
