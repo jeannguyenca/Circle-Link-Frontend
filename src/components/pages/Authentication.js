@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
-import Styled, {ThemeProvider} from "styled-components";
-import { Link } from 'react-router-dom';
-import {Grid, Button, TextField} from '@material-ui/core/';
+import React, { Component } from "react"
+import Styled, { ThemeProvider } from "styled-components"
+import { Link } from "react-router-dom"
+import { Grid, Button, TextField } from "@material-ui/core/"
+import { Redirect } from "react-router-dom"
 
+import backGround from "../../assets/contact_blur.jpg"
+import logoText from "../../assets/logo_text.svg"
+import login from "../../graphql/authentication"
 
+import { theme } from "../parts/theme"
+import user from "../../assets/icons/profile.svg"
+import lock from "../../assets/icons/password.svg"
 
-import backGround from '../../assets/contact_blur.jpg';
-import logoText from '../../assets/logo_text.svg';
-import login from "../../graphql/authentication";
-
-import { theme } from '../parts/theme';
-import user from '../../assets/icons/profile.svg';
-import lock from '../../assets/icons/password.svg';
-
-
-let Figure = Styled.figure `
+let Figure = Styled.figure`
   margin-top: 0;
   display: flex;
   justify-content: center;
@@ -32,20 +30,18 @@ let Figure = Styled.figure `
 
 
   }
-`;
-
-
-let TextField1 = Styled(TextField)
 `
+
+let TextField1 = Styled(TextField)`
   width: 220px;
   input[placeholder] { text-align: center }
   fieldset{ 
     border-radius: 24.5px !important;
   }
 
-`;
+`
 
-let Login = Styled.div `
+let Login = Styled.div`
   background: url(${backGround});
   background-repeat: no-repeat;
   background-position: center;
@@ -106,7 +102,7 @@ let Login = Styled.div `
       padding: 0 16px;
     }
     .signUp{
-      color: ${ props => props.theme.second }
+      color: ${props => props.theme.second}
       margin: 8px auto 24px auto;
       &:hover {
         font-weight: 700;
@@ -181,45 +177,41 @@ let Login = Styled.div `
     }
   }
 
-`;
+`
 
 class Authentication extends Component {
-  state = {
-    isLogin: true,
-    email: '',
-    password: ''
-    
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLogin: true,
+      email: "",
+      password: ""
+    }
   }
 
-// constructor(props) {
-  // super(props);
-    // this.emailEl = React.createRef();
-    // this.passwordEl = React.createRef();
-  // }
-
-  HandleChange = e => {
-    e.preventDefault();
-    this.setState ({
-      [ e.target['name'] ]: e.target['value']
+  handleChange = e => {
+    e.preventDefault()
+    this.setState({
+      [e.target["name"]]: e.target["value"]
     })
   }
 
   switchModeHandler = () => {
     this.setState(prevState => {
-      return { isLogin: !prevState.isLogin };
-    });
-  };
+      return { isLogin: !prevState.isLogin }
+    })
+  }
 
   submitHandler = event => {
-    event.preventDefault();
-    const email = this.emailEl.current.value;
-    const password = this.passwordEl.current.value;
+    event.preventDefault()
+    const email = this.state.email
+    const password = this.state.password
 
     if (email.trim().length === 0 || password.trim().length === 0) {
-      return;
+      return
     }
 
-    let requestBody = login(email, password);
+    let requestBody = login(email, password)
 
     if (!this.state.isLogin) {
       requestBody = {
@@ -231,32 +223,43 @@ class Authentication extends Component {
             }
           }
         `
-      };
+      }
     }
 
-    fetch('http://18.218.142.78/test/graphql', {
-      method: 'POST',
+    fetch("http://18.218.142.78/test/graphql", {
+      method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Failed!');
+          throw new Error("Failed!")
         }
-        return res.json();
+        return res.json()
       })
       .then(resData => {
-        console.log(resData);
+        this.setState({ auth: resData.data.login })
+        sessionStorage.setItem("auth", resData.data.login)
       })
       .catch(err => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   render() {
-    const {HandleChange} = this;
+    const { handleChange } = this
+    if (this.state.auth) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/dashboard",
+            state: { auth: this.state.auth }
+          }}
+        />
+      )
+    }
     return (
       <ThemeProvider theme={theme}>
         <Login>
@@ -264,59 +267,80 @@ class Authentication extends Component {
             <div className="Gtitle">
               <Link to="/">
                 <Figure>
-                  <img src={logoText} alt="Logo Text"/>
+                  <img src={logoText} alt="Logo Text" />
                 </Figure>
               </Link>
               <h1>Hello Partner!</h1>
-    
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat molestias nulla voluptas velit sit ipsa accusantium
+                ipsum eum assumenda molestiae. Sunt quas corrupti et iusto
+                cupiditate. Totam est numquam obcaecati nesciunt quasi
+                voluptatum nemo perferendis?
+              </p>
             </div>
-    
+
             <form className="auth-form loginForm" onSubmit={this.submitHandler}>
               <h2>Log in</h2>
-              <p style={{marginBottom: 0, padding: 'auto 12px'}}>Welcome back! If you not a member yet.</p>
-              <Link className="signUp" to="/signup">Sign up free!</Link>
+              <p style={{ marginBottom: 0, padding: "auto 12px" }}>
+                Welcome back! If you not a member yet.
+              </p>
+              <Link className="signUp" to="/signup">
+                Sign up free!
+              </Link>
 
               <div className="email">
                 <Grid container spacing={8} alignItems="flex-end">
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={user} alt="user" />
+                    </figure>
                   </Grid>
-                  <Grid item style={{marginRight: '35px'}}>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Email" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Email"
-                               name="email"
-                               onChange={HandleChange}
-
-                               />
+                  <Grid item style={{ marginRight: "35px" }}>
+                    <TextField1
+                      id="outlined-with-placeholder"
+                      label="Email"
+                      margin="normal"
+                      variant="outlined"
+                      placeholder="Email"
+                      name="email"
+                      onChange={handleChange}
+                    />
                   </Grid>
                 </Grid>
               </div>
 
               <div className="password">
-                <Grid className="field" container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '35px'}}>
+                <Grid
+                  className="field"
+                  container
+                  spacing={8}
+                  alignItems="flex-end"
+                  style={{ marginRight: "35px" }}
+                >
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={lock} alt="lock" />
+                    </figure>
                   </Grid>
                   <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Password" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Password"
-                               name="password"
-                               onChange={HandleChange}
-                               
-                               />
+                    <TextField1
+                      id="outlined-with-placeholder"
+                      label="Password"
+                      margin="normal"
+                      variant="outlined"
+                      placeholder="Password"
+                      name="password"
+                      type="password"
+                      onChange={handleChange}
+                    />
                   </Grid>
                 </Grid>
               </div>
-              <Link className="forgot" style={{}} to="/forgot">Forgot Password</Link>
-
+              <Link className="forgot" style={{}} to="/forgot">
+                Forgot Password
+              </Link>
 
               {/* <div className="form-control">
                 <label htmlFor="email">E-Mail</label>
@@ -329,15 +353,18 @@ class Authentication extends Component {
               </div> */}
 
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Log In</Button>
-                <Button className="btnForm btnGmail" type="submit">Log In with Gmail</Button>
+                <Button className=" btnForm btnLogin" type="submit">
+                  Log In
+                </Button>
+                <Button className="btnForm btnGmail" type="submit">
+                  Log In with Gmail
+                </Button>
               </div>
-
             </form>
           </div>
         </Login>
-      </ThemeProvider>  
-    );
+      </ThemeProvider>
+    )
   }
 }
 

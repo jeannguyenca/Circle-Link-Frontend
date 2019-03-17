@@ -1,9 +1,10 @@
-import React, { Component } from "react"
+import React from "react"
 import { withStyles } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
 import { Typography } from "@material-ui/core"
+
+import Menu from "../../assets/icons/hamburger_menu.svg"
 
 const styles = theme => ({
   menuButton: {
@@ -15,7 +16,8 @@ const styles = theme => ({
   header: {
     fontSize: "20px",
     fontWeight: "900",
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    margin: "45px 0 0 40px"
   }
 })
 
@@ -31,7 +33,7 @@ const AppBarDashBoard = props => {
           onClick={props.handleDrawerToggle}
           className={classes.menuButton}
         >
-          <MenuIcon />
+          <img src={Menu} alt="Menu"/>
         </IconButton>
         {props.header ? (
           <Typography variant="h3" className={classes.header}>

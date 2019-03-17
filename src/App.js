@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 
-
 import "./App.css"
 import Body from "./components/containers/Body"
 import Landing from "./components/pages/Landing"

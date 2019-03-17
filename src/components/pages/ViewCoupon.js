@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { ApolloProvider } from "react-apollo";
 
-const client = new ApolloClient({
-    uri: "http://18.218.142.78/test/graphql"
-  });
+// const client = new ApolloClient({
+//     uri: "http://18.218.142.78/test/graphql"
+//   });
 
 // client
 // .query({
@@ -75,7 +74,6 @@ class ViewCoupon extends Component {
 
     const { classes } = this.props;
     return (
-        <ApolloProvider client={client}>
             <Fragment>
                 <Typography variant="h5" component="h2" className={classes.title}>
                     View Coupons
@@ -99,7 +97,6 @@ class ViewCoupon extends Component {
                     }}
                 </Query>
             </Fragment>
-        </ApolloProvider>
     );
     }
   }
