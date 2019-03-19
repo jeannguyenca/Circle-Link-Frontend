@@ -11,7 +11,6 @@ import login from "../../graphql/authentication";
 
 import { theme } from '../parts/theme';
 import user from '../../media/icons/profile.svg';
-import lock from '../../media/icons/password.svg';
 
 
 let Figure = Styled.figure`
@@ -109,12 +108,12 @@ let Login = Styled.div`
         font-weight: 700;
       }
     }
-    .emailField label {left: 75px !important}
+    /* .emailField label {left: 75px !important}
     .passField label {left: 65px !important}
     .pass2Field label {left: 45px !important}
     .emailField .MuiFormLabel-focused-114, .passField .MuiFormLabel-focused-114, .pass2Field .MuiFormLabel-focused-114{
       left: 0 !important
-    }
+    } */
   }
   .forgot{color: black;  margin: 12px auto 16px auto }
   .form-actions{
@@ -286,7 +285,7 @@ class Forgot extends Component {
                                placeholder="Email"
                                name="email"
                                onChange={HandleChange}
-
+                              className="emailField"
                                />
                   </Grid>
                 </Grid>

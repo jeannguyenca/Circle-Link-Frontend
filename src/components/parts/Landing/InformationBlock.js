@@ -15,7 +15,8 @@ const InformationBlock = props => {
   return (
     <div className={props.className}>
       {header_1 && (
-        <Typography component="h1" variant="h2" align={header_align}>
+        <Typography component="h1" variant="h2" align={header_align}
+          style= {{color: "#4FC95B"}}>
           {header_1}
         </Typography>
       )}
@@ -23,7 +24,7 @@ const InformationBlock = props => {
         <Typography
           component="h2"
           variant="h4"
-          color="primary"
+          style= {{color: "#4FC95B", fontWeight: "bold"}}
           align={header_align}
         >
           {header_2}
@@ -43,6 +44,7 @@ const InformationBlock = props => {
           variant="body1"
           className={classes.para}
           align={align}
+          style= {{color: "white"}}
         >{paraDark}
         </Typography>
       )}

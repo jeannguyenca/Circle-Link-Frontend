@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import Styled, {ThemeProvider} from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {Grid, Button, TextField} from '@material-ui/core/';
+import { Mutation } from 'react-apollo';
 
-
+import { theme } from '../parts/theme';
 
 import backGround from '../../assets/contact_blur.jpg';
 import logoText from '../../assets/logo_text.svg';
-import login from "../../graphql/authentication";
-
-import { theme } from '../parts/theme';
 import user from '../../media/icons/profile.svg';
 import lock from '../../media/icons/password.svg';
+
+import { SIGNUP_USER } from '../../graphql'
 
 
 let Figure = Styled.figure`
@@ -40,6 +40,9 @@ let TextField1 = Styled(TextField)`
   input[placeholder] { text-align: center }
   fieldset{ 
     border-radius: 24.5px !important;
+    &:focus{
+      border: 2px solid ${props => props.theme.main} !important;
+    }  
   }
 
 `;
@@ -94,10 +97,10 @@ let Login = Styled.div`
     align-items: center;
     justify-content: center;
     flex-flow: column nowrap;
-    height: 600px;
-    max-width: 320px;
+    /* height: 600px; */
+    width: 320px;
     box-shadow: 1px 2px 3px rgb(0, 0, 0);
-    padding: 16px 0;
+    padding: 24px 0;
     h2{margin: 0 auto }
     p{
       color: black;
@@ -109,12 +112,12 @@ let Login = Styled.div`
         font-weight: 700;
       }
     }
-    .emailField label {left: 75px !important}
+    /* .emailField label {left: 75px !important}
     .passField label {left: 65px !important}
     .pass2Field label {left: 45px !important}
     .emailField .MuiFormLabel-focused-114, .passField .MuiFormLabel-focused-114, .pass2Field .MuiFormLabel-focused-114{
       left: 0 !important
-    }
+    } */
   }
   .forgot{color: black;  margin: 12px auto 16px auto }
   .form-actions{
@@ -126,7 +129,7 @@ let Login = Styled.div`
       height: 53px;
       margin: 8px auto;
       font-size: 14pt;
-      
+      border-radius: 24.5px
     }
     .btnGmail{ 
       border: 2px solid ${props => props.theme.main} 
@@ -172,7 +175,7 @@ let Login = Styled.div`
       align-items: center;
     }
     .loginForm, .Gtitle {
-      height: 570px;
+      /* height: 570px; */
       width: 520px;
 
     }
@@ -180,80 +183,52 @@ let Login = Styled.div`
 
 `;
 
-class Register extends Component {
-  state = {
-    isLogin: true,
-    email: '',
-    password: ''
-    
-  }
+const initialState = {
+  email:'',
+  name: '',
+  address: '',
+  password: '',
+  password2: ''
+}
 
-// constructor(props) {
-  // super(props);
-    // this.emailEl = React.createRef();
-    // this.passwordEl = React.createRef();
-  // }
+class Register extends Component {
+  state = {  ...initialState  };
+
+  clearState = () => {
+    this.setState({ ...initialState });
+  };
 
   HandleChange = e => {
     e.preventDefault();
-    this.setState ({
-      [ e.target['name'] ]: e.target['value']
+    this.setState({
+      [e.target['name']]: e.target['value']
     })
   }
 
-  switchModeHandler = () => {
-    this.setState(prevState => {
-      return { isLogin: !prevState.isLogin };
+  handleSubmit = (event, createUser) => {
+    event.preventDefault();
+    createUser().then(async ({
+      data
+    }) => {
+      // console.log(data);
+      localStorage.setItem("token", data.createUser.token);
+      await this.props.refetch();
+      this.clearState();
+      this.props.history.push("/dashboard");
     });
   };
 
-  submitHandler = event => {
-    event.preventDefault();
-    const email = this.emailEl.current.value;
-    const password = this.passwordEl.current.value;
-
-    if (email.trim().length === 0 || password.trim().length === 0) {
-      return;
-    }
-
-    let requestBody = login(email, password);
-
-    if (!this.state.isLogin) {
-      requestBody = {
-        query: `
-          mutation {
-            createUser(userInput: {email: "${email}", password: "${password}"}) {
-              _id
-              email
-            }
-          }
-        `
-      };
-    }
-
-    fetch('http://18.218.142.78/test/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Failed!');
-        }
-        return res.json();
-      })
-      .then(resData => {
-        console.log(resData);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+   validateForm = () => {
+    const { name, email, password, password2, address } = this.state;
+    const isInvalid =
+      !name || !address || !email || !password || password !== password2;
+    return isInvalid;
   };
 
   render() {
-    const {HandleChange} = this;
+    const {HandleChange, HandleSubmit} = this;
+    const {email, password, password2, address, name} = this.state;
+
     return (
       <ThemeProvider theme={theme}>
         <Login>
@@ -268,8 +243,13 @@ class Register extends Component {
     
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
             </div>
-    
-            <form className="auth-form loginForm" onSubmit={this.submitHandler}>
+            <Mutation
+              mutation={SIGNUP_USER}
+              variables={{ name, address, password2, email, password }}
+            >
+            {(createUser, {data, loading, error}) => {
+              return (
+            <form className="auth-form loginForm" onSubmit={ (e, createUser) => HandleSubmit(e, createUser)}>
               <h2>Register</h2>
               <p style={{marginBottom: 0}}>Already have Account ?</p>
               <Link className="signUp" to="/login">Login</Link>
@@ -280,7 +260,7 @@ class Register extends Component {
                     <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
                   </Grid>
                   <Grid item style={{marginRight: '35px'}}>
-                    <TextField1 id="outlined-with-placeholder" 
+                    <TextField1 
                                label="Email" 
                                margin="normal"
                                variant="outlined"
@@ -288,19 +268,60 @@ class Register extends Component {
                                name="email"
                                onChange={HandleChange}
                                className="emailField filed"
+                               type="email"
+                               />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className="name">
+                <Grid container spacing={8} alignItems="flex-end">
+                  <Grid item>
+                    <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
+                  </Grid>
+                  <Grid item style={{marginRight: '35px'}}>
+                    <TextField1 
+                               label="Your Name" 
+                               margin="normal"
+                               variant="outlined"
+                               placeholder="Your Name"
+                               name="name"
+                               onChange={HandleChange}
+                               className="emailField filed name"
+                               type="text"
+                               />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className="address">
+                <Grid container spacing={8} alignItems="flex-end">
+                  <Grid item>
+                    <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
+                  </Grid>
+                  <Grid item style={{marginRight: '35px'}}>
+                    <TextField1 
+                               label="Address" 
+                               margin="normal"
+                               variant="outlined"
+                               placeholder="Address"
+                               name="name"
+                               onChange={HandleChange}
+                               className="emailField filed address"
+                               type="text"
                                />
                   </Grid>
                 </Grid>
               </div>
 
               <div className="password">
-                <Grid container spacing={8}                  alignItems="flex-end" 
+                <Grid container spacing={8} alignItems="flex-end" 
                       style={{marginRight: '35px'}}>
                   <Grid item>
                     <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
                   </Grid>
                   <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
+                    <TextField1 
                                label="Password" 
                                margin="normal"
                                variant="outlined"
@@ -308,6 +329,7 @@ class Register extends Component {
                                name="password"
                                onChange={HandleChange}
                                className="passField field"
+                               type="password"
                                />
                   </Grid>
                 </Grid>
@@ -319,7 +341,7 @@ class Register extends Component {
                     <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
                   </Grid>
                   <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
+                    <TextField1 
                                label="Confirm Password" 
                                margin="normal"
                                variant="outlined"
@@ -327,6 +349,7 @@ class Register extends Component {
                                name="password2"
                                onChange={HandleChange}
                                className="pass2Field filed"
+                               type="password"
                                />
                   </Grid>
                 </Grid>
@@ -350,6 +373,8 @@ class Register extends Component {
               </div>
 
             </form>
+            ) } }
+            </Mutation>
           </div>
         </Login>
       </ThemeProvider>  
@@ -357,4 +382,4 @@ class Register extends Component {
   }
 }
 
-export default Register
+export default withRouter(Register)

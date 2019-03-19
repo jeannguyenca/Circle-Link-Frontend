@@ -1,6 +1,7 @@
-import React, { Component } from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import React, { Fragment } from "react"
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
+import ApolloClient from "apollo-boost";
 
 
 import "./App.css"
@@ -9,6 +10,9 @@ import Landing from "./components/pages/Landing"
 import Authentication from "./components/pages/Authentication"
 import Register from "./components/pages/Register"
 import Forgot from "./components/pages/Forgot"
+
+import Dashboard from "./components/pages/Dashboard"
+
 
 //custom theme color
 const theme = createMuiTheme({
@@ -67,29 +71,34 @@ const theme = createMuiTheme({
   }
 })
 
-class App extends Component {
-  render() {
-    return (
-      
-      <MuiThemeProvider theme={theme}>
 
-      <div className="App">
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/' component={Landing} /> 
-            <Route exact path='/login' component={Authentication} /> 
-            <Route exact path='/signup' component={Register} /> 
-            <Route exact path='/forgot' component={Forgot} /> 
-
-            
-            <Route exact path='/dashboard' component={Body} /> 
-          </Switch>
-        </BrowserRouter>
-      </div>
-      </MuiThemeProvider>
-    )
-  }
-}
-
+const App = ({ refetch, session }) => (
+  <Router>
+    <Fragment>
+      {/* <Navbar session={session} /> */}
+      <Switch>
+        <Route path="/" exact component={Landing} />
+        {/* <Route path="/search" component={Search} /> */}
+        <Route path="/login" render={() => <Authentication refetch={refetch} />} />
+        <Route path="/signup" render={() => <Register refetch={refetch} />} />
+        <Route path="/forgot" render={() => <Forgot refetch={refetch} />} />
+        <Route
+          path="/dashboard"
+          render={() => <Dashboard session={session} />}
+        />
+        <Redirect
+          to="/dashboard"/>}
+        />
+        {/* <Route
+          path="/store"
+          render={() => <CreateStore session={session} />}
+        /> */}
+        {/* <Route path="/store/:_id" component={StorePage} /> */}
+        {/* <Route path="/store/coupon" render={() => <Coupon session={session} />} /> */}
+        {/* <Route path="/store/coupon" render={() => <Coupon session={session} />} /> */}
+      </Switch>
+    </Fragment>
+  </Router>
+);
 
 export default App

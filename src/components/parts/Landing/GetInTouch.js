@@ -22,8 +22,13 @@ const styles = theme => ({
     textAlign: "center"
   },
   button: {
+    backgroundColor: "#4FC95B",
+    color: "white",
+    borderRadius: "24.5px",
+    width: "125px",
     "&:hover": {
-      color: theme.palette.primary.main
+      color: "#4FC95B",
+      backgroundColor: "white",
     },
     margin: "20px 0"
   },

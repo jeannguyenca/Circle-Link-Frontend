@@ -7,22 +7,31 @@ const styles = theme => ({
   link: {
     margin: "0 25px",
     textDecoration: 'none',
-    fontFamily: ["Raleway", "sans-serif"].join(","),
     [theme.breakpoints.down("sm")]: {
       margin: "20px",
       textAlign: "center"
     },
     "&:hover": {
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
     },
-    "&:.active": {
+    "&:active": {
       color: theme.palette.primary.main
     },
     cursor: "pointer"
+
+  },
+
+  button1: {
+    padding: "4px 16px",
+    borderRadius: "24.5px",
+    "&:hover": {
+      border: "1px solid #4FC95B"
+    }
   },
   button: {
-    borderRadius: "50px",
+    borderRadius: "24.5px",
     boxShadow: "none",
+    background: "rgb(79, 201, 91)",
     "-webkit-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
     "-moz-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
     "box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
@@ -32,11 +41,15 @@ const styles = theme => ({
     },
     "&:hover": {
       background: "white",
-      color: theme.palette.primary.main
+      color: "#4FC95B",
+      borderRadius: "24.5px",
     }
   }
 });
-
+  // function refreshPage() {
+  //   window.location.reload();
+  // }onClick={ refreshPage }
+  
 class AuthButtonGroup extends Component {
 
   render() {
@@ -44,8 +57,8 @@ class AuthButtonGroup extends Component {
     return (
       <div className={classes.root}>
         <Link to="/login" 
-                color="inherit" className={classes.link}>
-                <Button>
+                className={classes.link}>
+                <Button className={classes.button1}>
                   Log in
                 </Button>
               </Link>

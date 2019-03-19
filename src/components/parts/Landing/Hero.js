@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button"
 
 import InformationBlock from "./InformationBlock"
 import { Link } from 'react-router-dom';
+import theme from '../theme';
+
 
 const styles = (theme, props) => ({
   root: {
@@ -25,12 +27,15 @@ const styles = (theme, props) => ({
   button: {
     alignSelf: "center",
     marginTop: "20px",
+    borderRadius: "24.5px",
+    color: "white",
+    background: "rgb(79, 201, 91)",
     "-webkit-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
     "-moz-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
     "box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
     "&:hover": {
       background: "white",
-      color: theme.palette.primary.main,
+      color: "rgb(79, 201, 91)",
     }
   }
 })
@@ -56,7 +61,6 @@ class Hero extends Component {
             {this.props.button && (
               <Link to="/signup" style={{'textDecoration': 'none'}}>
                 <Button
-                  color="primary"
                   className={classes.button}
                   variant="contained"
                 >
