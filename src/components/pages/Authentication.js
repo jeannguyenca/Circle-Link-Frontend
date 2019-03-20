@@ -250,7 +250,7 @@ class Authentication extends Component {
               return (
 
               <form className="auth-form loginForm" 
-                  onSubmit={ e => this.submitHandler(e, signinUser) }>
+                  onSubmit={ e => submitHandler(e, signinUser) }>
                 <h2>Log in</h2>
                 <p style={{marginBottom: 0, padding: 'auto 12px'}}>Welcome back! If you not a member yet.</p>
                 <Link className="signUp" to="/signup">Sign up free!</Link>

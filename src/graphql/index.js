@@ -27,7 +27,12 @@ export const SIGNUP_USER = gql `
     password: $password, 
     name: $name, 
     address: $address
-  }, role: $role)
+  }, role: $role){
+    email
+    password
+    name
+    address
+  }  
 }
 `;
 

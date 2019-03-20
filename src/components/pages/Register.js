@@ -5,6 +5,7 @@ import {Grid, Button, TextField} from '@material-ui/core/';
 import { Mutation } from 'react-apollo';
 
 import { theme } from '../parts/theme';
+import Error from '../Layout/Components/Error'
 
 import backGround from '../../assets/contact_blur.jpg';
 import logoText from '../../assets/logo_text.svg';
@@ -93,6 +94,7 @@ let Login = Styled.div`
   
   .loginForm {
     background-color: white;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,14 +207,16 @@ class Register extends Component {
     })
   }
 
-  handleSubmit = (event, createUser) => {
-    event.preventDefault();
+  HandleSubmit = (e, createUser) => {
+    e.preventDefault();
     createUser().then(async ({
       data
     }) => {
-      // console.log(data);
-      localStorage.setItem("token", data.createUser.token);
-      await this.props.refetch();
+      console.log(data);
+      localStorage.setItem("name", data.createUser.name);
+      localStorage.setItem("email", data.createUser.email);
+      // localStorage.setItem("address", data.createUser.address);
+      // await this.props.refetch();
       this.clearState();
       this.props.history.push("/dashboard");
     });
@@ -245,11 +249,11 @@ class Register extends Component {
             </div>
             <Mutation
               mutation={SIGNUP_USER}
-              variables={{ name, address, password2, email, password }}
+              variables={{ name, address, email, password }}
             >
             {(createUser, {data, loading, error}) => {
               return (
-            <form className="auth-form loginForm" onSubmit={ (e, createUser) => HandleSubmit(e, createUser)}>
+            <form className="auth-form loginForm" onSubmit={ e => HandleSubmit(e, createUser)}>
               <h2>Register</h2>
               <p style={{marginBottom: 0}}>Already have Account ?</p>
               <Link className="signUp" to="/login">Login</Link>
@@ -305,7 +309,7 @@ class Register extends Component {
                                margin="normal"
                                variant="outlined"
                                placeholder="Address"
-                               name="name"
+                               name="address"
                                onChange={HandleChange}
                                className="emailField filed address"
                                type="text"
@@ -356,21 +360,13 @@ class Register extends Component {
               </div>
               <Link className="forgot" style={{}} to="/forgot">Forgot Password</Link>
 
-
-              {/* <div className="form-control">
-                <label htmlFor="email">E-Mail</label>
-                <input type="email" id="email" ref={this.emailEl} />
-              </div> */}
-
-              {/* <div className="form-control">
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" ref={this.passwordEl} />
-              </div> */}
-
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Register</Button>
+                <Button className=" btnForm btnLogin" type="submit"
+                        >Sign Up</Button>
                 <Button className="btnForm btnGmail" type="submit">Gmail Register</Button>
               </div>
+
+              {error && <Error error={error} />}
 
             </form>
             ) } }
