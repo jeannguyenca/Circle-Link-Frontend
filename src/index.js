@@ -16,7 +16,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const auth = localStorage.getItem("auth")
+  const auth = sessionStorage.getItem("auth")
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -40,10 +40,20 @@ const defaultOptions = {
   }
 }
 
+const cache = new InMemoryCache()
+
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
   defaultOptions
+})
+
+cache.writeData({
+  data: {
+    isLoggedIn: !!sessionStorage.getItem("auth"),
+    coupons: [],
+    collabs: []
+  }
 })
 
 ReactDOM.render(

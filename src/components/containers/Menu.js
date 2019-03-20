@@ -118,7 +118,8 @@ const header = [
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    selectedIndex: this.checkCurrentPath()
   }
 
   handleDrawerToggle = () => {
@@ -133,29 +134,19 @@ class ResponsiveDrawer extends React.Component {
 
   checkCurrentPath() {
     const path = window.location.pathname
-    // if (linkTo[0].indexOf(path) !== -1) {
-    //   this.setState({
-    //     selectedIndex: `0${linkTo[0].indexOf(path)}`
-    //   })
-    // } else if (linkTo[1].indexOf(path) !== -1) {
-    //   this.setState({
-    //     selectedIndex: `1${linkTo[0].indexOf(path)}`
-    //   })
-    // } else if (linkTo[2].indexOf(path) !== -1) {
-    //   this.setState({
-    //     selectedIndex: `2${linkTo[0].indexOf(path)}`
-    //   })
-    // } else {
-    //   this.setState({
-    //     selectedIndex: `3${linkTo[0].indexOf(path)}`
-    //   })
-    // }
-    console.log(this.state.selectedIndex)
 
-  }
+    if (linkTo[0].indexOf(path) !== -1) {
+      return `0${linkTo[0].indexOf(path)}`
+    } else if (linkTo[1].indexOf(path) !== -1) {
+      return `1${linkTo[1].indexOf(path)}`
+    } else if (linkTo[2].indexOf(path) !== -1) {
+      console.log(`2${linkTo[2].indexOf(path)}`)
+      return `2${linkTo[2].indexOf(path)}`
+    } else if (linkTo[3].indexOf(path) !== -1)  {
+      console.log(`3${linkTo[3].indexOf(path)}`)
+      return `3${linkTo[3].indexOf(path)}`
+    }
 
-  componentDidMount() {
-    this.checkCurrentPath()
   }
 
   render() {
@@ -167,7 +158,7 @@ class ResponsiveDrawer extends React.Component {
           <img src={logo} alt="Logo" className={classes.responsiveImg} />
         </Link>
 
-        {groups.map((section, index) => {
+        { groups.map((section, index) => {
           return (
             <MenuList key={index} className={classes.menu}>
               <Typography variant="h2" className={classes.sectionName}>
@@ -221,9 +212,7 @@ class ResponsiveDrawer extends React.Component {
           <AppBar
             handleDrawerToggle={this.handleDrawerToggle}
             header={
-              header[Math.round(this.state.selectedIndex / 10)][
-                this.state.selectedIndex % 10
-              ]
+              header[Math.round(this.state.selectedIndex / 10)][this.state.selectedIndex % 10]
             }
           />
         ) : (

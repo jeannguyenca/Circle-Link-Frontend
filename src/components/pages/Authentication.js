@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { Grid, Button, TextField } from "@material-ui/core/"
 import { Redirect } from "react-router-dom"
 
+
 import backGround from "../../assets/contact_blur.jpg"
 import logoText from "../../assets/logo_text.svg"
 import login from "../../graphql/authentication"

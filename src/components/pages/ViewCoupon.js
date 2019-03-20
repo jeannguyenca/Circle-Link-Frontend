@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-import { ApolloProvider } from "react-apollo";
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import gql from "graphql-tag"
+import { Query } from "react-apollo"
 
 // const client = new ApolloClient({
 //     uri: "http://18.218.142.78/test/graphql"
@@ -29,7 +28,7 @@ import { ApolloProvider } from "react-apollo";
 
 const GET_COUPONS = gql`
 {
-    coupons {
+    coupons (option: "mystore") {
       _id
       name
       store {
