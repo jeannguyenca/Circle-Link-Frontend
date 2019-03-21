@@ -10,7 +10,8 @@ import logoText from '../../assets/logo_text.svg';
 import login from "../../graphql/authentication";
 
 import { theme } from '../parts/theme';
-import user from '../../media/icons/profile.svg';
+import user from '../../assets/icons/profile.svg';
+import lock from '../../assets/icons/password.svg';
 
 
 let Figure = Styled.figure`

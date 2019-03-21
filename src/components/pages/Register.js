@@ -9,8 +9,8 @@ import Error from '../Layout/Components/Error'
 
 import backGround from '../../assets/contact_blur.jpg';
 import logoText from '../../assets/logo_text.svg';
-import user from '../../media/icons/profile.svg';
-import lock from '../../media/icons/password.svg';
+import user from '../../assets/icons/profile.svg';
+import lock from '../../assets/icons/password.svg';
 
 import { SIGNUP_USER } from '../../graphql'
 
@@ -33,8 +33,7 @@ let Figure = Styled.figure`
 
 
   }
-`;
-
+`
 
 let TextField1 = Styled(TextField)`
   width: 220px;
@@ -46,7 +45,7 @@ let TextField1 = Styled(TextField)`
     }  
   }
 
-`;
+`
 
 let Login = Styled.div`
   background: url(${backGround});
@@ -108,7 +107,7 @@ let Login = Styled.div`
       color: black;
     }
     .signUp{
-      color: ${ props => props.theme.second }
+      color: ${props => props.theme.second}
       margin: 8px auto 24px auto;
       &:hover {
         font-weight: 700;
@@ -183,7 +182,7 @@ let Login = Styled.div`
     }
   }
 
-`;
+`
 
 const initialState = {
   email:'',
@@ -240,12 +239,18 @@ class Register extends Component {
             <div className="Gtitle">
               <Link to="/">
                 <Figure>
-                  <img src={logoText} alt="Logo Text"/>
+                  <img src={logoText} alt="Logo Text" />
                 </Figure>
               </Link>
               <h1>Welcome to Circle Link!</h1>
-    
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat molestias nulla voluptas velit sit ipsa accusantium
+                ipsum eum assumenda molestiae. Sunt quas corrupti et iusto
+                cupiditate. Totam est numquam obcaecati nesciunt quasi
+                voluptatum nemo perferendis?
+              </p>
             </div>
             <Mutation
               mutation={SIGNUP_USER}
@@ -255,13 +260,17 @@ class Register extends Component {
               return (
             <form className="auth-form loginForm" onSubmit={ e => HandleSubmit(e, createUser)}>
               <h2>Register</h2>
-              <p style={{marginBottom: 0}}>Already have Account ?</p>
-              <Link className="signUp" to="/login">Login</Link>
+              <p style={{ marginBottom: 0 }}>Already have Account ?</p>
+              <Link className="signUp" to="/login">
+                Login
+              </Link>
 
               <div className="email">
                 <Grid container spacing={8} alignItems="flex-end">
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={user} alt="user" />
+                    </figure>
                   </Grid>
                   <Grid item style={{marginRight: '35px'}}>
                     <TextField1 
@@ -322,7 +331,9 @@ class Register extends Component {
                 <Grid container spacing={8} alignItems="flex-end" 
                       style={{marginRight: '35px'}}>
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={lock} alt="lock" />
+                    </figure>
                   </Grid>
                   <Grid item>
                     <TextField1 
@@ -339,10 +350,16 @@ class Register extends Component {
                 </Grid>
               </div>
               <div className="password2">
-                <Grid container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '35px'}}>
+                <Grid
+                  container
+                  spacing={8}
+                  alignItems="flex-end"
+                  style={{ marginRight: "35px" }}
+                >
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={lock} alt="lock" />
+                    </figure>
                   </Grid>
                   <Grid item>
                     <TextField1 
@@ -373,8 +390,8 @@ class Register extends Component {
             </Mutation>
           </div>
         </Login>
-      </ThemeProvider>  
-    );
+      </ThemeProvider>
+    )
   }
 }
 

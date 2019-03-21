@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 

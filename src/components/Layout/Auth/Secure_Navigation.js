@@ -1,16 +1,22 @@
 import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
+import Styled, { ThemeProvider} from 'styled-components';
 
-import Signout from "../components/Auth/Signout";
+import Signout from './Signout';
+
+let Nav = Styled.nav`
+  position: absolute;
+  right: 16px
+`
 
 const Navbar = ({ session }) => (
-  <nav>
+  <Nav>
     {session && session.getCurrentUser ? (
       <NavbarAuth session={session} />
     ) : (
       <NavbarUnAuth />
     )}
-  </nav>
+  </Nav>
 );
 
 const NavbarAuth = ({ session }) => (
@@ -18,17 +24,8 @@ const NavbarAuth = ({ session }) => (
     <ul>
       <li>
         <NavLink to="/" exact>
-          Home
+          Secured
         </NavLink>
-      </li>
-      <li>
-        <NavLink to="/search">Search</NavLink>
-      </li>
-      <li>
-        <NavLink to="/recipe/add">Add Recipe</NavLink>
-      </li>
-      <li>
-        <NavLink to="/profile">Profile</NavLink>
       </li>
       <li>
         <Signout />
@@ -47,11 +44,9 @@ const NavbarUnAuth = () => (
         Home
       </NavLink>
     </li>
+
     <li>
-      <NavLink to="/search">Search</NavLink>
-    </li>
-    <li>
-      <NavLink to="/signin">Signin</NavLink>
+      <NavLink to="/login">Signin</NavLink>
     </li>
     <li>
       <NavLink to="/signup">Signup</NavLink>

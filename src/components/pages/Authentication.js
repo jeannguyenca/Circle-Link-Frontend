@@ -11,13 +11,14 @@ import { LOGIN_USER } from '../../graphql'
 import { USER_ID, AUTH_TOKEN} from '../Layout/Auth/constants'
 
 import Error from '../Layout/Components/Error'
+import auth from '../Layout/Auth/isAuth'
 
 import backGround from '../../assets/contact_blur.jpg';
 import logoText from '../../assets/logo_text.svg';
 
 import { theme } from '../parts/theme';
-import user from '../../media/icons/profile.svg';
-import lock from '../../media/icons/password.svg';
+import user from '../../assets/icons/profile.svg';
+import lock from '../../assets/icons/password.svg';
 
 let Figure = Styled.figure `
   margin-top: 0;
@@ -47,7 +48,7 @@ let TextField1 = Styled(TextField)`
   }
 `;
 
-let Login = Styled.div `
+let Login = Styled.div`
   background: url(${backGround});
   background-repeat: no-repeat;
   background-position: center;
@@ -108,7 +109,7 @@ let Login = Styled.div `
       padding: 0 16px;
     }
     .signUp{
-      color: ${ props => props.theme.second }
+      color: ${props => props.theme.second}
       margin: 8px auto 24px auto;
       &:hover {
         font-weight: 700;
@@ -185,7 +186,7 @@ let Login = Styled.div `
     }
   }
 
-`;
+`
 
 const initialState = {
   email: '',
@@ -225,7 +226,10 @@ class Authentication extends Component {
       localStorage.setItem("token", data.signinUser.token);
       // await this.props.refetch();
       this.clearState();
-      this.props.history.push("/dashboard");
+      auth.login(() => {
+        this.props.history.push("/dashboard");
+        
+      })
     });
   };
 
@@ -239,7 +243,7 @@ class Authentication extends Component {
             <div className="Gtitle">
               <Link to="/">
                 <Figure>
-                  <img src={logoText} alt="Logo Text"/>
+                  <img src={logoText} alt="Logo Text" />
                 </Figure>
               </Link>
               <h1>Hello Partner!</h1>
@@ -277,7 +281,7 @@ class Authentication extends Component {
                 </div>
 
                 <div className="password">
-                  <Grid className="field" container spacing={8}                  alignItems="flex-end"
+                  <Grid className="field" container spacing={8} alignItems="flex-end"
                         style={{marginRight: '35px'}}>
                     <Grid item>
                       <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
@@ -312,8 +316,8 @@ class Authentication extends Component {
               </Mutation>
           </div>
         </Login>
-      </ThemeProvider>  
-    );
+      </ThemeProvider>
+    )
   }
 }
 

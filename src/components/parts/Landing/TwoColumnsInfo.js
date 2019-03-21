@@ -6,7 +6,7 @@ import InformationBlock from "./InformationBlock"
 const styles = theme => ({
   root: {
     margin: "auto",
-    paddingTop: "30px"
+    padding: "30px 30px 0 30px"
   },
   container: {
     maxWidth: "75rem",

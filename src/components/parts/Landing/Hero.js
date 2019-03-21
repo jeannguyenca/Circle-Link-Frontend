@@ -51,7 +51,7 @@ class Hero extends Component {
           alignContent="space-around"
           className={classes.container}
         >
-          <Grid item xs={7} className={classes.item}>
+          <Grid item xs={12} sm={7} className={classes.item}>
             <InformationBlock
               header_1={this.props.header}
               para={this.props.para}
