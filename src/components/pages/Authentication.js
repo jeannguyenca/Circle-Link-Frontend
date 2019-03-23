@@ -1,17 +1,18 @@
 import React, { Component } from "react"
 import Styled, { ThemeProvider } from "styled-components"
 import { Link } from "react-router-dom"
-import { Grid, Button, TextField } from "@material-ui/core/"
 import { Redirect } from "react-router-dom"
+import { Query } from "react-apollo"
+import gql from "graphql-tag"
 
+import LoginForm from "../parts/LoginForm"
 
 import backGround from "../../assets/contact_blur.jpg"
 import logoText from "../../assets/logo_text.svg"
-import login from "../../graphql/authentication"
+// import login from "../../graphql/authentication"
+import login, { googleLogin, createUser } from "../../graphql/authentication"
 
 import { theme } from "../parts/theme"
-import user from "../../assets/icons/profile.svg"
-import lock from "../../assets/icons/password.svg"
 
 let Figure = Styled.figure`
   margin-top: 0;
@@ -31,15 +32,6 @@ let Figure = Styled.figure`
 
 
   }
-`
-
-let TextField1 = Styled(TextField)`
-  width: 220px;
-  input[placeholder] { text-align: center }
-  fieldset{ 
-    border-radius: 24.5px !important;
-  }
-
 `
 
 let Login = Styled.div`
@@ -203,6 +195,63 @@ class Authentication extends Component {
     })
   }
 
+  googleLogin = () => {
+    if (!window.location.href.includes("code")) {
+      const clientId =
+        "812921217937-d0gldtfcfa3r5c6c9rbqdc8tcnv7bt09.apps.googleusercontent.com"
+      // this will redirect the page to facebook, then back
+      window.location.href = [
+        `https://accounts.google.com/o/oauth2/v2/auth?`,
+        `client_id=${clientId}&`,
+        `response_type=code&`,
+        `scope=openid%20email&`,
+        `redirect_uri=http://localhost:3000/login&`,
+        `access_type=offline`
+      ].join("&")
+    } else {
+      // we have a token
+      // Retrieve access token with custom api
+      this.retriveGoogleCode()
+    }
+  }
+
+  retriveGoogleCode = () => {
+    var params = new URLSearchParams(window.location.search)
+    var code = params.get("code")
+
+
+    let requestBody = googleLogin(code)
+
+
+    fetch("http://18.218.142.78/test/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!")
+        }
+        return res.json()
+      })
+      .then(resData => {
+        this.setState({ auth: resData.data.googleUser })
+        sessionStorage.setItem("auth", resData.data.googleUser)
+        console.log(resData)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  componentDidMount() {
+    if (window.location.href.includes("code")) {
+      this.retriveGoogleCode()
+    }
+  }
+
   submitHandler = event => {
     event.preventDefault()
     const email = this.state.email
@@ -215,16 +264,7 @@ class Authentication extends Component {
     let requestBody = login(email, password)
 
     if (!this.state.isLogin) {
-      requestBody = {
-        query: `
-          mutation {
-            createUser(userInput: {email: "${email}", password: "${password}"}) {
-              _id
-              email
-            }
-          }
-        `
-      }
+      // requestBody = createUser(email, password, name, address)
     }
 
     fetch("http://18.218.142.78/test/graphql", {
@@ -250,7 +290,6 @@ class Authentication extends Component {
   }
 
   render() {
-    const { handleChange } = this
     if (this.state.auth) {
       return (
         <Redirect
@@ -274,94 +313,17 @@ class Authentication extends Component {
               <h1>Hello Partner!</h1>
 
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellat molestias nulla voluptas velit sit ipsa accusantium
-                ipsum eum assumenda molestiae. Sunt quas corrupti et iusto
-                cupiditate. Totam est numquam obcaecati nesciunt quasi
-                voluptatum nemo perferendis?
+                With CircleLink, you can have a one-stop-shop application that
+                will provide an optimized and attractive system for your
+                business.
               </p>
             </div>
 
-            <form className="auth-form loginForm" onSubmit={this.submitHandler}>
-              <h2>Log in</h2>
-              <p style={{ marginBottom: 0, padding: "auto 12px" }}>
-                Welcome back! If you not a member yet.
-              </p>
-              <Link className="signUp" to="/signup">
-                Sign up free!
-              </Link>
-
-              <div className="email">
-                <Grid container spacing={8} alignItems="flex-end">
-                  <Grid item>
-                    <figure style={{ margin: "12px" }}>
-                      <img src={user} alt="user" />
-                    </figure>
-                  </Grid>
-                  <Grid item style={{ marginRight: "35px" }}>
-                    <TextField1
-                      id="outlined-with-placeholder"
-                      label="Email"
-                      margin="normal"
-                      variant="outlined"
-                      placeholder="Email"
-                      name="email"
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-
-              <div className="password">
-                <Grid
-                  className="field"
-                  container
-                  spacing={8}
-                  alignItems="flex-end"
-                  style={{ marginRight: "35px" }}
-                >
-                  <Grid item>
-                    <figure style={{ margin: "12px" }}>
-                      <img src={lock} alt="lock" />
-                    </figure>
-                  </Grid>
-                  <Grid item>
-                    <TextField1
-                      id="outlined-with-placeholder"
-                      label="Password"
-                      margin="normal"
-                      variant="outlined"
-                      placeholder="Password"
-                      name="password"
-                      type="password"
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-              <Link className="forgot" style={{}} to="/forgot">
-                Forgot Password
-              </Link>
-
-              {/* <div className="form-control">
-                <label htmlFor="email">E-Mail</label>
-                <input type="email" id="email" ref={this.emailEl} />
-              </div> */}
-
-              {/* <div className="form-control">
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" ref={this.passwordEl} />
-              </div> */}
-
-              <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">
-                  Log In
-                </Button>
-                <Button className="btnForm btnGmail" type="submit">
-                  Log In with Gmail
-                </Button>
-              </div>
-            </form>
+            <LoginForm
+              handleChange={this.handleChange}
+              onSubmit={this.submitHandler}
+              googleLogin={this.googleLogin}
+            />
           </div>
         </Login>
       </ThemeProvider>

@@ -3,12 +3,11 @@ import { compose, withProps } from "recompose"
 import {
   withScriptjs,
   withGoogleMap,
-  GoogleMap,
-  Marker
+  GoogleMap
 } from "react-google-maps"
 
-import marker from "../../assets/icons/location.svg"
-import markerSelected from "../../assets/icons/location-inactive.svg"
+import blackMarker from "../../assets/icons/blackcircle.svg"
+import greenMarker from "../../assets/icons/greencircle.svg"
 
 const {
   MarkerWithLabel
@@ -19,22 +18,14 @@ const KEY = `${process.env.REACT_APP_GOOGLE_MAP_KEY}`
 const labelSize = { width: 20 }
 const labelPadding = 16
 
-const roundMarker = () => {
-  return (<svg height="100" width="100">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="black" />
-  </svg >)
-}
 
 var markerStyling = {
   clear: "both",
-  backgroundColor: "black",
-  fontWeight: "500",
+  fontSize: "15px",
   color: "#FFFFFF",
   borderRadius: "100%",
-  padding: "4px",
+  padding: "17px 4px 0 6px",
   whiteSpace: "nowrap",
-  width: "30px",
-  height: "30px",
   textAlign: "center"
 }
 
@@ -77,27 +68,29 @@ const maps = compose(
                 key={index}
                 position={location}
                 labelAnchor={{
-                  x: labelSize.width / 2 + labelPadding / 2,
+                  x: labelSize.width / 2,
                   y: labelSize.width / 2 + labelPadding * 2
                 }}
                 labelStyle={markerStyling}
-                icon={{ url: marker, scaledSize: { width: 50, height: 50 } }}
+                icon={{ url: greenMarker }}
               >
-                <div>{index}</div>
+                <div>{index+1}</div>
               </MarkerWithLabel>
             )
           } else {
             return (
-              <Marker
+              <MarkerWithLabel
                 key={index}
                 position={location}
-                // icon={{
-                // url: {marker},
-                // scaledSize: {width: 30, height: 30},
-                // anchor: {x: 15, y: 15 },
-                // }}
-                icon={{ url: markerSelected }}
-              />
+                labelAnchor={{
+                  x: labelSize.width / 2,
+                  y: labelSize.width / 2 + labelPadding * 2
+                }}
+                labelStyle={markerStyling}
+                icon={{ url: blackMarker }}
+              >
+                <div>{index+1}</div>
+              </MarkerWithLabel>
             )
           }
         })}

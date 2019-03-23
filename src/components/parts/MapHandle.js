@@ -18,16 +18,16 @@ class MapHandle extends Component {
 
   componentDidMount() {
     // this.searchPlaces(this.props.country);
-    // if (!this.pollInterval) {
-    //   this.pollInterval = setInterval(
-    //     this.searchPlaces(this.props.country),
-    //     2000
-    //   );
-    // }
-    this.props.stores.map(store => {
-      return this.searchPlaces(store.address)
-    })
-
+    // this.props.stores.map(store => {
+    //   return this.searchPlaces(store.address)
+    // })
+    if (!this.pollInterval) {
+      this.pollInterval = setInterval(() => {
+        this.props.stores.map(store => {
+          return this.searchPlaces(store.address)
+        })
+      }, 2000)
+    }
   }
 
   componentDidUpdate(prevProps) {

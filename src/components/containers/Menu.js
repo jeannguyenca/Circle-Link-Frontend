@@ -140,10 +140,8 @@ class ResponsiveDrawer extends React.Component {
     } else if (linkTo[1].indexOf(path) !== -1) {
       return `1${linkTo[1].indexOf(path)}`
     } else if (linkTo[2].indexOf(path) !== -1) {
-      console.log(`2${linkTo[2].indexOf(path)}`)
       return `2${linkTo[2].indexOf(path)}`
     } else if (linkTo[3].indexOf(path) !== -1)  {
-      console.log(`3${linkTo[3].indexOf(path)}`)
       return `3${linkTo[3].indexOf(path)}`
     }
 
@@ -154,7 +152,7 @@ class ResponsiveDrawer extends React.Component {
 
     const drawer = (
       <div className={classes.drawer}>
-        <Link to="/dashboard">
+        <Link to="/dashboard" onClick={() => this.handleClick("-1")}>
           <img src={logo} alt="Logo" className={classes.responsiveImg} />
         </Link>
 
