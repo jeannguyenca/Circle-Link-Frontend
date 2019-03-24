@@ -1,13 +1,18 @@
-import React, { Component } from 'react'
-import {Link } from 'react-router-dom';
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Button from "@material-ui/core/Button"
 import { withStyles } from "@material-ui/core/styles"
 
 const styles = theme => ({
+  root: {
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      flexDirection: "column"
+    }
+  },
   link: {
-    margin: "0 25px",
-    textDecoration: 'none',
-    fontFamily: ["Raleway", "sans-serif"].join(","),
+    margin: "0 10px",
+    textDecoration: "none",
     [theme.breakpoints.down("sm")]: {
       margin: "20px",
       textAlign: "center"
@@ -21,6 +26,7 @@ const styles = theme => ({
     cursor: "pointer"
   },
   button: {
+    fontWeight: 700,
     borderRadius: "50px",
     boxShadow: "none",
     "-webkit-box-shadow": "0px 0px 15px 5px rgba(17,211,188,.3)",
@@ -34,31 +40,36 @@ const styles = theme => ({
       background: "white",
       color: theme.palette.primary.main
     }
+  },
+  buttonOutline: {
+    fontWeight: 700
   }
-});
+})
 
 class AuthButtonGroup extends Component {
-
   render() {
     const classes = this.props.classes
     return (
       <div className={classes.root}>
-        <Link to="/login" 
-                color="inherit" className={classes.link}>
-                <Button>
-                  Log in
-                </Button>
-              </Link>
-              
-              <Link to="/signup" className={classes.link}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                >
-                  Sign up
-                </Button>
-              </Link>
+        <Link to="/login" color="inherit" className={classes.link}>
+          <Button
+            variant="outlined"
+            color="primary"
+            className={classes.buttonOutline}
+          >
+            Log in
+          </Button>
+        </Link>
+
+        <Link to="/signup" className={classes.link}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Sign up
+          </Button>
+        </Link>
       </div>
     )
   }

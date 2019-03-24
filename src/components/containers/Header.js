@@ -5,7 +5,6 @@ import { styled } from "@material-ui/styles"
 import AppBar from "../parts/Landing/AppBarCollapse"
 
 const Wrapper = styled("div")({
-  padding: "5px 30px",
   position: "sticky",
   top: 0,
   background: "white",

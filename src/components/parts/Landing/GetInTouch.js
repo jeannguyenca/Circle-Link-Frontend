@@ -5,21 +5,27 @@ import InformationBlock from "./InformationBlock"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 
-import background from "../../../assets/contact_blur.jpg"
+import background from "../../../assets/get_in_touch.jpg"
 
 const styles = theme => ({
   root: {
     margin: "auto",
-    padding: "60px 40px",
+    padding: "0 40px",
     // backgroundColor: `#F5F5F5`,
-    background: `url(${background}), rgba(0,0,0,0.8)`,
-    backgroundSize: "cover",
-    backgroundBlendMode: "multiply"
+    background: `url(${background}) #E8E7E3`,
+    backgroundSize: "80%",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "bottom left"
   },
   container: {
     maxWidth: "75rem",
     margin: "auto",
-    textAlign: "center"
+    textAlign: "center",
+    minHeight: "100vh",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      marginLeft: "0"
+    }
   },
   button: {
     "&:hover": {
@@ -43,20 +49,20 @@ const styles = theme => ({
     }
   },
   cssLabel: {
-    color: 'white'
+    // color: "white"
   },
 
   cssOutlinedInput: {
-    '&$cssFocused $notchedOutline': {
-      borderColor: `${theme.palette.primary.main} !important`,
+    "&$cssFocused $notchedOutline": {
+      borderColor: `${theme.palette.primary.main} !important`
     }
   },
 
   cssFocused: {},
   notchedOutline: {
-    borderWidth: '1px',
-    borderColor: 'white !important'
-  },
+    borderWidth: "1px"
+    // borderColor: "white !important"
+  }
 })
 
 const labels = ["First Name", "Last Name", "Email", "Phone"]
@@ -65,32 +71,32 @@ function form(classes, _class, button) {
   return (
     <form className={_class} noValidate autoComplete="off">
       <Grid container spacing={16} justify="center">
-      {labels.map((item, index) => {
-        return (
-          <Grid item xs={12} sm={6} key={index}>
-            <TextField
-              className={classes.input}
-              label={item}
-              margin="dense"
-              variant="outlined"
-              fullWidth
-              InputLabelProps={{
-                classes: {
-                  root: classes.cssLabel,
-                  focused: classes.cssFocused,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  root: classes.cssOutlinedInput,
-                  focused: classes.cssFocused,
-                  notchedOutline: classes.notchedOutline,
-                },
-              }}
-            />
-          </Grid>
-        )
-      })}
+        {labels.map((item, index) => {
+          return (
+            <Grid item xs={12} sm={6} key={index}>
+              <TextField
+                className={classes.input}
+                label={item}
+                margin="dense"
+                variant="outlined"
+                fullWidth
+                InputLabelProps={{
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused
+                  }
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            </Grid>
+          )
+        })}
         <Grid item xs={12} sm={12}>
           <TextField
             className={classes.input}
@@ -104,15 +110,15 @@ function form(classes, _class, button) {
             InputLabelProps={{
               classes: {
                 root: classes.cssLabel,
-                focused: classes.cssFocused,
-              },
+                focused: classes.cssFocused
+              }
             }}
             InputProps={{
               classes: {
                 root: classes.cssOutlinedInput,
                 focused: classes.cssFocused,
-                notchedOutline: classes.notchedOutline,
-              },
+                notchedOutline: classes.notchedOutline
+              }
             }}
           />
         </Grid>
@@ -133,6 +139,7 @@ const GetInTouch = props => {
         spacing={24}
         className={classes.container}
         justify="center"
+        alignItems="center"
       >
         <Grid item xs={12} md={8}>
           <InformationBlock

@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import ButtonAppBarCollapse from "../Landing/ButtonAppBarCollapse"
 import PropTypes from "prop-types"
-// import Button from "@material-ui/core/Button"
 import { Link, animateScroll as scroll } from "react-scroll"
 
 import LogoText from "../../../assets/logo_text.svg"
@@ -12,11 +11,15 @@ import AuthButtonGroup from "./AuthButtonGroup"
 const styles = theme => ({
   root: {
     maxWidth: "75em",
-    margin: "30px auto",
+    margin: "0 auto",
+    padding: "30px 0",
     display: "flex",
     "justify-content": "space-between",
     position: "sticky",
-    top: 0
+    top: 0,
+    [theme.breakpoints.down("sm")]: {
+      padding: "20px 0 0 0"
+    }
   },
   wrapper: {
     [theme.breakpoints.down("sm")]: {
@@ -40,6 +43,9 @@ const styles = theme => ({
     [theme.breakpoints.down("sm")]: {
       display: "flex",
       "flex-direction": "column"
+    },
+    "& .active": {
+      color: `${theme.palette.primary.main} !important`
     }
   },
   right: {
@@ -51,16 +57,13 @@ const styles = theme => ({
   },
   link: {
     margin: "0 25px",
-    fontFamily: ["Raleway", "sans-serif"].join(","),
+    fontWeight: 700,
     [theme.breakpoints.down("sm")]: {
       margin: "20px",
       textAlign: "center"
     },
     "&:hover": {
-      color: theme.palette.primary.main
-    },
-    "&:.active": {
-      color: theme.palette.primary.main
+      color: `${theme.palette.primary.main} !important`
     },
     cursor: "pointer"
   },
@@ -90,7 +93,7 @@ class AppBarCollapse extends Component {
     return (
       <div className={classes.root}>
         <Link
-          to="/Home"
+          to="Home"
           spy={true}
           smooth={true}
           className={classes.link}
@@ -119,7 +122,7 @@ class AppBarCollapse extends Component {
                   color="inherit"
                   className={classes.link}
                   offset={-50}
-                  key={menu}
+                  key={menu[index]}
                 >
                   {menu}
                 </Link>

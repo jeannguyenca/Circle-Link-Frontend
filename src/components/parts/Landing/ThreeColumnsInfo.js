@@ -10,17 +10,21 @@ const styles = theme => ({
     padding: "60px 30px",
     overflow: "hidden"
   },
-  item: {
-
+  container: {
+    minHeight: "70vh"
   }
-
 })
 
 const ThreeColumnsInfo = props => {
   const { classes, data, id } = props
   return (
-    <div className={classes.root} id={ id }>
-      <Grid container alignItems="stretch" spacing={40}>
+    <div className={classes.root} id={id}>
+      <Grid
+        container
+        alignItems="center"
+        spacing={40}
+        className={classes.container}
+      >
         <Grid item xs={12} md={6}>
           <InformationBlock
             // header_align={data.header_align}
@@ -35,7 +39,6 @@ const ThreeColumnsInfo = props => {
           {data[1].map((block, index) => {
             return (
               <Grid item xs={12} sm={6} key={index}>
-
                 <InformationBlock
                   header_align={block.header_align}
                   header_2={block.header}
@@ -46,12 +49,9 @@ const ThreeColumnsInfo = props => {
                   className={classes.item}
                 />
               </Grid>
-
             )
           })}
-          </Grid>
-         
-
+        </Grid>
       </Grid>
     </div>
   )

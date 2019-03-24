@@ -10,7 +10,12 @@ const styles = theme => ({
   },
   container: {
     maxWidth: "75rem",
-    margin: "auto"
+    margin: "auto",
+    minHeight: "75vh"
+  },
+  imgContainer: {
+    alignSelf: "flex-end",
+    marginBottom: "-5px"
   },
   img: {
     width: "100%",
@@ -27,14 +32,14 @@ const TwoColumnsInfo = props => {
         direction={props.direction}
         className={classes.container}
       >
-        <Grid item xs={12} md={5} container className={classes.container}>
+        <Grid item xs={12} md={5} container className={classes.container} alignItems="center">
           <InformationBlock
             header_align={props.header_align}
             header_1={props.header}
             para={props.para}
           />
         </Grid>
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} md={7} className={classes.imgContainer}>
           <img className={classes.img} src={props.img} alt={props.alt} />
         </Grid>
       </Grid>

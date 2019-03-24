@@ -30,7 +30,6 @@ const theme = createMuiTheme({
     body1: {
       fontSize: 18,
       marginTop: "10px",
-      color: "#fff"
     },
     body2: {
       fontSize: 18,
