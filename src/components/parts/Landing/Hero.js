@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Grid from "@material-ui/core/Grid"
-import { withStyles, MuiThemeProvider } from "@material-ui/core/styles"
+import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 
 import InformationBlock from "./InformationBlock"

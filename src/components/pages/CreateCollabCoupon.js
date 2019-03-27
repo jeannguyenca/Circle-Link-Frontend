@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Typography, Grid, InputLabel, TextField, InputAdornment } from '@material-ui/core/';
 import createCoupon from '../../graphql/createCoupon'
+import createCollabCoupon from '../../graphql/createCollabCoupon'
 import getStoreId from '../../graphql/getStoreId'
 
 const styles = theme => ({
@@ -114,7 +115,7 @@ fetchStoreId = async(token) =>{
     const token = this.state.token
 
 
-    let requestBody = createCoupon(name, description, details, condition, startDate, storeID);
+    let requestBody = createCollabCoupon(name, description, details, condition, startDate, storeID);
 
 
 

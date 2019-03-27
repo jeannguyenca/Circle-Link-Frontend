@@ -33,6 +33,32 @@ const styles = {
   };
 
 class Dashboard extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+          isLogin: true,
+          id: "",
+          token: ""
+        }
+      }
+
+    componentWillMount() {
+        if (sessionStorage.getItem("auth")) {
+          this.getUserInfo();
+        } else {
+          this.setState({ isLogin: false });
+        }
+    }
+
+    getUserInfo = () => {
+        let data = JSON.parse(sessionStorage.getItem("auth"));
+        // console.log(data);
+        let userInfo = {
+            id: data.userId,
+            token: data.token,
+        }
+        this.setState(userInfo);
+    }
     
   render() {
 

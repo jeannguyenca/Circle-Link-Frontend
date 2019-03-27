@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
-import Styled, {ThemeProvider} from "styled-components";
-import { Link } from 'react-router-dom';
-import {Grid, Button, TextField} from '@material-ui/core/';
+import React, { Component } from "react"
+import Styled, { ThemeProvider } from "styled-components"
+import { Link } from "react-router-dom"
+import { Grid, Button, TextField } from "@material-ui/core/"
 
+import backGround from "../../assets/contact_blur.jpg"
+import logoText from "../../assets/logo_text.svg"
+import login from "../../graphql/authentication"
 
-
-import backGround from '../../assets/contact_blur.jpg';
-import logoText from '../../assets/logo_text.svg';
-import login from "../../graphql/authentication";
-
-import { theme } from '../parts/theme';
-import user from '../../assets/icons/profile.svg';
-import lock from '../../assets/icons/password.svg';
-
+import { theme } from "../parts/theme"
+import user from "../../assets/icons/profile.svg"
+import lock from "../../assets/icons/password.svg"
 
 let Figure = Styled.figure`
   margin-top: 0;
@@ -32,8 +29,7 @@ let Figure = Styled.figure`
 
 
   }
-`;
-
+`
 
 let TextField1 = Styled(TextField)`
   width: 220px;
@@ -42,7 +38,7 @@ let TextField1 = Styled(TextField)`
     border-radius: 24.5px !important;
   }
 
-`;
+`
 
 let Login = Styled.div`
   background: url(${backGround});
@@ -103,7 +99,7 @@ let Login = Styled.div`
       color: black;
     }
     .signUp{
-      color: ${ props => props.theme.second }
+      color: ${props => props.theme.second}
       margin: 8px auto 24px auto;
       &:hover {
         font-weight: 700;
@@ -178,45 +174,44 @@ let Login = Styled.div`
     }
   }
 
-`;
+`
 
 class Register extends Component {
   state = {
     isLogin: true,
-    email: '',
-    password: ''
-    
+    email: "",
+    password: ""
   }
 
-// constructor(props) {
+  // constructor(props) {
   // super(props);
-    // this.emailEl = React.createRef();
-    // this.passwordEl = React.createRef();
+  // this.emailEl = React.createRef();
+  // this.passwordEl = React.createRef();
   // }
 
   HandleChange = e => {
-    e.preventDefault();
-    this.setState ({
-      [ e.target['name'] ]: e.target['value']
+    e.preventDefault()
+    this.setState({
+      [e.target["name"]]: e.target["value"]
     })
   }
 
   switchModeHandler = () => {
     this.setState(prevState => {
-      return { isLogin: !prevState.isLogin };
-    });
-  };
+      return { isLogin: !prevState.isLogin }
+    })
+  }
 
   submitHandler = event => {
-    event.preventDefault();
-    const email = this.emailEl.current.value;
-    const password = this.passwordEl.current.value;
+    event.preventDefault()
+    const email = this.emailEl.current.value
+    const password = this.passwordEl.current.value
 
     if (email.trim().length === 0 || password.trim().length === 0) {
-      return;
+      return
     }
 
-    let requestBody = login(email, password);
+    let requestBody = login(email, password)
 
     if (!this.state.isLogin) {
       requestBody = {
@@ -228,32 +223,32 @@ class Register extends Component {
             }
           }
         `
-      };
+      }
     }
 
-    fetch('http://18.218.142.78/test/graphql', {
-      method: 'POST',
+    fetch("http://18.218.142.78/test/graphql", {
+      method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Failed!');
+          throw new Error("Failed!")
         }
-        return res.json();
+        return res.json()
       })
       .then(resData => {
-        console.log(resData);
+        console.log(resData)
       })
       .catch(err => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   render() {
-    const {HandleChange} = this;
+    const { HandleChange } = this
     return (
       <ThemeProvider theme={theme}>
         <Login>
@@ -261,78 +256,104 @@ class Register extends Component {
             <div className="Gtitle">
               <Link to="/">
                 <Figure>
-                  <img src={logoText} alt="Logo Text"/>
+                  <img src={logoText} alt="Logo Text" />
                 </Figure>
               </Link>
               <h1>Welcome to Circle Link!</h1>
-    
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat molestias nulla voluptas velit sit ipsa accusantium ipsum eum assumenda molestiae. Sunt quas corrupti et iusto cupiditate. Totam est numquam obcaecati nesciunt quasi voluptatum nemo perferendis?</p>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat molestias nulla voluptas velit sit ipsa accusantium
+                ipsum eum assumenda molestiae. Sunt quas corrupti et iusto
+                cupiditate. Totam est numquam obcaecati nesciunt quasi
+                voluptatum nemo perferendis?
+              </p>
             </div>
-    
+
             <form className="auth-form loginForm" onSubmit={this.submitHandler}>
               <h2>Register</h2>
-              <p style={{marginBottom: 0}}>Already have Account ?</p>
-              <Link className="signUp" to="/login">Login</Link>
+              <p style={{ marginBottom: 0 }}>Already have Account ?</p>
+              <Link className="signUp" to="/login">
+                Login
+              </Link>
 
               <div className="email">
                 <Grid container spacing={8} alignItems="flex-end">
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={user} alt="user"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={user} alt="user" />
+                    </figure>
                   </Grid>
-                  <Grid item style={{marginRight: '35px'}}>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Email" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Email"
-                               name="email"
-                               onChange={HandleChange}
-                               className="emailField filed"
-                               />
+                  <Grid item style={{ marginRight: "35px" }}>
+                    <TextField1
+                      id="outlined-with-placeholder"
+                      label="Email"
+                      margin="normal"
+                      variant="outlined"
+                      placeholder="Email"
+                      name="email"
+                      onChange={HandleChange}
+                      className="emailField filed"
+                    />
                   </Grid>
                 </Grid>
               </div>
 
               <div className="password">
-                <Grid container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '35px'}}>
+                <Grid
+                  container
+                  spacing={8}
+                  alignItems="flex-end"
+                  style={{ marginRight: "35px" }}
+                >
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={lock} alt="lock" />
+                    </figure>
                   </Grid>
                   <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Password" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Password"
-                               name="password"
-                               onChange={HandleChange}
-                               className="passField field"
-                               />
+                    <TextField1
+                      id="outlined-with-placeholder"
+                      label="Password"
+                      margin="normal"
+                      variant="outlined"
+                      placeholder="Password"
+                      name="password"
+                      onChange={HandleChange}
+                      className="passField field"
+                    />
                   </Grid>
                 </Grid>
               </div>
               <div className="password2">
-                <Grid container spacing={8}                  alignItems="flex-end" 
-                      style={{marginRight: '35px'}}>
+                <Grid
+                  container
+                  spacing={8}
+                  alignItems="flex-end"
+                  style={{ marginRight: "35px" }}
+                >
                   <Grid item>
-                    <figure style={{margin: '12px'}}><img src={lock} alt="lock"/></figure>
+                    <figure style={{ margin: "12px" }}>
+                      <img src={lock} alt="lock" />
+                    </figure>
                   </Grid>
                   <Grid item>
-                    <TextField1 id="outlined-with-placeholder" 
-                               label="Confirm Password" 
-                               margin="normal"
-                               variant="outlined"
-                               placeholder="Confirm Password"
-                               name="password2"
-                               onChange={HandleChange}
-                               className="pass2Field filed"
-                               />
+                    <TextField1
+                      id="outlined-with-placeholder"
+                      label="Confirm Password"
+                      margin="normal"
+                      variant="outlined"
+                      placeholder="Confirm Password"
+                      name="password2"
+                      onChange={HandleChange}
+                      className="pass2Field filed"
+                    />
                   </Grid>
                 </Grid>
               </div>
-              <Link className="forgot" style={{}} to="/forgot">Forgot Password</Link>
-
+              <Link className="forgot" style={{}} to="/forgot">
+                Forgot Password
+              </Link>
 
               {/* <div className="form-control">
                 <label htmlFor="email">E-Mail</label>
@@ -345,15 +366,18 @@ class Register extends Component {
               </div> */}
 
               <div className="form-actions">
-                <Button className=" btnForm btnLogin" type="submit">Register</Button>
-                <Button className="btnForm btnGmail" type="submit">Gmail Register</Button>
+                <Button className=" btnForm btnLogin" type="submit">
+                  Register
+                </Button>
+                <Button className="btnForm btnGmail" type="submit">
+                  Gmail Register
+                </Button>
               </div>
-
             </form>
           </div>
         </Login>
-      </ThemeProvider>  
-    );
+      </ThemeProvider>
+    )
   }
 }
 

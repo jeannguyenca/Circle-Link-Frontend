@@ -7,11 +7,11 @@ import {
 import{
     Face, LocalOffer, Menu
 } from '@material-ui/icons'
-import Dashboard from '../pages/Dashboard'
+import Dashboard from './Components/Dashboard'
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom'
-import Customer from '../pages/Customer';
-import CreateCoupon from '../pages/CreateCoupon';
-import ViewCoupon from '../pages/ViewCoupon'
+import Customer from './Components/Customer';
+import CreateCoupon from './Components/CreateCoupon';
+import ViewCoupon from './Components/ViewCoupon'
 
 
 const drawerWidth = 240;
@@ -55,9 +55,33 @@ const styles = theme => ({
 });
 
 class Layout extends React.Component {
-  state = {
-    mobileOpen: false,
-  };
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLogin: true,
+      id: "",
+      token: "",
+      mobileOpen: false,
+    }
+  }
+
+  componentWillMount() {
+      if (sessionStorage.getItem("auth")) {
+        this.getUserInfo();
+      } else {
+        this.setState({ isLogin: false });
+      }
+  }
+
+  getUserInfo = () => {
+      let data = JSON.parse(sessionStorage.getItem("auth"));
+      let userInfo = {
+          id: data.userId,
+          token: data.token,
+      }
+      this.setState(userInfo);
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -72,7 +96,7 @@ class Layout extends React.Component {
       <div>
         {/* <div className={classes.toolbar} /> */}
         <div style={{padding: 20}}>
-            <Link to="/dashboard"><img src={logo} alt="Logo" className={classes.responsiveImg} /></Link>
+            <Link to="/"><img src={logo} alt="Logo" className={classes.responsiveImg} /></Link>
         </div>
 
         <Divider />
@@ -81,7 +105,7 @@ class Layout extends React.Component {
             <p  className="textDraw" >
             My Statistics
             </p>
-            <ListItem button key='1' className="custo" component={Link} to="/dashboard/customers">
+            <ListItem button key='1' className="custo" component={Link} to="/Customers">
                 <ListItemIcon><Face /></ListItemIcon>
                 <ListItemText  primary='Customers'/>
             </ListItem>
@@ -96,12 +120,12 @@ class Layout extends React.Component {
             <p  className="textDraw" >
             Coupon System
             </p>
-            <ListItem button key='3' component={Link} to="/dashboard/create-coupon">
+            <ListItem button key='3' component={Link} to="/CreateCoupon">
                 <ListItemIcon><Face /></ListItemIcon>
                 <ListItemText  primary='Create'/>
             </ListItem>
 
-            <ListItem button key='4' component={Link} to="/dashboard/manage">
+            <ListItem button key='4' component={Link} to="/Manage">
                 <ListItemIcon><LocalOffer /></ListItemIcon>
                 <ListItemText  primary='Manage'/>
             </ListItem>
@@ -210,10 +234,10 @@ class Layout extends React.Component {
           
           
             <Switch>
-                <Route exact path="/dashboard" render={() => <Dashboard />} />
-                <Route path="/dashboard/customers" render={() => <Customer />} />
-                <Route path="/dashboard/create-coupon" render={() => <CreateCoupon />} />
-                <Route path="/dashboard/manage" render={() => <ViewCoupon />} />
+                <Route exact path="/" render={() => <Dashboard />} />
+                <Route path="/Customers" render={() => <Customer />} />
+                <Route path="/CreateCoupon" render={() => <CreateCoupon />} />
+                <Route path="/Manage" render={() => <ViewCoupon />} />
             </Switch>
 
 

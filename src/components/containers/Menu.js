@@ -3,18 +3,10 @@ import { Link } from "react-router-dom"
 import { withStyles } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
 import Hidden from "@material-ui/core/Hidden"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemText from "@material-ui/core/ListItemText"
 
 import MenuList from "@material-ui/core/MenuList"
 import MenuItem from "@material-ui/core/MenuItem"
 
-import Toolbar from "@material-ui/core/Toolbar"
-import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
-import Face from "@material-ui/icons/Face"
 import { Typography } from "@material-ui/core"
 
 import AppBar from "../parts/AppBarDashboard"
@@ -22,14 +14,14 @@ import logo from "../../assets/logo_text.svg"
 
 import Customer from "../../assets/icons/customer.svg"
 import CustomerIn from "../../assets/icons/customer-inactive.svg"
-// import Coupon from "../../assets/icons/customer.svg"
-// import CouponIn from "../../assets/icons/customer-inactive.svg"
-import Create from "../../assets/icons/edit.svg"
-import CreateIn from "../../assets/icons/edit-inactive.svg"
+import Coupon from "../../assets/icons/coupon.svg"
+import CouponIn from "../../assets/icons/coupon-inactive.svg"
+import Create from "../../assets/icons/create.svg"
+import CreateIn from "../../assets/icons/create-inactive.svg"
 import Manage from "../../assets/icons/setting.svg"
-import ManageIn from "../../assets/icons/setting-inactive.svg"
-import Support from "../../assets/icons/message.svg"
-import SupportIn from "../../assets/icons/message-inactive.svg"
+import ManageIn from "../../assets/icons/manage-inactive.svg"
+import Support from "../../assets/icons/support.svg"
+import SupportIn from "../../assets/icons/support-inactive.svg"
 import Feedback from "../../assets/icons/mail.svg"
 import FeedbackIn from "../../assets/icons/mail-inactive.svg"
 
@@ -41,7 +33,9 @@ const styles = theme => ({
     flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    borderRight: "none",
+    boxShadow: "5px 0px 10px 1px rgba(0, 0, 0, 0.1)"
   },
   menu: {
     padding: "20px 0"
@@ -67,14 +61,15 @@ const styles = theme => ({
   },
   sectionName: {
     textTransform: "uppercase",
-    fontSize: 20,
+    fontSize: 18,
+    color: "black",
     marginLeft: "20px",
     marginBottom: "20px"
   },
   responsiveImg: {
     height: "auto",
     width: "70%",
-    margin: "20px 0 40px 20px"
+    margin: "40px 0 40px 20px"
   },
   icon: {
     width: "20px",
@@ -94,14 +89,14 @@ const items = [
 ]
 
 const icons = [
-  [Customer, Customer],
+  [Customer, Coupon],
   [Create, Manage],
   [Create, Manage],
   [Support, Feedback]
 ]
 
 const iconsIn = [
-  [CustomerIn, CustomerIn],
+  [CustomerIn, CouponIn],
   [CreateIn, ManageIn],
   [CreateIn, ManageIn],
   [SupportIn, FeedbackIn]
@@ -123,7 +118,8 @@ const header = [
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    selectedIndex: this.checkCurrentPath(),
   }
 
   handleDrawerToggle = () => {
@@ -131,22 +127,38 @@ class ResponsiveDrawer extends React.Component {
   }
 
   handleClick = id => {
-    console.log(id)
     this.setState({
       selectedIndex: id
     })
   }
 
+  checkCurrentPath() {
+    const path = window.location.pathname
+
+    if (linkTo[0].indexOf(path) !== -1) {
+      return `0${linkTo[0].indexOf(path)}`
+    } else if (linkTo[1].indexOf(path) !== -1) {
+      return `1${linkTo[1].indexOf(path)}`
+    } else if (linkTo[2].indexOf(path) !== -1) {
+      console.log(`2${linkTo[2].indexOf(path)}`)
+      return `2${linkTo[2].indexOf(path)}`
+    } else if (linkTo[3].indexOf(path) !== -1)  {
+      console.log(`3${linkTo[3].indexOf(path)}`)
+      return `3${linkTo[3].indexOf(path)}`
+    }
+
+  }
+
   render() {
     const { classes } = this.props
-
+  
     const drawer = (
       <div className={classes.drawer}>
         <Link to="/dashboard">
           <img src={logo} alt="Logo" className={classes.responsiveImg} />
         </Link>
 
-        {groups.map((section, index) => {
+        { groups.map((section, index) => {
           return (
             <MenuList key={index} className={classes.menu}>
               <Typography variant="h2" className={classes.sectionName}>
@@ -199,17 +211,16 @@ class ResponsiveDrawer extends React.Component {
         {this.state.selectedIndex ? (
           <AppBar
             handleDrawerToggle={this.handleDrawerToggle}
+            logout={this.props.logout}
             header={
-              header[Math.round(this.state.selectedIndex / 10)][
-                this.state.selectedIndex % 10
-              ]
+              header[Math.round(this.state.selectedIndex / 10)][this.state.selectedIndex % 10]
             }
           />
         ) : (
-          <AppBar handleDrawerToggle={this.handleDrawerToggle} />
+          <AppBar logout={this.props.logout} handleDrawerToggle={this.handleDrawerToggle} />
         )}
 
-        <Hidden smUp implementation="css">
+        <Hidden mdUp implementation="css">
           <Drawer
             container={this.props.container}
             variant="temporary"
@@ -223,7 +234,7 @@ class ResponsiveDrawer extends React.Component {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper

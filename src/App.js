@@ -2,13 +2,12 @@ import React, { Component } from "react"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 
-
 import "./App.css"
+import Body from "./components/containers/Body"
 import Landing from "./components/pages/Landing"
 import Authentication from "./components/pages/Authentication"
 import Register from "./components/pages/Register"
 import Forgot from "./components/pages/Forgot"
-import Dashboard from "./components/Layout/index";
 
 //custom theme color
 const theme = createMuiTheme({
@@ -31,7 +30,7 @@ const theme = createMuiTheme({
     body1: {
       fontSize: 18,
       marginTop: "10px",
-      color: "#000"
+      color: "#fff"
     },
     body2: {
       fontSize: 18,
@@ -82,7 +81,7 @@ class App extends Component {
             <Route exact path='/forgot' component={Forgot} /> 
 
             
-            <Route path='/dashboard' component={Dashboard} /> 
+            <Route path='/dashboard' component={Body} /> 
           </Switch>
         </BrowserRouter>
       </div>

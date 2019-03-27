@@ -1,44 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import ApolloClient from "apollo-boost";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-import { ApolloProvider } from "react-apollo";
-
-const client = new ApolloClient({
-    uri: "http://18.218.142.78/test/graphql"
-  });
-
-// client
-// .query({
-// query: gql`
-// {
-//     coupons {
-//       _id
-//       name
-//       store {
-//         storename
-//       }
-//     }
-//   }
-// `
-// })
-// .then(result => console.log(result));
-
-
-
-const GET_COUPONS = gql`
-{
-    coupons {
-      _id
-      name
-      store {
-        storename
-      }
-    }
-  }
-`;
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+// import gql from "graphql-tag"
+// import { Query } from "react-apollo"
+import viewCoupon from '../../graphql/viewCoupon'
+import getStoreId from '../../graphql/getStoreId'
 
 const styles = {
     title: {
@@ -48,38 +14,110 @@ const styles = {
   };
 
 class ViewCoupon extends Component {
-    
+    state = {
+        isLogin: true,
+        id: "",
+        token: "",
+        storeId: "", 
+        fetched: false,
+    }
+
+    componentWillMount() {
+        let storeID  = this.props.storeid;
+        if(storeID){
+            this.fetchCoupons(storeID);
+        }
+        
+    }
+
+    // getUserInfo = () => {
+    //     let data = JSON.parse(sessionStorage.getItem("auth"));
+    //     let userInfo = {
+    //         id: data.userId,
+    //         token: data.token,
+    //     }
+    //     this.setState(userInfo);
+    //     this.fetchStoreId(data.token);
+    // }
+
+    // fetchStoreId = async(token) =>{
+    //     let body = getStoreId();
+    //     fetch('http://18.218.142.78/test/graphql', {
+    //         method: 'POST',
+    //         body: JSON.stringify(body),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //         }
+    //     })
+    //     .then(res => {
+    //         if (res.status !== 200 && res.status !== 201) {
+    //             throw new Error('Failed!');
+    //         }
+    //         return res.json();
+    //     })
+    //     .then(resData => {
+    //         this.setState({ storeId: resData.data.stores[0]._id }, () => {
+    //             this.fetchCoupons(this.state.storeId)
+    //         });
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
+    // };
+
+      fetchCoupons = async(storeid) => {
+          let body = viewCoupon(storeid);
+          fetch('http://18.218.142.78/test/graphql', {
+              method: 'POST',
+              body: JSON.stringify(body),
+              headers: {
+                  'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed!');
+                }
+                return res.json();
+            })
+            .then(resData => {
+                this.setState({ result: resData.data.coupons, fetched: true });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+      };
+
   render() {
 
-    const { classes } = this.props;
-    return (
-        <ApolloProvider client={client}>
+      if(this.state.fetched){
+        const { classes } = this.props;
+        const { result } = this.state
+        
+        return (
             <Fragment>
                 <Typography variant="h5" component="h2" className={classes.title}>
                     View Coupons
                 </Typography>
-                <Query query={GET_COUPONS}>
-                    {({ loading, error, data }) => {
-                        if (loading) return "Loading...";
-                        if (error) return `Error! ${error.message}`;
-                    
-                        return (
-                        <div>
-                            {data.coupons.map((coupons, index) => (
-                                <div key={index}>
-                                <h1>{coupons.name}</h1>
-                                <h1>{coupons.description}</h1>
-                                <p>{coupons._id}</p>
-                                <p>{coupons.store.storename}</p>
-                                </div>
-                            ))}
+                <div>
+                    {result.map(coupons => (
+                        <div key={coupons._id}>
+                        <h1>{coupons.name}</h1>
+                        <p>{coupons._id}</p>
+                        <p>{coupons.store.storename}</p>
                         </div>
-                        );
-                    }}
-                </Query>
+                    ))}
+                </div>
             </Fragment>
-        </ApolloProvider>
+            )
+      }
+    
+    return(
+        <Fragment>No Coupons to display</Fragment>
     );
+  
     }
   }
 

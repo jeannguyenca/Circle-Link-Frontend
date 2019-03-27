@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="29px" height="23px" viewBox="0 0 29 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>hamburger_menu</title>
+    <desc>Created with Sketch.</desc>
+    <g id="UIKit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Design-System-page2" transform="translate(-467.562006, -381.000000)">
+            <g id="hamburger_menu" transform="translate(468.235209, 381.889722)">
+                <rect id="Rectangle" fill="#170409" x="0" y="0" width="27.5" height="5.5" rx="2.75"></rect>
+                <rect id="Rectangle-Copy-2" fill="#170409" x="0" y="15.6292337" width="27.5" height="5.5" rx="2.75"></rect>
+                <rect id="Rectangle-Copy" fill="#4FC95B" x="0" y="7.81461684" width="17.875" height="5.5" rx="2.75"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
