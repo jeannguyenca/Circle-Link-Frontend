@@ -36,7 +36,7 @@ const TwoColumnsInfo = props => {
           <InformationBlock
             header_align={props.header_align}
             header_1={props.header}
-            para={props.para}
+            paraDark={props.paraDark}
           />
         </Grid>
         <Grid item xs={12} md={7} className={classes.imgContainer}>

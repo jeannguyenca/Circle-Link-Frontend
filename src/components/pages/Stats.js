@@ -1,33 +1,97 @@
 import React from "react"
 
 import BarChartCustom from "../parts/BarChart"
+import Button from "@material-ui/core/Button"
+import { withStyles } from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
 
-const data = [
-  { name: "March 15", cust: 103 },
-  { name: "March 16", cust: 124 },
-  { name: "March 17", cust: 111 },
-  { name: 'March 18', cust: 104 },
-  { name: 'March 19', cust: 88 },
-  { name: 'March 20', cust: 102 },
-  { name: 'March 21', cust: 113 },
-  { name: 'March 22', cust: 145 },
-  { name: 'March 23', cust: 123 },
-  { name: 'March 24', cust: 110 },
-  { name: 'March 25', cust: 121 },
-  { name: 'March 26', cust: 99 },
-  { name: 'March 27', cust: 105 },
-  { name: 'March 28', cust: 103 },
-  { name: 'March 29', cust: 159 },
-  { name: 'March 30', cust: 121 },
-  { name: 'March 31', cust: 142 },
-  { name: 'April 1', cust: 110 },
-  { name: 'April 2', cust: 123 },
-  { name: 'April 3', cust: 143 },
+import DownIcon from "@material-ui/icons/ArrowDropDown"
+import LeftIcon from "@material-ui/icons/ArrowLeft"
+import RightIcon from "@material-ui/icons/ArrowRight"
 
-]
+import { Typography } from "@material-ui/core"
+
+const styles = theme => ({
+  container: {
+    minHeight: `calc(100vh - 200px)`
+  },
+  item: {
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center"
+    },
+  },
+  chartContainer: {
+    width: "100%"
+  },
+  button: {
+    marginRight: "10px"
+    // marginBottom: "40px"
+  }
+})
 
 const Stats = props => {
-  return <BarChartCustom data={data} keyData="cust" />
+  const { classes } = props
+  return (
+    <Grid container spacing={24} className={classes.container}>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        container
+        alignItems="flex-end"
+        className={classes.item}
+      >
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+        >
+          Month
+          <DownIcon
+          //  className={classes.rightIcon}
+          />
+        </Button>
+        <Button color="secondary" className={classes.button}>
+          Quarter
+          {/* <DownIcon
+          display="none"
+          //  className={classes.rightIcon}
+        /> */}
+        </Button>
+        <Button color="secondary" className={classes.button}>
+          Year
+          {/* <DownIcon
+          display="none"
+        //  className={classes.rightIcon}
+        /> */}
+        </Button>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        container
+        alignItems="flex-end"
+        justify="flex-end"
+        className={classes.item}
+      >
+        <LeftIcon
+          display="none"
+          //  className={classes.rightIcon}
+        />
+        <Typography variant="body1">Today, April 10</Typography>
+        <RightIcon
+          display="none"
+          //  className={classes.rightIcon}
+        />
+      </Grid>
+      <Grid item xs={12} container alignItems="center" justify="center">
+        <div className={classes.chartContainer}>
+          <BarChartCustom data={props.data} keyData={props.keyData} />
+        </div>
+      </Grid>
+    </Grid>
+  )
 }
 
-export default Stats
+export default withStyles(styles)(Stats)

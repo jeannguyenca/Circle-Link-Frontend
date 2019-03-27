@@ -22,27 +22,27 @@ import visualize from "../../assets/icons/visualize.svg"
 const features = [
   {
     header: "Features",
-    para: "CircleLink can fit in perfectly between users and business. We help the business to bring the same user back and helps users to spend their earned points in their next transaction."
+    paraDark: "CircleLink can fit in perfectly between users and business. We help the business to bring the same user back and helps users to spend their earned points in their next transaction."
   },
   [
     {
       img: { barcode },
-      para: "Unique and affordable loyalty program enables the small scale businesses.",
+      paraDark: "Unique and affordable loyalty program enables the small scale businesses.",
       alt: "Barcode"
     },
     {
       img: { database },
-      para: "Fit in the their existing customers and database.",
+      paraDark: "Fit in the their existing customers and database.",
       alt: "Database"
     },
     {
       img: { lock },
-      para: "Simple yet secure authentication system that easily access by the users.",
+      paraDark: "Simple yet secure authentication system that easily access by the users.",
       alt: "Lock"
     },
     {
       img: { visualize },
-      para: "Visualized data for business owner to get deep insight of customers’ experience.",
+      paraDark: "Visualized data for business owner to get deep insight of customers’ experience.",
       alt: "Visualize"
     },
   ]
@@ -56,7 +56,7 @@ const Landing = props => {
         <Header/>
         <Hero
           header="Collaborate, Evolve and Prosper"
-          para="We scale up your business by fitting in perfectly between consumers and your system. We will help your business to bring the same consumer back and enhance the consumer experiments. "
+          paraDark="We scale up your business by fitting in perfectly between consumers and your system. We will help your business to bring the same consumer back and enhance the consumer experiments. "
           button="Join now"
           img={cover}
           alt="cover"
@@ -66,7 +66,7 @@ const Landing = props => {
         <TwoColumnsInfo
           color="#F8F8F8"
           header="Overview"
-          para={[
+          paraDark={[
             "CircleLink is an one - stop - shop application that will provide an optimized and attractive loyalty system for medium and small businesses.", <br key="break"/>,
             "For consumers, we will provide them with a loyalty-based program where users will earn points with any valid transaction and can spend their points at the same store. "
                   ]}

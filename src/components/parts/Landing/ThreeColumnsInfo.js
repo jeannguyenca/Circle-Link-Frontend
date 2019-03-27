@@ -31,7 +31,7 @@ const ThreeColumnsInfo = props => {
             header_1={data[0].header}
             img={data[0].img}
             stat={data[0].stat}
-            para={data[0].para}
+            paraDark={data[0].paraDark}
             align="left"
           />
         </Grid>
@@ -44,7 +44,7 @@ const ThreeColumnsInfo = props => {
                   header_2={block.header}
                   img={block.img}
                   stat={block.stat}
-                  para={block.para}
+                  paraDark={block.paraDark}
                   align="left"
                   className={classes.item}
                 />

@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import React, { Component, Fragment } from "react"
+import { withStyles } from "@material-ui/core/styles"
 import gql from "graphql-tag"
 import { Query } from "react-apollo"
+
+import SingleCoupon from "../parts/SingleCoupon"
 
 // const client = new ApolloClient({
 //     uri: "http://18.218.142.78/test/graphql"
@@ -24,19 +25,29 @@ import { Query } from "react-apollo"
 // })
 // .then(result => console.log(result));
 
-
+// const GET_COUPONS = gql`
+//   {
+//     coupons(option: "mystore") {
+//       _id
+//       name
+//       store {
+//         storename
+//       }
+//     }
+//   }
+// `
 
 const GET_COUPONS = gql`
-{
-    coupons (option: "mystore") {
-      _id
+  query coupons($storeId: ID, $option: String) {
+    coupons(storeId: $storeId, option: $option) {
       name
-      store {
-        storename
-      }
+      description
+      condition
+      startDay
+      expiredDay
     }
   }
-`;
+`
 
 // const Coupons = () => (
 //     <Query query={GET_COUPONS}>
@@ -44,7 +55,7 @@ const GET_COUPONS = gql`
 //           console.log('Data:', data);
 //         if (loading) return "Loading...";
 //         if (error) return `Error! ${error.message}`;
-  
+
 //         return (
 //           <div>
 //             {data.coupons.map(coupons => (
@@ -61,44 +72,38 @@ const GET_COUPONS = gql`
 //   );
 
 const styles = {
-    title: {
-        margin: '0 10px',
-        padding: '10px 0',
-    }
-  };
+  title: {
+    margin: "0 10px",
+    padding: "10px 0"
+  }
+}
 
 class ViewCoupon extends Component {
-    
   render() {
-
-    const { classes } = this.props;
+    const { classes, storeId, option } = this.props
     return (
-            <Fragment>
-                <Typography variant="h5" component="h2" className={classes.title}>
-                    View Coupons
-                </Typography>
-                <Query query={GET_COUPONS}>
-                    {({ loading, error, data }) => {
-                        if (loading) return "Loading...";
-                        if (error) return `Error! ${error.message}`;
-                
-                        return (
-                        <div>
-                            {data.coupons.map(coupons => (
-                                <div key={coupons._id}>
-                                <h1>{coupons.name}</h1>
-                                <p>{coupons._id}</p>
-                                <p>{coupons.store.storename}</p>
-                                </div>
-                            ))}
-                        </div>
-                        );
-                    }}
-                </Query>
-            </Fragment>
-    );
-    }
-  }
+      <Fragment>
+        <Query query={GET_COUPONS} 
+        variables={{ storeId, option }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) return "Loading..."
+            if (error) return `Error! ${error.message}`
 
-  
-  export default withStyles(styles)(ViewCoupon);
+            return (
+              <div>
+                {data.coupons.map((coupon, index) => (
+                  <Fragment key={index}>
+                    <SingleCoupon {...coupon} />
+                  </Fragment>
+                ))}
+              </div>
+            )
+          }}
+        </Query>
+      </Fragment>
+    )
+  }
+}
+
+export default withStyles(styles)(ViewCoupon)

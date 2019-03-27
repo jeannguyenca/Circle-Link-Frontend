@@ -5,6 +5,7 @@ import GoogleMaps from "./GoogleMaps"
 const KEY = `${process.env.REACT_APP_GOOGLE_MAP_KEY}`
 
 class MapHandle extends Component {
+  _isMounted = false
   state = {
     center: {
       lat: 49.2631369,
@@ -17,17 +18,11 @@ class MapHandle extends Component {
   }
 
   componentDidMount() {
-    // this.searchPlaces(this.props.country);
-    // this.props.stores.map(store => {
-    //   return this.searchPlaces(store.address)
-    // })
-    if (!this.pollInterval) {
-      this.pollInterval = setInterval(() => {
-        this.props.stores.map(store => {
-          return this.searchPlaces(store.address)
-        })
-      }, 2000)
-    }
+    this._isMounted = true
+
+    this.props.stores.map(store => {
+      return this.searchPlaces(store.address)
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -37,28 +32,39 @@ class MapHandle extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   searchPlaces = place => {
+    let locationArray = this.state.locations
     axios
       .get(
         `${"https://cors-anywhere.herokuapp.com/"}https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${place}&inputtype=textquery&fields=geometry&key=${KEY}`
       )
       .then(res => {
-        // console.log("the response", res)
         const newLngLat = res.data.candidates[0].geometry.location
-        this.state.locations.push(newLngLat)
+        locationArray.push(newLngLat)
+        if (this._isMounted) {
+          this.setState({ locations: locationArray })
+        }
       })
       .catch(err => console.log(err))
   }
 
   render() {
     return (
-      <GoogleMaps
-        isMarkerShown
-        center={this.state.center}
-        locations={this.state.locations}
-        selectedIndex={this.props.selectedIndex}
-        // style={mapStyle}
-      />
+      <React.Fragment>
+        {this.state.locations.length > 0 && (
+          <GoogleMaps
+            isMarkerShown
+            center={this.state.center}
+            locations={this.state.locations}
+            selectedIndex={this.props.selectedIndex}
+            // style={mapStyle}
+          />
+        )}
+      </React.Fragment>
     )
   }
 }

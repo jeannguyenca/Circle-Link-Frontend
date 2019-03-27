@@ -21,7 +21,7 @@ const theme = createMuiTheme({
     h2: {
       fontWeight: 700,
       "text-transform": "capitalize",
-      color: "#4FC95B"
+      color: "#4FC95B",
     },
     h4: {
       fontWeight: 700,
@@ -34,6 +34,7 @@ const theme = createMuiTheme({
     body2: {
       fontSize: 18,
       marginTop: "10px",
+      color: "#fff"
     },
     caption: {
       fontSize: 16,

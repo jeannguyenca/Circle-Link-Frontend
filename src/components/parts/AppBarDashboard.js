@@ -3,21 +3,41 @@ import { withStyles } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import { Typography } from "@material-ui/core"
+import Hidden from "@material-ui/core/Hidden"
+import { Link } from "react-router-dom"
+import Grid from "@material-ui/core/Grid"
 
 import Menu from "../../assets/icons/hamburger_menu.svg"
+import logo from "../../assets/logo_icon.svg"
 
 const styles = theme => ({
+  root: {
+    padding: 0,
+    position: "fixed",
+    background: "white",
+    zIndex: 999,
+    width: "calc(100% - 120px)",
+    paddingTop: "20px",
+    top: 0,
+    paddingLeft: "60px"
+  },
+  item: {
+    flexShrink: 0,
+    [theme.breakpoints.down("sm")]: {
+      alignItems: "center",
+      textAlign: "center",
+    }
+  },
   menuButton: {
-    color: "red",
-    [theme.breakpoints.up("md")]: {
-      display: "none"
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "20px"
     }
   },
   header: {
     fontSize: "20px",
     fontWeight: "900",
-    textTransform: "uppercase",
-    margin: "45px 0 0 40px"
+    textTransform: "uppercase"
+    // margin: "45px 0 0 40px"
   }
 })
 
@@ -25,27 +45,46 @@ const AppBarDashBoard = props => {
   const { classes } = props
 
   return (
-    <div className={classes.root}>
-      <Toolbar>
+    <Toolbar className={classes.root}>
+    <Grid container justify="space-between">
+        <Grid item sx={1}>
+
+      <Hidden mdUp implementation="css">
         <IconButton
           color="inherit"
           aria-label="Open drawer"
           onClick={props.handleDrawerToggle}
           className={classes.menuButton}
-        >
-          <img src={Menu} alt="Menu"/>
+          >
+          <img src={Menu} alt="Menu" />
         </IconButton>
-        {props.header ? (
-          <Typography variant="h3" className={classes.header}>
-            {props.header}
-          </Typography>
-        ) : (
-          <Typography variant="h3" className={classes.header}>
-            My Dashboard
-          </Typography>
-        )}
-      </Toolbar>
-    </div>
+      </Hidden>
+        </Grid>
+
+        <Grid item sx={8} md={12} className={classes.item}>
+
+      <Hidden mdUp implementation="css">
+
+        <Link to="/dashboard" onClick={() => this.handleClick("-1")}>
+          <img src={logo} alt="Logo" className={classes.responsiveImg} />
+        </Link>
+      </Hidden>
+
+      {props.header ? (
+        <Typography variant="h3" className={classes.header}>
+          {props.header}
+        </Typography>
+      ) : (
+        <Typography variant="h3" className={classes.header}>
+          My Dashboard
+        </Typography>
+      )}
+        </Grid>
+
+
+      </Grid>
+
+    </Toolbar>
   )
 }
 

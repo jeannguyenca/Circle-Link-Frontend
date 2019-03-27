@@ -54,16 +54,6 @@ const maps = compose(
         locations.map((location, index) => {
           if (index === props.selectedIndex) {
             return (
-              // <Marker
-              //   key={index}
-              //   position={location}
-              //   // icon={{
-              //   // url: {marker},
-              //   // scaledSize: {width: 30, height: 30},
-              //   // anchor: {x: 15, y: 15 },
-              //   // }}
-              //   icon={{ url: marker }}
-              // />
               <MarkerWithLabel
                 key={index}
                 position={location}

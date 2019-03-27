@@ -49,7 +49,7 @@ class Hero extends Component {
           <Grid item xs={12} sm={7} className={classes.item}>
             <InformationBlock
               header_1={this.props.header}
-              para={this.props.para}
+              paraDark={this.props.paraDark}
               header_align="center"
               align="center"
             />

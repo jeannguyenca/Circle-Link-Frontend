@@ -41,13 +41,16 @@ const styles = theme => ({
     padding: "20px 0"
   },
   item: {
-    marginLeft: "20px",
+    marginLeft: "30px",
     borderTopLeftRadius: "50px",
     borderBottomLeftRadius: "50px",
     margin: "10px 0",
     padding: "10px 0 10px 30px",
     "&:hover": {
-      background: theme.palette.primary.main
+      background: theme.palette.primary.main,
+      "&>h6": {
+        color: "white !important"
+      }
     },
     "&:focus": {
       background: theme.palette.primary.main
@@ -63,17 +66,18 @@ const styles = theme => ({
     textTransform: "uppercase",
     fontSize: 18,
     color: "black",
-    marginLeft: "20px",
+    marginLeft: "30px",
     marginBottom: "20px"
   },
   responsiveImg: {
     height: "auto",
     width: "70%",
-    margin: "40px 0 40px 20px"
+    margin: "40px 0 40px 30px"
   },
   icon: {
     width: "20px",
-    height: "100%"
+    height: "100%",
+    "&:hover": {}
   },
   menuText: {
     paddingLeft: "10px"
@@ -119,7 +123,8 @@ const header = [
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
-    selectedIndex: this.checkCurrentPath()
+    selectedIndex: this.checkCurrentPath(),
+    hoveredIndex: "-1"
   }
 
   handleDrawerToggle = () => {
@@ -129,6 +134,22 @@ class ResponsiveDrawer extends React.Component {
   handleClick = id => {
     this.setState({
       selectedIndex: id
+    })
+
+    if(this.state.mobileOpen === true) {
+      this.setState(state => ({ mobileOpen: false }))
+    }
+  }
+
+  handleHover = id => {
+    this.setState({
+      hoveredIndex: id
+    })
+  }
+
+  handleOut = () => {
+    this.setState({
+      hoveredIndex: -1
     })
   }
 
@@ -141,22 +162,25 @@ class ResponsiveDrawer extends React.Component {
       return `1${linkTo[1].indexOf(path)}`
     } else if (linkTo[2].indexOf(path) !== -1) {
       return `2${linkTo[2].indexOf(path)}`
-    } else if (linkTo[3].indexOf(path) !== -1)  {
+    } else if (linkTo[3].indexOf(path) !== -1) {
       return `3${linkTo[3].indexOf(path)}`
     }
-
   }
 
   render() {
     const { classes } = this.props
 
+    // Drawer object
     const drawer = (
       <div className={classes.drawer}>
-        <Link to="/dashboard" onClick={() => this.handleClick("-1")}>
-          <img src={logo} alt="Logo" className={classes.responsiveImg} />
-        </Link>
+        <Hidden smDown implementation="css">
+          <Link to="/dashboard" onClick={() => this.handleClick("-1")}>
+            <img src={logo} alt="Logo" className={classes.responsiveImg} />
+          </Link>
+        </Hidden>
 
-        { groups.map((section, index) => {
+        {/* Render sidebar menu items with section headers */}
+        {groups.map((section, index) => {
           return (
             <MenuList key={index} className={classes.menu}>
               <Typography variant="h2" className={classes.sectionName}>
@@ -171,15 +195,25 @@ class ResponsiveDrawer extends React.Component {
                     key={i}
                     component={Link}
                     to={linkTo[index][i]}
+                    // change selected item
                     onClick={() => this.handleClick(`${index}${i}`)}
+                    // handle mouseover item
+                    onMouseEnter={() => this.handleHover(`${index}${i}`)}
+                    onMouseLeave={() => this.handleOut()}
+
+                    // selected item condition
                     selected={
                       this.state.selectedIndex % 10 === i &&
                       Math.round(this.state.selectedIndex / 10) === index
                     }
                     classes={{ selected: classes.selected }}
                   >
-                    {this.state.selectedIndex % 10 === i &&
-                    Math.round(this.state.selectedIndex / 10) === index ? (
+                    {/* Render img for menu item */}
+                    {
+                      (this.state.selectedIndex % 10 === i &&
+                        Math.round(this.state.selectedIndex / 10) === index) ||
+                      (this.state.hoveredIndex % 10 === i &&
+                        Math.round(this.state.hoveredIndex / 10) === index) ? (
                       <img
                         src={iconsIn[index][i]}
                         alt={item}
@@ -210,7 +244,9 @@ class ResponsiveDrawer extends React.Component {
           <AppBar
             handleDrawerToggle={this.handleDrawerToggle}
             header={
-              header[Math.round(this.state.selectedIndex / 10)][this.state.selectedIndex % 10]
+              header[Math.round(this.state.selectedIndex / 10)][
+                this.state.selectedIndex % 10
+              ]
             }
           />
         ) : (

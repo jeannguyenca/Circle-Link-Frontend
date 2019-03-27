@@ -1,120 +1,88 @@
-import React, { Component, Fragment } from "react";
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Face from '@material-ui/icons/Face';
-import Aup from '@material-ui/icons/ArrowDropUp'
+import React, { Component, Fragment } from "react"
+import { withStyles } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+import Grid from "@material-ui/core/Grid"
+import Divider from "@material-ui/core/Divider"
+
+import CardDashboard from "../parts/CardDashboard"
+
+import Mail from "../../assets/icons/mail.svg"
+import Customer from "../../assets/icons/customer.svg"
+import Coupon from "../../assets/icons/coupon.svg"
+import Location from "../../assets/icons/location.svg"
 
 const styles = {
-    card: {
-      minWidth: 275,
-      textAlign: 'center',
-      display: 'inline-block',
-      margin: '10px',
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    pos: {
-      marginBottom: 12,
-    },
-    cardAction: {
-        justifyContent: 'center',
-    },
-    title: {
-        margin: '0 10px',
-        padding: '10px 0',
-    }
-  };
+  title: {
+    fontWeight: 700,
+    marginTop: "20px"
+  }
+}
+
+const overview1 = {
+  icon: Customer,
+  number: 111,
+  title: "Customer visited",
+  arrow: "down",
+  percentage: "8%"
+}
+
+const overview2 = {
+  icon: Coupon,
+  number: 61,
+  title: "Coupon used",
+  arrow: "up",
+  percentage: "9%"
+}
+
+const overview3 = {
+  icon: Location,
+  number: 1,
+  title: "Stores in collab",
+}
+
+const overviews = [overview1, overview2, overview3]
 
 class Dashboard extends Component {
-    
   render() {
-
-    const { classes } = this.props;
-
+    const { classes } = this.props
 
     return (
-        <Fragment>
-            <Typography variant="h5" component="h2" className={classes.title}>
-                Inbox
+      <Fragment>
+        <Grid container className={classes.root} spacing={40}>
+          <Grid item xs={12}>
+            <Typography variant="h5" component="h4" className={classes.title}>
+              Inbox
             </Typography>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CardDashboard
+              icon={Mail}
+              title="Messages"
+              number="2"
+              buttonText="View Inbox"
+            />
+          </Grid>
+        </Grid>
 
-            <Card  className={classes.card}>
-                <CardContent>
-                    <Typography variant="h5" component="h2">
-                    Messages
-                    </Typography>
-                    <Typography variant="h3">
-                    0
-                    </Typography>
-                </CardContent>
-                <CardActions className={classes.cardAction}>
-                    <Button size="medium" variant="outlined">View Inbox</Button>
-                </CardActions>
-            </Card>
-           
-            <hr />
+        <Divider />
 
+        <Grid container className={classes.root} spacing={40}>
+          <Grid item xs={12}>
             <Typography variant="h5" component="h2" className={classes.title}>
-                Analytics Overview
+              Analytics Overview
             </Typography>
-
-            <Card  className={classes.card}>
-                <CardContent>
-                    <Face />
-                    <Typography variant="h3">
-                    89
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                    Customer Visited
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
-                    10%
-                    </Typography>
-                </CardContent>
-            </Card>
-
-            <Card  className={classes.card}>
-                <CardContent>
-                    <Face />
-                    <Typography variant="h3">
-                    26
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                    Coupons used
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
-                    10%
-                    </Typography>
-                </CardContent>
-            </Card>
-
-            <Card  className={classes.card}>
-                <CardContent>
-                    <Face />
-                    <Typography variant="h3">
-                    23
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                    Stores In Collab
-                    </Typography>
-                    <Typography variant="caption" color="textSecondary">
-                    <Aup className="icons"/>10%
-                    </Typography>
-                </CardContent>
-            </Card>
-
-
-        </Fragment>
-    );
-    }
+          </Grid>
+          {overviews.map((overview, key) => {
+            return (
+              <Grid item xs={12} md={4} key={key} container alignItems="stretch">
+                <CardDashboard {...overview} />
+              </Grid>
+            )
+          })}
+        </Grid>
+      </Fragment>
+    )
   }
+}
 
-  
-  export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(Dashboard)
