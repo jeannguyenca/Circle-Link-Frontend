@@ -24,7 +24,7 @@ const styles = theme => ({
     color: grey[700]
   },
   icon: {
-    paddingTop: "10px"
+    paddingTop: "5px"
   },
   textField: {
     margin: 0
@@ -70,7 +70,6 @@ const Login = props => {
           <TextField
             id="outlined-with-placeholder"
             className={classes.textField}
-            label="Email"
             margin="normal"
             variant="outlined"
             placeholder="Email"
@@ -86,7 +85,6 @@ const Login = props => {
           <TextField
             id="outlined-with-placeholder"
             className={classes.textField}
-            label="Password"
             margin="normal"
             variant="outlined"
             placeholder="Password"

@@ -16,12 +16,12 @@ const theme = createMuiTheme({
     fontSize: 12,
     h1: {
       fontWeight: 700,
-      "text-transform": "capitalize",
+      "text-transform": "capitalize"
     },
     h2: {
       fontWeight: 700,
       "text-transform": "capitalize",
-      color: "#4FC95B",
+      color: "#4FC95B"
     },
     h4: {
       fontWeight: 700,
@@ -29,7 +29,7 @@ const theme = createMuiTheme({
     },
     body1: {
       fontSize: 18,
-      marginTop: "10px",
+      marginTop: "10px"
     },
     body2: {
       fontSize: 18,
@@ -60,35 +60,41 @@ const theme = createMuiTheme({
         borderRadius: 50,
         padding: "5px 30px !important",
         "text-transform": "capitalize",
-        fontSize: 16,
+        fontSize: 16
+      }
+    },
+    MuiPrivateNotchedOutline: {
+      root: {
+        borderRadius: 50,
+      }
+    },
+    MuiOutlinedInput: {
+      input: {
+        padding: "10px"
       }
     }
-}
+  }
 })
 
 class App extends Component {
   render() {
     return (
-      
       <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={Landing} />
+              <Route exact path="/login" component={Authentication} />
+              <Route exact path="/signup" component={Register} />
+              <Route exact path="/forgot" component={Forgot} />
 
-      <div className="App">
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/' component={Landing} /> 
-            <Route exact path='/login' component={Authentication} /> 
-            <Route exact path='/signup' component={Register} /> 
-            <Route exact path='/forgot' component={Forgot} /> 
-
-            
-            <Route path='/dashboard' component={Body} /> 
-          </Switch>
-        </BrowserRouter>
-      </div>
+              <Route path="/dashboard" component={Body} />
+            </Switch>
+          </BrowserRouter>
+        </div>
       </MuiThemeProvider>
     )
   }
 }
-
 
 export default App
