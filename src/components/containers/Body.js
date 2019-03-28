@@ -31,7 +31,7 @@ const styles = theme => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       margin: "0",
-      marginTop: "100px"
+      marginTop: "140px"
     }
   },
   root: {
@@ -43,21 +43,21 @@ const styles = theme => ({
   }
 })
 
+const GRAPHQL_LINK = `${process.env.GRAPHQL_LINK}`
+
 class Body extends Component {
   state = {
     isLogin: true,
-    id: "",
-    token: "",
-    storeId: "",
     fetched: false,
+    storeId: "",
     userInfo: []
   }
   componentWillMount() {
-    if (sessionStorage.getItem("auth")) {
-      this.getUserInfo()
-    } else {
-      this.setState({ isLogin: false })
-    }
+    this.getUserInfo()
+  }
+
+  componentDidMount() {
+    this.fetchstoreId()
   }
 
   getUserInfo = () => {
@@ -67,17 +67,19 @@ class Body extends Component {
       token: data.token
     }
     this.setState(userInfo)
-    this.fetchstoreId(data.token)
   }
 
-  fetchstoreId = token => {
+  fetchstoreId = () => {
     let body = getStoreId()
-    fetch("http://18.218.142.78/test/graphql", {
+    console.log(GRAPHQL_LINK)
+    console.log(process.env.REACT_APP_GOOGLE_MAP_KEY)
+    
+    fetch(GRAPHQL_LINK, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${this.state.token}`
       }
     })
       .then(res => {
@@ -88,12 +90,14 @@ class Body extends Component {
       })
       .then(resData => {
         let result = resData.data.stores
-        if (!result.length == 0) {
-          this.setState({ storeId: result[0]._id, fetched: true }, () => {
-            // this.fetchCoupons(this.state.storeId)
+        if (result.length !== 0) {
+          this.setState({
+            storeId: result[0]._id,
+            email: result[0].creator.email,
+            fetched: true
           })
         } else {
-          this.setState({ fetched: true })
+          this.setState({ fetched: false })
         }
       })
       .catch(err => {
@@ -114,17 +118,16 @@ class Body extends Component {
       <div className={classes.root}>{children}</div>
     )
     if (this.state.fetched) {
-      console.log(this.state.token)
       return (
         <div className={classes.container}>
-          <Menu logout={this.logout} />
-          {!this.state.isLogin ? (
+          <Menu logout={this.logout} email={this.state.email} />
+          {this.state.isLogin === false && (
             <Redirect
               to={{
                 pathname: "/login"
               }}
             />
-          ): 
+          )}
           <Wrapper>
             <Switch>
               {/* Dashboard home */}
@@ -163,7 +166,10 @@ class Body extends Component {
               />
 
               {/* Collabs */}
-              <Route path="/dashboard/collab/create" component={ChooseCollab} />
+              <Route
+                path="/dashboard/collab/create"
+                component={() => <ChooseCollab storeId={this.state.storeId} />}
+              />
               <Route
                 path="/dashboard/collab/createCoupon/:collabStore"
                 render={({ match }) => (
@@ -196,7 +202,7 @@ class Body extends Component {
               <Route path="/dashboard/support" component={Stats} />
               <Route path="/dashboard/feedback" component={Stats} />
             </Switch>
-          </Wrapper>}
+          </Wrapper>
         </div>
       )
     } else {

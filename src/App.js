@@ -63,14 +63,22 @@ const theme = createMuiTheme({
         fontSize: 16
       }
     },
+    MuiFormLabel: {
+      root: {
+        paddingLeft: "20px"
+      }
+    },
     MuiPrivateNotchedOutline: {
       root: {
         borderRadius: 50,
+      },
+      legend: {
+        marginLeft: "10px"
       }
     },
     MuiOutlinedInput: {
       input: {
-        padding: "10px"
+        paddingLeft: "30px"
       }
     }
   }
@@ -85,7 +93,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/login" component={Authentication} />
-              <Route exact path="/signup" component={Register} />
+              {/* <Route exact path="/signup" component={Register} /> */}
               <Route exact path="/forgot" component={Forgot} />
 
               <Route path="/dashboard" component={Body} />

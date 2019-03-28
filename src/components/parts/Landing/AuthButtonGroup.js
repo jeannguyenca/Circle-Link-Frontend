@@ -42,7 +42,11 @@ const styles = theme => ({
     }
   },
   buttonOutline: {
-    fontWeight: 700
+    fontWeight: 700,
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color:"white"
+    }
   }
 })
 

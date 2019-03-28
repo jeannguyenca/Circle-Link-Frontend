@@ -77,6 +77,7 @@ class ChooseCollab extends React.Component {
           if (error) return <p>ERROR</p>
 
           return (
+            
             <Grid container className={classes.root} spacing={40}>
               <Grid item xs={12}>
                 <Typography
@@ -92,6 +93,7 @@ class ChooseCollab extends React.Component {
                   {data.stores &&
                     data.stores.map((store, index) => {
                       return (
+                        // this.props.storeId !== store._id &&
                         <React.Fragment key={index}>
                           <ListItem
                             button

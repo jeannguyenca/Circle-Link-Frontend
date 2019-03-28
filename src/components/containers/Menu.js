@@ -136,7 +136,7 @@ class ResponsiveDrawer extends React.Component {
       selectedIndex: id
     })
 
-    if(this.state.mobileOpen === true) {
+    if (this.state.mobileOpen === true) {
       this.setState(state => ({ mobileOpen: false }))
     }
   }
@@ -169,7 +169,6 @@ class ResponsiveDrawer extends React.Component {
 
   render() {
     const { classes } = this.props
-
     // Drawer object
     const drawer = (
       <div className={classes.drawer}>
@@ -200,7 +199,6 @@ class ResponsiveDrawer extends React.Component {
                     // handle mouseover item
                     onMouseEnter={() => this.handleHover(`${index}${i}`)}
                     onMouseLeave={() => this.handleOut()}
-
                     // selected item condition
                     selected={
                       this.state.selectedIndex % 10 === i &&
@@ -209,11 +207,10 @@ class ResponsiveDrawer extends React.Component {
                     classes={{ selected: classes.selected }}
                   >
                     {/* Render img for menu item */}
-                    {
-                      (this.state.selectedIndex % 10 === i &&
-                        Math.round(this.state.selectedIndex / 10) === index) ||
-                      (this.state.hoveredIndex % 10 === i &&
-                        Math.round(this.state.hoveredIndex / 10) === index) ? (
+                    {(this.state.selectedIndex % 10 === i &&
+                      Math.round(this.state.selectedIndex / 10) === index) ||
+                    (this.state.hoveredIndex % 10 === i &&
+                      Math.round(this.state.hoveredIndex / 10) === index) ? (
                       <img
                         src={iconsIn[index][i]}
                         alt={item}
@@ -248,9 +245,15 @@ class ResponsiveDrawer extends React.Component {
                 this.state.selectedIndex % 10
               ]
             }
+            email={this.props.email}
+            logout={this.props.logout}
           />
         ) : (
-          <AppBar handleDrawerToggle={this.handleDrawerToggle} />
+          <AppBar
+            handleDrawerToggle={this.handleDrawerToggle}
+            email={this.props.email}
+            logout={this.props.logout}
+          />
         )}
 
         <Hidden mdUp implementation="css">

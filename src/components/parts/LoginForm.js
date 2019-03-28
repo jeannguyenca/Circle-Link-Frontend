@@ -17,6 +17,9 @@ const styles = theme => ({
     textAlign: "center",
     marginBottom: "20px"
   },
+  text: {
+    margin: "20px 0 0 0"
+  },
   link: {
     color: red[500]
   },
@@ -30,7 +33,8 @@ const styles = theme => ({
     margin: 0
   },
   button: {
-    width: "100%"
+    width: "100%",
+    boxShadow: "none"
   }
 })
 
@@ -110,7 +114,7 @@ const Login = props => {
           <Button
             className={`${classes.button} ${classes.login}`}
             type="submit"
-            variant="outlined"
+            variant="contained"
             color="primary"
           >
             Log In
@@ -120,7 +124,7 @@ const Login = props => {
           <Button
             className={`${classes.button} ${classes.google}`}
             type="button"
-            variant="contained"
+            variant="outlined"
             color="primary"
             onClick={googleLogin}
           >

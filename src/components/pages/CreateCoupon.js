@@ -8,7 +8,7 @@ import {
   TextField,
   InputAdornment
 } from "@material-ui/core/"
-import createCoupon from "../../graphql/createCoupon"
+import createCoupon, {createCollabCoupon} from "../../graphql/createCoupon"
 import getStoreId from "../../graphql/getStoreId"
 
 const styles = theme => ({
@@ -114,19 +114,34 @@ class Customer extends Component {
     const condition = this.state.condition
     const startDate = this.state.startDay
     const storeID = this.props.storeId
-    // const collabID = (this.props.collabId || "")
+    const collabID = this.props.collabId
     const token = this.props.token
 
+    let requestBody
 
-    let requestBody = createCoupon(
-      name,
-      description,
-      details,
-      condition,
-      startDate,
-      storeID,
-      // collabID
-    )
+    if (collabID) {
+      console.log("CollabID: " + collabID)
+      requestBody = createCollabCoupon(
+        name,
+        description,
+        details,
+        condition,
+        startDate,
+        storeID,
+        collabID
+      )
+    } else {
+      requestBody = createCoupon(
+        name,
+        description,
+        details,
+        condition,
+        startDate,
+        storeID,
+        // collabID
+      )
+    }
+
 
     fetch("http://18.218.142.78/test/graphql", {
       method: "POST",
@@ -159,10 +174,6 @@ class Customer extends Component {
 
     return (
       <Fragment>
-        <Typography variant="h5" component="h2" className={classes.title}>
-          Create Coupon
-        </Typography>
-
         <form className="auth-form loginForm" onSubmit={this.submitHandler}>
           <div className={classes.inputLabel}>
             <InputLabel className={classes.input} htmlFor="name-input">

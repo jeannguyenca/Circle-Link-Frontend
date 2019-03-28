@@ -6,6 +6,7 @@ const getStoreId = () => {
                 _id
                 storename
                 creator {
+                    name
                     email
                 }
                 }

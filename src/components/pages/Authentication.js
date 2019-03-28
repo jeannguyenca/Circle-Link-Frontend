@@ -107,8 +107,8 @@ class Authentication extends Component {
         return res.json()
       })
       .then(resData => {
+        sessionStorage.setItem("auth", JSON.stringify(resData.data.googleUser))
         this.setState({ auth: resData.data.googleUser })
-        sessionStorage.setItem("auth", resData.data.googleUser)
       })
       .catch(err => {
         console.log(err)

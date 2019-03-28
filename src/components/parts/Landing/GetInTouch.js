@@ -27,9 +27,13 @@ const styles = theme => ({
       marginLeft: "0"
     }
   },
+  para: {
+    marginBottom: "20px"
+  },
   button: {
     "&:hover": {
-      color: theme.palette.primary.main
+      background: theme.palette.primary.main,
+      color: "white"
     },
     margin: "20px 0"
   },
@@ -51,17 +55,18 @@ const styles = theme => ({
   cssLabel: {
     // color: "white"
   },
-
   cssOutlinedInput: {
     "&$cssFocused $notchedOutline": {
       borderColor: `${theme.palette.primary.main} !important`
     }
   },
-
   cssFocused: {},
   notchedOutline: {
     borderWidth: "1px"
     // borderColor: "white !important"
+  },
+  multi: {
+    borderRadius: "10px"
   }
 })
 
@@ -99,7 +104,7 @@ function form(classes, _class, button) {
         })}
         <Grid item xs={12} sm={12}>
           <TextField
-            className={classes.input}
+            className={classes.inputMultipleLine}
             id="filled-multiline-flexible"
             label="Message"
             multiline
@@ -117,7 +122,7 @@ function form(classes, _class, button) {
               classes: {
                 root: classes.cssOutlinedInput,
                 focused: classes.cssFocused,
-                notchedOutline: classes.notchedOutline
+                notchedOutline: `${classes.notchedOutline} ${classes.multi}`
               }
             }}
           />
@@ -147,6 +152,7 @@ const GetInTouch = props => {
             para={props.para}
             paraDark={props.paraDark}
             align="center"
+            className={classes.para}
           />
           {form(classes, classes.form, classes.button)}
         </Grid>

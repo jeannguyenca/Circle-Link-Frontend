@@ -57,7 +57,7 @@ const SingleCoupon = props => {
   return (
     <Grid container className={classes.container} spacing={8}>
       {/* ------ Content row ------- */}
-      <Grid item xs={12} md={6} className={classes.itemLeft} container>
+      <Grid item xs={12} md={8} className={classes.itemLeft} container>
         <Grid item>
           <Typography variant="body1">
             <span className={classes.span}>Name: </span>
@@ -73,7 +73,7 @@ const SingleCoupon = props => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid item xs={12} md={3} className={classes.itemRight}>
+      <Grid item xs={12} md={4} className={classes.itemRight}>
         <Typography variant="body1">
           Start:{" "}
           {DateFormat(startDay) === null ? "Not set yet" : DateFormat(startDay)}
@@ -88,7 +88,7 @@ const SingleCoupon = props => {
 
       {/* ------ Button row ------- */}
       <Grid container className={classes.insideContainer}>
-        <Grid item xs={12} md={7} className={classes.itemLeft}>
+        <Grid item xs={12} md={9} className={classes.itemLeft}>
           <Button color="primary" variant="outlined" className={classes.button}>
             View stats
           </Button>
@@ -106,7 +106,7 @@ const SingleCoupon = props => {
         <Grid
           item
           xs={12}
-          md={2}
+          md={3}
           className={classes.itemRight}
           container
           alignItems="center"
@@ -121,7 +121,7 @@ const SingleCoupon = props => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item xs={12} sm={9} className={classes.itemRight}>
+      <Grid item xs={12} className={classes.itemRight}>
         <Divider component="div" className={classes.divider} />
       </Grid>
     </Grid>

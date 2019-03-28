@@ -60,7 +60,7 @@ const CardDashboard = props => {
       )}
 
       {props.percentage && (
-        <Typography>
+        <Typography variant="body1">
           {props.arrow === "down"
             && <DownIcon color="error" fontSize="large" className={classes.arrow}/>}
           {props.arrow === "up" 
