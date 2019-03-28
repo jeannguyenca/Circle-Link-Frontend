@@ -1,4 +1,4 @@
-const createCoupon = (name, description, details, condition, startDate, storeID, collabId) => {
+const createCollabCoupon = (name, description, details, condition, startDate, storeID) => {
     return {
       query: `
             mutation {
@@ -12,4 +12,4 @@ const createCoupon = (name, description, details, condition, startDate, storeID,
   }
   
   
-  export default createCoupon
+  export default createCollabCoupon

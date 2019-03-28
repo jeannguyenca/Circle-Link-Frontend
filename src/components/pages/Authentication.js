@@ -11,8 +11,8 @@ import InformationBlock from "../parts/Landing/InformationBlock"
 
 import background from "../../assets/contact_blur.jpg"
 import logoText from "../../assets/logo_white.png"
-// import login from "../../graphql/authentication"
-import login, { googleLogin, createUser } from "../../graphql/authentication"
+
+import login, { googleLogin } from "../../graphql/authentication"
 
 const styles = theme => ({
   container: {
@@ -109,7 +109,6 @@ class Authentication extends Component {
       .then(resData => {
         this.setState({ auth: resData.data.googleUser })
         sessionStorage.setItem("auth", resData.data.googleUser)
-        console.log(resData)
       })
       .catch(err => {
         console.log(err)
@@ -151,8 +150,8 @@ class Authentication extends Component {
         return res.json()
       })
       .then(resData => {
-        this.setState({ auth: resData.data.login })
-        sessionStorage.setItem("auth", resData.data.login)
+        sessionStorage.setItem("auth", JSON.stringify(resData.data.login));
+        this.setState({ auth: resData.data.login });
       })
       .catch(err => {
         console.log(err)

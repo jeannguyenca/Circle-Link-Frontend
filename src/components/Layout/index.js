@@ -55,9 +55,39 @@ const styles = theme => ({
 });
 
 class Layout extends React.Component {
+<<<<<<< HEAD
   state = {
     mobileOpen: false,
   };
+=======
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLogin: true,
+      id: "",
+      token: "",
+      mobileOpen: false,
+    }
+  }
+
+  componentWillMount() {
+      if (sessionStorage.getItem("auth")) {
+        this.getUserInfo();
+      } else {
+        this.setState({ isLogin: false });
+      }
+  }
+
+  getUserInfo = () => {
+      let data = JSON.parse(sessionStorage.getItem("auth"));
+      let userInfo = {
+          id: data.userId,
+          token: data.token,
+      }
+      this.setState(userInfo);
+  }
+>>>>>>> kunal
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));

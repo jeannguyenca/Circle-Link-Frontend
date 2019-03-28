@@ -9,6 +9,7 @@ import {
   InputAdornment
 } from "@material-ui/core/"
 import createCoupon from "../../graphql/createCoupon"
+import getStoreId from "../../graphql/getStoreId"
 
 const styles = theme => ({
   root: {
@@ -43,9 +44,51 @@ const styles = theme => ({
 
 class Customer extends Component {
   state = {
-    storeId: "5c896895118b9702da2d0fbb",
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzhhYjRmYTg0ODNkYjQxOWMxOWZlZGQiLCJyb2xlIjoic3RvcmUiLCJlbWFpbCI6Imt1bmFsZGFuZG9uYTAwOUBnbWFpbC5jb20iLCJpYXQiOjE1NTI3NzkwNTgsImV4cCI6MTU1Mjc4MjY1OH0.1tY2r1qXYkYI2OhQxp9uGIY64QVgIxhiSEdlNiEpWVg"
+    isLogin: true,
+    token: this.props.token,
+    fetched: false
+  }
+
+  componentWillMount() {
+    if (sessionStorage.getItem("auth")) {
+      this.getUserInfo()
+    } else {
+      this.setState({ isLogin: false })
+    }
+  }
+
+  getUserInfo = () => {
+    let data = sessionStorage.getItem("auth")
+    let userInfo = {
+      id: data.userId,
+      token: data.token
+    }
+    this.setState(userInfo)
+    this.fetchStoreId(data.token)
+  }
+
+  fetchStoreId = async token => {
+    let body = getStoreId()
+    fetch("http://18.218.142.78/test/graphql", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!")
+        }
+        return res.json()
+      })
+      .then(resData => {
+        this.setState({ storeId: resData.data.stores[0]._id })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   handleChange = e => {
@@ -70,12 +113,10 @@ class Customer extends Component {
     const details = this.state.details
     const condition = this.state.condition
     const startDate = this.state.startDay
-    const storeID = this.state.storeId
-    const token = this.state.token
+    const storeID = this.props.storeId
+    // const collabID = (this.props.collabId || "")
+    const token = this.props.token
 
-    // if (name.trim().length === 0 || condition.trim().length === 0) {
-    //   return;
-    // }
 
     let requestBody = createCoupon(
       name,
@@ -83,7 +124,8 @@ class Customer extends Component {
       details,
       condition,
       startDate,
-      storeID
+      storeID,
+      // collabID
     )
 
     fetch("http://18.218.142.78/test/graphql", {
@@ -96,7 +138,8 @@ class Customer extends Component {
     })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!")
+          console.log(res)
+          throw new Error(res)
         }
         return res.json()
       })
@@ -113,8 +156,12 @@ class Customer extends Component {
   render() {
     const { classes } = this.props
     const { handleChange, handleDate } = this
+
     return (
       <Fragment>
+        <Typography variant="h5" component="h2" className={classes.title}>
+          Create Coupon
+        </Typography>
 
         <form className="auth-form loginForm" onSubmit={this.submitHandler}>
           <div className={classes.inputLabel}>

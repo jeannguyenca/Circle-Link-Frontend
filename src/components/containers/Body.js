@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import { Route, Switch } from "react-router-dom"
+import { Redirect } from "react-router-dom"
+
 // import { Query } from "react-apollo"
 // import { Redirect } from "react-router-dom"
 // import gql from "graphql-tag"
@@ -13,9 +15,10 @@ import Dashboard from "../pages/Dashboard"
 import ViewCoupon from "../pages/ViewCoupon"
 import CreateCoupon from "../pages/CreateCoupon"
 import ChooseCollab from "../pages/ChooseCollab"
+import getStoreId from "../../graphql/getStoreId"
 
-import customerStat from "../../data/customers.js"
-import coupnStat from "../../data/coupons.js"
+import customerStat from "../../data/customers"
+import couponStat from "../../data/coupons"
 
 const drawerWidth = 220
 
@@ -41,70 +44,168 @@ const styles = theme => ({
 })
 
 class Body extends Component {
+  state = {
+    isLogin: true,
+    id: "",
+    token: "",
+    storeId: "",
+    fetched: false,
+    userInfo: []
+  }
+  componentWillMount() {
+    if (sessionStorage.getItem("auth")) {
+      this.getUserInfo()
+    } else {
+      this.setState({ isLogin: false })
+    }
+  }
+
+  getUserInfo = () => {
+    let data = JSON.parse(sessionStorage.getItem("auth"))
+    let userInfo = {
+      id: data.userId,
+      token: data.token
+    }
+    this.setState(userInfo)
+    this.fetchstoreId(data.token)
+  }
+
+  fetchstoreId = token => {
+    let body = getStoreId()
+    fetch("http://18.218.142.78/test/graphql", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed!")
+        }
+        return res.json()
+      })
+      .then(resData => {
+        let result = resData.data.stores
+        if (!result.length == 0) {
+          this.setState({ storeId: result[0]._id, fetched: true }, () => {
+            // this.fetchCoupons(this.state.storeId)
+          })
+        } else {
+          this.setState({ fetched: true })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  logout = () => {
+    sessionStorage.setItem("auth", "")
+    sessionStorage.clear()
+    this.setState({ isLogin: false })
+  }
+
   render() {
     const { classes } = this.props
 
     const Wrapper = ({ children }) => (
-      // <ApolloConsumer>
-
-      // </ApolloConsumer>
-      // <Query query={IS_LOGGED_IN}>
-      //   {({ data }) =>
-      //     data.isLoggedIn ? (
-      //       <div className={classes.root}>{children}</div>
-      //     ) : (
-      //       <Redirect
-      //         to={{
-      //           pathname: "/login"
-      //         }}
-      //       />
-      //     )
-      //   }
-      // </Query>
       <div className={classes.root}>{children}</div>
     )
-    return (
-      <div className={classes.container}>
-        <Menu />
-        <Wrapper>
-          <Switch>
-            <Route exact path="/dashboard" component={Dashboard} />
-
-            <Route
-              path="/dashboard/stat/customers"
-              component={() => (
-                <Stats data={customerStat} keyData="customers" />
-              )}
+    if (this.state.fetched) {
+      console.log(this.state.token)
+      return (
+        <div className={classes.container}>
+          <Menu logout={this.logout} />
+          {!this.state.isLogin ? (
+            <Redirect
+              to={{
+                pathname: "/login"
+              }}
             />
-            <Route
-              path="/dashboard/stat/coupons"
-              component={() => <Stats data={coupnStat} keyData="coupons" />}
-            />
+          ): 
+          <Wrapper>
+            <Switch>
+              {/* Dashboard home */}
+              <Route exact path="/dashboard" component={Dashboard} />
 
-            <Route path="/dashboard/coupons/create" component={CreateCoupon} />
-            <Route path="/dashboard/coupons" component={ViewCoupon} />
+              {/* Statistics */}
+              <Route
+                path="/dashboard/stat/customers"
+                component={() => (
+                  <Stats data={customerStat} keyData="customers" />
+                )}
+              />
+              <Route
+                path="/dashboard/stat/coupons"
+                component={() => <Stats data={couponStat} keyData="coupons" />}
+              />
 
-            <Route path="/dashboard/collab/create" component={ChooseCollab} />
-            <Route
-              path="/dashboard/collab/createCoupon/:collabStore"
-              component={CreateCoupon}
-            />
-            <Route
-              path="/dashboard/collab"
-              component={() => (
-                <ViewCoupon
-                  storeId="5c8964fd425d32025f175ad5"
-                  option="collab"
-                />
-              )}
-            />
+              {/* Coupons */}
+              <Route
+                path="/dashboard/coupons/create"
+                component={() => (
+                  <CreateCoupon
+                    token={this.state.token}
+                    storeId={this.state.storeId}
+                  />
+                )}
+              />
+              <Route
+                path="/dashboard/coupons"
+                render={() => (
+                  <ViewCoupon
+                    token={this.state.token}
+                    storeId={this.state.storeId}
+                  />
+                )}
+              />
 
-            <Route path="/dashboard/support" component={Stats} />
-            <Route path="/dashboard/feedback" component={Stats} />
-          </Switch>
-        </Wrapper>
-      </div>
-    )
+              {/* Collabs */}
+              <Route path="/dashboard/collab/create" component={ChooseCollab} />
+              <Route
+                path="/dashboard/collab/createCoupon/:collabStore"
+                render={({ match }) => (
+                  <CreateCoupon
+                    token={this.state.token}
+                    storeId={this.state.storeId}
+                    collabId={match.params.collabStore}
+                  />
+                )}
+              />
+              <Route
+                path="/dashboard/collab"
+                component={() => (
+                  <ViewCoupon
+                    token={this.state.token}
+                    storeId={this.state.storeId}
+                    option="collab"
+                  />
+                )}
+              />
+
+              <Route
+                path="/dashboard/collab"
+                component={() => (
+                  <ViewCoupon storeId={this.state.storeId} option="collab" />
+                )}
+              />
+
+              {/* Supports */}
+              <Route path="/dashboard/support" component={Stats} />
+              <Route path="/dashboard/feedback" component={Stats} />
+            </Switch>
+          </Wrapper>}
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Menu logout={this.logout} />
+        </div>
+      )
+    }
   }
 }
 export default withStyles(styles)(Body)

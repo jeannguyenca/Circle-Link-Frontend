@@ -68,7 +68,6 @@ const Login = props => {
         </Grid>
         <Grid item xs={10}>
           <TextField
-            id="outlined-with-placeholder"
             className={classes.textField}
             margin="normal"
             variant="outlined"
@@ -83,7 +82,6 @@ const Login = props => {
         </Grid>
         <Grid item xs={10}>
           <TextField
-            id="outlined-with-placeholder"
             className={classes.textField}
             margin="normal"
             variant="outlined"
