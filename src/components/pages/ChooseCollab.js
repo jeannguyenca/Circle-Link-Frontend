@@ -49,7 +49,6 @@ class ChooseCollab extends React.Component {
         {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
           if (error) return <p>ERROR</p>
-
           return (
             <Grid container className={classes.root} spacing={40}>
               <Grid item xs={12} sm={5}>
@@ -67,10 +66,11 @@ class ChooseCollab extends React.Component {
                             <SingleCollab {...store} />
                             
                           </ListItem>
-                          <Link
-                            to={`/dashboard/collab/createCoupon/${store._id}`}
-                          // className={classes.link}
-                          >
+            
+                          <Link to={{
+                              pathname: `/dashboard/collab/createCoupon/${store._id}`
+                            }}>
+
                             <Button
                               variant="outlined"
                               color="primary"

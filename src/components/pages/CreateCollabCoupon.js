@@ -4,6 +4,8 @@ import { Button, Typography, Grid, InputLabel, TextField, InputAdornment } from 
 import createCoupon from '../../graphql/createCoupon'
 import createCollabCoupon from '../../graphql/createCollabCoupon'
 import getStoreId from '../../graphql/getStoreId'
+import { Redirect } from "react-router-dom"
+// import fetchData from '../function/fetchDataData'
 
 const styles = theme => ({
   root: {
@@ -39,116 +41,113 @@ const styles = theme => ({
 
 class Customer extends Component {
  
-  state = {
-    isLogin: true,
-    id: "",
-    token: "",
-    storeId: "", 
-    fetched: false,
-}
-
-componentWillMount() {
-    if (sessionStorage.getItem("auth")) {
-      this.getUserInfo();
-    } else {
-      this.setState({ isLogin: false });
+    state = {
+        isLogin: true,
+        id: "",
+        token: "",
+        storeId: "", 
+        fetched: false,
     }
-}
 
-getUserInfo = () => {
-  let data = JSON.parse(sessionStorage.getItem("auth"));
-  let userInfo = {
-      id: data.userId,
-      token: data.token,
-  }
-  this.setState(userInfo);
-  this.fetchStoreId(data.token);
-}
-
-fetchStoreId = async(token) =>{
-  let body = getStoreId();
-  fetch('http://18.218.142.78/test/graphql', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-      }
-  })
-  .then(res => {
-      if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Failed!');
-      }
-      return res.json();
-  })
-  .then(resData => {
-      this.setState({ storeId: resData.data.stores[0]._id });
-  })
-  .catch(err => {
-      console.log(err);
-  });
-};
-
-  handleChange = e => {
-    e.preventDefault();
-    this.setState({
-      [e.target['name']]: e.target['value']
-    })
-  };
-
-  handleDate = e => {
-    e.preventDefault();
-    this.setState({
-      [e.target['name']]: new Date(e.target['value']).toISOString()
-    })
-  };
-
-  submitHandler = event => {
-    event.preventDefault();
-
-    const name = this.state.name;
-    const description = this.state.description;
-    const details = this.state.details;
-    const condition = this.state.condition;
-    const startDate = this.state.startDay;
-    const storeID = this.state.storeId;
-    const token = this.state.token
-
-
-    let requestBody = createCollabCoupon(name, description, details, condition, startDate, storeID);
-
-
-
-    fetch('http://18.218.142.78/test/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Failed!');
+    componentWillMount() {
+        this.setState({collabID: this.props.match.params.collabStores, startDay: this.formatDate()})
+        if (sessionStorage.getItem("auth")) {
+            this.getUserInfo();
+        } else {
+            this.setState({ isLogin: false });
         }
-        return res.json();
-      })
-      .then(resData => {
-        console.log('result-from-login', resData);
-        this.setState({ result: resData });
+    }
+
+    getUserInfo = () => {
+        let data = JSON.parse(sessionStorage.getItem("auth"));
+        let userInfo = {
+            id: data.userId,
+            token: data.token,
+        }
+        this.setState(userInfo);
+        this.setState({storeID: this.props.storeid}, () =>{
+            console.log(this.state.storeId)
+        })
+    }
+
+    handleChange = e => {
+        e.preventDefault();
+        this.setState({
+        [e.target['name']]: e.target['value']
+        })
+    }
+
+    handleDate = e => {
+        e.preventDefault();
+        this.setState({
+        [e.target['name']]: new Date(e.target['value']).toISOString()
+        })
+    }
+
+    formatDate = () => {
+        var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
 
 
-      })
-      .catch(err => {
-        console.log(err);
-        console.log(JSON.stringify(requestBody));
-      });
-  };
+    submitHandler = event => {
+        event.preventDefault();
+
+        const { name, description, details, condition, startDay, storeID, token, collabID } = this.state
+        
+        let requestBody = createCollabCoupon(name, description, details, condition, startDay, storeID, collabID);
+        
+        // fetchData(token, requestBody).then(result => {
+        //     let response = result;
+        //     console.log(response);
+        // })
+
+        fetch('http://18.218.142.78/test/graphql', {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+
+        }
+        })
+        .then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+            throw new Error('Failed!');
+            }
+            return res.json();
+        })
+        .then(resData => {
+            console.log('result-from-login', resData);
+            this.setState({ result: resData });
+        })
+        .catch(err => {
+            console.log(err);
+            console.log(JSON.stringify(requestBody));
+        });
+
+    };
 
   render() {
     const { classes } = this.props;
-    const { handleChange, handleDate } = this;
+    const { handleChange, handleDate, formatDate } = this;
+    if(this.state.result){
+    return (
+        <Redirect
+            to={{
+            pathname: "/dashboard/collab/coupon/success",
+            state: { result: this.state.result }
+            }}
+        />
+        )
+    }
     return (
       <Fragment>
         <Typography variant="h5" component="h2" className={classes.title}>
@@ -219,7 +218,7 @@ fetchStoreId = async(token) =>{
                   name="startDay"
                   variant="outlined"
                   type="date"
-                  defaultValue="2017-05-24"
+                  defaultValue={formatDate()}
                   onChange={handleDate}
                   InputLabelProps={{
                     shrink: true,

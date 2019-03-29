@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Typography, Grid, InputLabel, TextField, InputAdornment } from '@material-ui/core/';
 import createCoupon from '../../graphql/createCoupon'
 import getStoreId from '../../graphql/getStoreId'
+import { Redirect } from "react-router-dom"
 
 const styles = theme => ({
   root: {
@@ -46,7 +47,9 @@ class Customer extends Component {
     fetched: false,
 }
 
+
 componentWillMount() {
+  this.setState({startDay: this.formatDate()})
     if (sessionStorage.getItem("auth")) {
       this.getUserInfo();
     } else {
@@ -102,21 +105,23 @@ fetchStoreId = async(token) =>{
     })
   };
 
+  formatDate = () => {
+    var d = new Date(),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   submitHandler = event => {
     event.preventDefault();
 
-    const name = this.state.name;
-    const description = this.state.description;
-    const details = this.state.details;
-    const condition = this.state.condition;
-    const startDate = this.state.startDay;
-    const storeID = this.state.storeId;
-    const token = this.state.token
-
-
-    let requestBody = createCoupon(name, description, details, condition, startDate, storeID);
-
-
+    const { name, description, details, condition, startDay, storeId, token } = this.state
+    let requestBody = createCoupon(name, description, details, condition, startDay, storeId);
 
     fetch('http://18.218.142.78/test/graphql', {
       method: 'POST',
@@ -124,7 +129,6 @@ fetchStoreId = async(token) =>{
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-
       }
     })
       .then(res => {
@@ -136,8 +140,6 @@ fetchStoreId = async(token) =>{
       .then(resData => {
         console.log('result-from-login', resData);
         this.setState({ result: resData });
-
-
       })
       .catch(err => {
         console.log(err);
@@ -147,7 +149,19 @@ fetchStoreId = async(token) =>{
 
   render() {
     const { classes } = this.props;
-    const { handleChange, handleDate } = this;
+    const { handleChange, handleDate, formatDate } = this;
+
+    if(this.state.result){
+      return (
+          <Redirect
+              to={{
+              pathname: "/dashboard/coupon/success",
+              state: { result: this.state.result }
+              }}
+          />
+          )
+      }
+
     return (
       <Fragment>
         <Typography variant="h5" component="h2" className={classes.title}>
@@ -218,7 +232,7 @@ fetchStoreId = async(token) =>{
                   name="startDay"
                   variant="outlined"
                   type="date"
-                  defaultValue="2017-05-24"
+                  defaultValue={formatDate()}
                   onChange={handleDate}
                   InputLabelProps={{
                     shrink: true,

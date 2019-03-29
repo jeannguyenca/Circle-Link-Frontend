@@ -6,9 +6,11 @@ import Menu from "./Menu"
 import Stats from "../pages/Stats"
 import Dashboard from "../pages/Dashboard"
 import ViewCoupon from "../pages/ViewCoupon"
+import ViewCollabCoupons from "../pages/ViewCollabCoupons"
 import CreateCoupon from "../pages/CreateCoupon"
 import CreateCollabCoupon from "../pages/CreateCollabCoupon"
 import ChooseCollab from "../pages/ChooseCollab"
+import Success from "../pages/Success"
 import { Redirect } from "react-router-dom"
 import getStoreId from '../../graphql/getStoreId'
 
@@ -121,9 +123,19 @@ class Body extends Component {
             <Route path="/dashboard/coupons" render={()=><ViewCoupon token={this.state.token} storeid={this.state.storeId}/>} />
 
             <Route path="/dashboard/collab/create" component={ChooseCollab} />
-            <Route path="/dashboard/collab/createCoupon/:collabStore" component={CreateCollabCoupon} />
-            <Route path="/dashboard/collab" component={Stats} />
+            <Route 
+            path="/dashboard/collab/createCoupon/:collabStores" 
+            render={(props) => <CreateCollabCoupon {...props} token={this.state.token} storeid={this.state.storeId}/>}
+             />
+             <Route path="/dashboard/collab/coupon/success" component={Success} />
 
+            <Route 
+            path="/dashboard/collab"
+            render={(props) => <ViewCollabCoupons {...props} token={this.state.token} storeid={this.state.storeId}/>} 
+            />
+
+            <Route path="/dashboard/coupon/success" component={Success} />
+            
             <Route path="/dashboard/support" component={Stats} />
             <Route path="/dashboard/feedback" component={Stats} />
           </Switch>

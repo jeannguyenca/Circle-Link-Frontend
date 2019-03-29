@@ -58,13 +58,12 @@ class Dashboard extends Component {
             token: data.token,
         }
         this.setState(userInfo);
+        console.log(this.props)
     }
     
   render() {
 
     const { classes } = this.props;
-
-
     return (
         <Fragment>
             <Typography variant="h5" component="h2" className={classes.title}>
