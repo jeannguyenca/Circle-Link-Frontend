@@ -7,10 +7,10 @@ import Typography from "@material-ui/core/Typography"
 import red from "@material-ui/core/colors/red"
 import grey from "@material-ui/core/colors/grey"
 
-import InformationBlock from "../parts/Landing/InformationBlock"
-
 import user from "../../assets/icons/profile.svg"
 import lock from "../../assets/icons/password.svg"
+import google from "../../assets/icons/logo_google.svg"
+import google_white from "../../assets/icons/logo_google_white.svg"
 
 const styles = theme => ({
   container: {
@@ -35,11 +35,34 @@ const styles = theme => ({
   button: {
     width: "100%",
     boxShadow: "none"
+  },
+  login: {
+    border: `1px solid white`,
+    "&:hover": {
+      background: "white",
+      color: theme.palette.primary.main,
+      border: `1px solid ${theme.palette.primary.main}`
+    }
+  },
+  google: {
+    // border: `1px solid white`,
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white"
+      // border: `1px solid ${theme.palette.primary.main}`
+    },
+    "&:hover img": {
+      content: `url(${google_white})`
+    }
+  },
+  googleIcon: {
+    paddingRight: "10px"
   }
 })
 
 const Login = props => {
   const { classes, handleChange, onSubmit, googleLogin } = props
+
   return (
     <form className={classes.form} onSubmit={onSubmit}>
       <Grid
@@ -128,6 +151,11 @@ const Login = props => {
             color="primary"
             onClick={googleLogin}
           >
+            <img
+              src={google}
+              alt="Google logo"
+              className={classes.googleIcon}
+            />
             Log In with Gmail
           </Button>
         </Grid>

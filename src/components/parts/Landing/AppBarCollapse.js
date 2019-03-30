@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import ButtonAppBarCollapse from "../Landing/ButtonAppBarCollapse"
 import PropTypes from "prop-types"
-import { Link, animateScroll as scroll } from "react-scroll"
+import { Link } from "react-scroll"
 
 import LogoText from "../../../assets/logo_text.svg"
 import LogoIcon from "../../../assets/logo_icon.svg"

@@ -101,8 +101,8 @@ const AppBarDashBoard = props => {
           container
           alignItems="center"
         >
-          {props.email && (
-            <TopMenuList email={props.email} logout={props.logout} />
+          {props.name && (
+            <TopMenuList name={props.name} logout={props.logout} />
           )}
         </Grid>
       </Grid>

@@ -9,6 +9,7 @@ async function fetchFunction(body, token) {
         Authorization: `Bearer ${token}`
       }
     })
+    
     const res = await fetching
 
     if (res.status !== 200 && res.status !== 201) {

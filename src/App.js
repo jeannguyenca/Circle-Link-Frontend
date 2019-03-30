@@ -6,7 +6,7 @@ import "./App.css"
 import Body from "./components/containers/Body"
 import Landing from "./components/pages/Landing"
 import Authentication from "./components/pages/Authentication"
-import Register from "./components/pages/Register"
+// import Register from "./components/pages/Register"
 import Forgot from "./components/pages/Forgot"
 
 //custom theme color

@@ -119,6 +119,7 @@ class Authentication extends Component {
     sessionStorage.setItem("auth", JSON.stringify(resData.data.login))
     this.setState({ auth: resData.data.login })
   }
+  
 
   componentDidMount() {
     if (window.location.href.includes("code")) {

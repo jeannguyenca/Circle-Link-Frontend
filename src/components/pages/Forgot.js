@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
-import Styled, {ThemeProvider} from "styled-components";
-import { Link } from 'react-router-dom';
-import {Grid, Button, TextField} from '@material-ui/core/';
+import React, { Component } from 'react'
+import Styled, {ThemeProvider} from "styled-components"
+import { Link } from 'react-router-dom'
+import {Grid, Button, TextField} from '@material-ui/core/'
 
 
 
-import backGround from '../../assets/contact_blur.jpg';
-import logoText from '../../assets/logo_text.svg';
-import login from "../../graphql/authentication";
+import backGround from '../../assets/contact_blur.jpg'
+import logoText from '../../assets/logo_text.svg'
+import login from "../../graphql/authentication"
 
-import { theme } from '../parts/theme';
-import user from '../../assets/icons/profile.svg';
-import lock from '../../assets/icons/password.svg';
+import { theme } from '../parts/theme'
+import user from '../../assets/icons/profile.svg'
 
 
 let Figure = Styled.figure`

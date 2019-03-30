@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react"
-import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
 import gql from "graphql-tag"
@@ -19,16 +18,9 @@ const GET_COUPONS = gql`
   }
 `
 
-const styles = {
-  title: {
-    margin: "0 10px",
-    padding: "10px 0"
-  }
-}
-
 class ViewCoupon extends Component {
   render() {
-    const { classes, storeId, option } = this.props
+    const { storeId, option } = this.props
     return (
       <Fragment>
         <Query query={GET_COUPONS} variables={{ storeId, option }}>
@@ -56,4 +48,4 @@ class ViewCoupon extends Component {
   }
 }
 
-export default withStyles(styles)(ViewCoupon)
+export default ViewCoupon

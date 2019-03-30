@@ -156,6 +156,9 @@ class ResponsiveDrawer extends React.Component {
   checkCurrentPath() {
     const path = window.location.pathname
 
+    const pathArray = path.split("/")
+    const truePath = pathArray.splice(1, pathArray.length - 2).join("/")
+
     if (linkTo[0].indexOf(path) !== -1) {
       return `0${linkTo[0].indexOf(path)}`
     } else if (linkTo[1].indexOf(path) !== -1) {
@@ -164,6 +167,8 @@ class ResponsiveDrawer extends React.Component {
       return `2${linkTo[2].indexOf(path)}`
     } else if (linkTo[3].indexOf(path) !== -1) {
       return `3${linkTo[3].indexOf(path)}`
+    } else if ("dashboard/collab/createCoupon" === truePath) {
+      return `20`
     }
   }
 
@@ -245,13 +250,13 @@ class ResponsiveDrawer extends React.Component {
                 this.state.selectedIndex % 10
               ]
             }
-            email={this.props.email}
+            name={this.props.name}
             logout={this.props.logout}
           />
         ) : (
           <AppBar
             handleDrawerToggle={this.handleDrawerToggle}
-            email={this.props.email}
+            name={this.props.name}
             logout={this.props.logout}
           />
         )}

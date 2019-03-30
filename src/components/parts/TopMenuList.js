@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles"
 import { Typography, Hidden } from "@material-ui/core"
 
 import Notification from "../../assets/icons/notification.svg"
-import Profile from "../../assets/icons/profile.svg"
 
 import DropDown from "./DropDownTopMenuList"
 
@@ -29,11 +28,7 @@ const styles = theme => ({
 })
 
 const TopMenuList = props => {
-  const { classes, email } = props
-  let name
-  if (email) {
-    name = email.split("@")[0]
-  }
+  const { classes, name } = props
 
   return (
     <React.Fragment>
