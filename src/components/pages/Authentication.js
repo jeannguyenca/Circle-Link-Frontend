@@ -3,8 +3,6 @@ import { withStyles } from "@material-ui/core/styles"
 import { Grid, Hidden } from "@material-ui/core/"
 
 import { Link, Redirect } from "react-router-dom"
-import { Query } from "react-apollo"
-import gql from "graphql-tag"
 
 import LoginForm from "../parts/LoginForm"
 import InformationBlock from "../parts/Landing/InformationBlock"
@@ -13,6 +11,8 @@ import background from "../../assets/contact_blur.jpg"
 import logoText from "../../assets/logo_white.png"
 
 import login, { googleLogin } from "../../graphql/authentication"
+
+import fetchFunction from "../../graphql/fetchFunction"
 
 const styles = theme => ({
   container: {
@@ -52,6 +52,7 @@ class Authentication extends Component {
       email: "",
       password: ""
     }
+    this.submitHandler = this.submitHandler.bind(this)
   }
 
   handleChange = e => {
@@ -87,41 +88,19 @@ class Authentication extends Component {
     }
   }
 
-  retriveGoogleCode = () => {
+  async retriveGoogleCode() {
     var params = new URLSearchParams(window.location.search)
     var code = params.get("code")
 
-    let requestBody = googleLogin(code)
+    let body = googleLogin(code)
 
-    fetch("http://18.218.142.78/test/graphql", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!")
-        }
-        return res.json()
-      })
-      .then(resData => {
-        sessionStorage.setItem("auth", JSON.stringify(resData.data.googleUser))
-        this.setState({ auth: resData.data.googleUser })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    const resData = await fetchFunction(body, this.state.token)
+
+    sessionStorage.setItem("auth", JSON.stringify(resData.data.googleUser))
+    this.setState({ auth: resData.data.googleUser })
   }
 
-  componentDidMount() {
-    if (window.location.href.includes("code")) {
-      this.retriveGoogleCode()
-    }
-  }
-
-  submitHandler = event => {
+  async submitHandler(event) {
     event.preventDefault()
     const email = this.state.email
     const password = this.state.password
@@ -130,32 +109,21 @@ class Authentication extends Component {
       return
     }
 
-    let requestBody = login(email, password)
+    let body = login(email, password)
 
     if (!this.state.isLogin) {
       // requestBody = createUser(email, password, name, address)
     }
 
-    fetch("http://18.218.142.78/test/graphql", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!")
-        }
-        return res.json()
-      })
-      .then(resData => {
-        sessionStorage.setItem("auth", JSON.stringify(resData.data.login));
-        this.setState({ auth: resData.data.login });
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    const resData = await fetchFunction(body, this.state.token)
+    sessionStorage.setItem("auth", JSON.stringify(resData.data.login))
+    this.setState({ auth: resData.data.login })
+  }
+
+  componentDidMount() {
+    if (window.location.href.includes("code")) {
+      this.retriveGoogleCode()
+    }
   }
 
   render() {
@@ -182,14 +150,13 @@ class Authentication extends Component {
             <img src={logoText} alt="Logo Text" className={classes.logo} />
           </Link>
           <Hidden smDown implementation="css">
-
-          <InformationBlock
-            // header_align={data.header_align}
-            header_1={["Hello, ", <br key="1" />, "Partner!"]}
-            para="With CircleLink, you can have a one-stop-shop application that will
+            <InformationBlock
+              // header_align={data.header_align}
+              header_1={["Hello, ", <br key="1" />, "Partner!"]}
+              para="With CircleLink, you can have a one-stop-shop application that will
             provide an optimized and attractive system for your business."
-            align="left"
-          />
+              align="left"
+            />
           </Hidden>
         </Grid>
         <Grid item xs={12} md={1} className={classes.item} />

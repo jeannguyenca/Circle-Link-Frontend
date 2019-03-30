@@ -2,14 +2,16 @@ import React, { Component, Fragment } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import {
   Button,
-  Typography,
   Grid,
   InputLabel,
   TextField,
   InputAdornment
 } from "@material-ui/core/"
-import createCoupon, {createCollabCoupon} from "../../graphql/createCoupon"
-import getStoreId from "../../graphql/getStoreId"
+import { Redirect } from "react-router-dom"
+
+import createCoupon, { createCollabCoupon } from "../../graphql/createCoupon"
+import fetchFunction from "../../graphql/fetchFunction"
+import { today } from "../../helpers/DateFormat"
 
 const styles = theme => ({
   root: {
@@ -43,52 +45,15 @@ const styles = theme => ({
 })
 
 class Customer extends Component {
+  constructor(props) {
+    super(props)
+    this.submitHandler = this.submitHandler.bind(this)
+  }
   state = {
-    isLogin: true,
     token: this.props.token,
-    fetched: false
-  }
-
-  componentWillMount() {
-    if (sessionStorage.getItem("auth")) {
-      this.getUserInfo()
-    } else {
-      this.setState({ isLogin: false })
-    }
-  }
-
-  getUserInfo = () => {
-    let data = sessionStorage.getItem("auth")
-    let userInfo = {
-      id: data.userId,
-      token: data.token
-    }
-    this.setState(userInfo)
-    this.fetchStoreId(data.token)
-  }
-
-  fetchStoreId = async token => {
-    let body = getStoreId()
-    fetch("http://18.218.142.78/test/graphql", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!")
-        }
-        return res.json()
-      })
-      .then(resData => {
-        this.setState({ storeId: resData.data.stores[0]._id })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    fetched: false,
+    startDay: new Date().toISOString(),
+    endDay: new Date().toISOString()
   }
 
   handleChange = e => {
@@ -105,7 +70,7 @@ class Customer extends Component {
     })
   }
 
-  submitHandler = event => {
+  async submitHandler(event) {
     event.preventDefault()
 
     const name = this.state.name
@@ -113,6 +78,7 @@ class Customer extends Component {
     const details = this.state.details
     const condition = this.state.condition
     const startDate = this.state.startDay
+    const endDate = this.state.endDay
     const storeID = this.props.storeId
     const collabID = this.props.collabId
     const token = this.props.token
@@ -120,13 +86,13 @@ class Customer extends Component {
     let requestBody
 
     if (collabID) {
-      console.log("CollabID: " + collabID)
       requestBody = createCollabCoupon(
         name,
         description,
         details,
         condition,
         startDate,
+        endDate,
         storeID,
         collabID
       )
@@ -137,43 +103,27 @@ class Customer extends Component {
         details,
         condition,
         startDate,
-        storeID,
-        // collabID
+        endDate,
+        storeID
       )
     }
 
-
-    fetch("http://18.218.142.78/test/graphql", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          console.log(res)
-          throw new Error(res)
-        }
-        return res.json()
-      })
-      .then(resData => {
-        console.log("result-from-login", resData)
-        this.setState({ result: resData })
-      })
-      .catch(err => {
-        console.log(err)
-        console.log(JSON.stringify(requestBody))
-      })
+    const resData = await fetchFunction(requestBody, token)
+    this.setState({ result: resData, fetched: true })
   }
 
   render() {
     const { classes } = this.props
     const { handleChange, handleDate } = this
-
     return (
       <Fragment>
+        {this.state.fetched && (
+          <Redirect
+            to={{
+              pathname: "/dashboard/collab"
+            }}
+          />
+        )}
         <form className="auth-form loginForm" onSubmit={this.submitHandler}>
           <div className={classes.inputLabel}>
             <InputLabel className={classes.input} htmlFor="name-input">
@@ -250,7 +200,7 @@ class Customer extends Component {
                   name="startDay"
                   variant="outlined"
                   type="date"
-                  defaultValue="2017-05-24"
+                  defaultValue={today()}
                   onChange={handleDate}
                   InputLabelProps={{
                     shrink: true
@@ -266,8 +216,8 @@ class Customer extends Component {
                   name="endDay"
                   variant="outlined"
                   type="date"
-                  defaultValue="2017-05-24"
-                  // onChange={handleChange}
+                  defaultValue={today()}
+                  onChange={handleDate}
                   InputLabelProps={{
                     shrink: true
                   }}

@@ -20,6 +20,8 @@ import getStoreId from "../../graphql/getStoreId"
 import customerStat from "../../data/customers"
 import couponStat from "../../data/coupons"
 
+import fetchFunction from "../../graphql/fetchFunction"
+
 const drawerWidth = 220
 
 const styles = theme => ({
@@ -42,8 +44,6 @@ const styles = theme => ({
     }
   }
 })
-
-const GRAPHQL_LINK = `${process.env.GRAPHQL_LINK}`
 
 class Body extends Component {
   state = {
@@ -69,27 +69,10 @@ class Body extends Component {
     this.setState(userInfo)
   }
 
-  fetchstoreId = () => {
+  async fetchstoreId() {
     let body = getStoreId()
-    console.log(GRAPHQL_LINK)
-    console.log(process.env.REACT_APP_GOOGLE_MAP_KEY)
-    
-    fetch(GRAPHQL_LINK, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.state.token}`
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed!")
-        }
-        return res.json()
-      })
-      .then(resData => {
-        let result = resData.data.stores
+    const resData = await fetchFunction(body, this.state.token)
+    let result = resData.data.stores
         if (result.length !== 0) {
           this.setState({
             storeId: result[0]._id,
@@ -99,10 +82,6 @@ class Body extends Component {
         } else {
           this.setState({ fetched: false })
         }
-      })
-      .catch(err => {
-        console.log(err)
-      })
   }
 
   logout = () => {

@@ -7,38 +7,6 @@ import { Query } from "react-apollo"
 
 import SingleCoupon from "../parts/SingleCoupon"
 
-// const client = new ApolloClient({
-//     uri: "http://18.218.142.78/test/graphql"
-//   });
-
-// client
-// .query({
-// query: gql`
-// {
-//     coupons {
-//       _id
-//       name
-//       store {
-//         storename
-//       }
-//     }
-//   }
-// `
-// })
-// .then(result => console.log(result));
-
-// const GET_COUPONS = gql`
-//   {
-//     coupons(option: "mystore") {
-//       _id
-//       name
-//       store {
-//         storename
-//       }
-//     }
-//   }
-// `
-
 const GET_COUPONS = gql`
   query coupons($storeId: ID, $option: String) {
     coupons(storeId: $storeId, option: $option) {
@@ -50,28 +18,6 @@ const GET_COUPONS = gql`
     }
   }
 `
-
-// const Coupons = () => (
-//     <Query query={GET_COUPONS}>
-//       {({ loading, error, data }) => {
-//           console.log('Data:', data);
-//         if (loading) return "Loading...";
-//         if (error) return `Error! ${error.message}`;
-
-//         return (
-//           <div>
-//             {data.coupons.map(coupons => (
-//                 <div>
-//                 <h1>{coupons.name}</h1>
-//                 <p>{coupons._id}</p>
-//                 <p>{coupons.store.storename}</p>
-//                 </div>
-//             ))}
-//           </div>
-//         );
-//       }}
-//     </Query>
-//   );
 
 const styles = {
   title: {

@@ -37,7 +37,7 @@ const TopMenuList = props => {
 
   return (
     <React.Fragment>
-      <Hidden xsDown implementation="css">
+      <Hidden smDown implementation="css">
         <img src={Notification} alt="notification" className={`${classes.icon} ${classes.notification}`} />
       </Hidden>
       <Hidden mdDown implementation="css">
