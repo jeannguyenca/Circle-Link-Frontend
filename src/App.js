@@ -6,8 +6,6 @@ import "./App.css"
 import Body from "./components/containers/Body"
 import Landing from "./components/pages/Landing"
 import Authentication from "./components/pages/Authentication"
-// import Register from "./components/pages/Register"
-import Forgot from "./components/pages/Forgot"
 
 //custom theme color
 const theme = createMuiTheme({
@@ -94,7 +92,7 @@ class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route exact path="/login" component={Authentication} />
               {/* <Route exact path="/signup" component={Register} /> */}
-              <Route exact path="/forgot" component={Forgot} />
+              {/* <Route exact path="/forgot" component={Forgot} /> */}
 
               <Route path="/dashboard" component={Body} />
             </Switch>

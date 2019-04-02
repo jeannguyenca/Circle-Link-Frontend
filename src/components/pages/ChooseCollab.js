@@ -1,5 +1,4 @@
 import React from "react"
-import { Query } from "react-apollo"
 import gql from "graphql-tag"
 import Grid from "@material-ui/core/Grid"
 import { withStyles } from "@material-ui/core/styles"
@@ -11,6 +10,9 @@ import {
   Link,
   Typography
 } from "@material-ui/core/"
+
+import { getStores } from "../../graphql/stores"
+import fetchFunction from "../../graphql/fetchFunction"
 
 import SingleCollab from "../parts/SingleCollab"
 import MapHandle from "../parts/MapHandle"
@@ -57,15 +59,6 @@ const styles = theme => ({
   }
 })
 
-const GET_STORES = gql`
-  query {
-    stores {
-      _id
-      storename
-      address
-    }
-  }
-`
 class ChooseCollab extends React.Component {
   state = {
     selectedIndex: 0
@@ -75,23 +68,42 @@ class ChooseCollab extends React.Component {
       selectedIndex: index
     })
   }
+  async fetchData() {
+    // const { storeId, token } = this.props
+
+    let requestBody = getStores()
+
+    const resData = await fetchFunction(requestBody, "")
+    if (this._isMounted) {
+      this.setState({ stores: resData.data.stores })
+    }
+    console.log(resData)
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+    this.fetchData()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+
+  // shouldComponentUpdate(prepState) {
+  //   return prepState.stores !== this.state.stores
+  // }
+
   launches() {
     const { classes, storeId, address } = this.props
-    return (
-      <Query query={GET_STORES}>
-        {({ data, loading, error }) => {
-          if (loading) return <p>Loading...</p>
-          if (error) return <p>ERROR</p>
-          let storeList = data.stores
+    let storeList = this.state.stores
 
-          for (let i = 0; i < storeList.length; i++) {
-            if (storeList[i]._id === storeId) {
-              storeList.splice(i, 1)
-            }
-          }
+    for (let i = 0;i < storeList.length;i++) {
+      if (storeList[i]._id === storeId) {
+        storeList.splice(i, 1)
+      }
+    }
 
-          return (
-            <Grid container className={classes.root} spacing={40}>
+    return (<Grid container className={classes.root} spacing={40}>
               <Grid item xs={12}>
                 <Typography
                   variant="h5"
@@ -144,21 +156,17 @@ class ChooseCollab extends React.Component {
               <Grid item xs={12} sm={7}>
                 {storeList && address && (
                   <MapHandle
-                    stores={data.stores}
+                    stores={storeList}
                     address={address}
                     selectedIndex={this.state.selectedIndex}
                   />
                 )}
               </Grid>
-            </Grid>
-          )
-        }}
-      </Query>
-    )
+            </Grid>)
   }
 
   render() {
-    return this.launches()
+    return (this.state.stores ? this.launches() : <p>Fetching...</p>)
   }
 }
 

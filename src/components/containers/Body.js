@@ -14,7 +14,7 @@ import customerStat from "../../data/customers.js"
 import coupnStat from "../../data/coupons.js"
 
 import fetchFunction from "../../graphql/fetchFunction"
-import getStoreId from "../../graphql/getStoreId"
+import getStoreId from "../../graphql/stores"
 
 const drawerWidth = 220
 

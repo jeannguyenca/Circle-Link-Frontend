@@ -16,4 +16,18 @@ const getStoreId = () => {
   }
 }
 
+export const getStores = () => {
+  return {
+    query: `
+      query {
+        stores {
+        _id
+        storename
+        address
+      }
+    }
+    `
+  }
+}
+
 export default getStoreId
