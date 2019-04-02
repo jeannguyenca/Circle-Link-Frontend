@@ -6,6 +6,7 @@ import "./App.css"
 import Body from "./components/containers/Body"
 import Landing from "./components/pages/Landing"
 import Authentication from "./components/pages/Authentication"
+import Coming from "./components/pages/Coming"
 
 //custom theme color
 const theme = createMuiTheme({
@@ -68,7 +69,7 @@ const theme = createMuiTheme({
     },
     MuiPrivateNotchedOutline: {
       root: {
-        borderRadius: 50,
+        borderRadius: 50
       },
       legend: {
         marginLeft: "10px"
@@ -91,7 +92,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/login" component={Authentication} />
-              {/* <Route exact path="/signup" component={Register} /> */}
+              <Route exact path="/signup" component={Coming} />
               {/* <Route exact path="/forgot" component={Forgot} /> */}
 
               <Route path="/dashboard" component={Body} />

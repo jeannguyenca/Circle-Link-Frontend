@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard"
 import ViewCoupon from "../pages/ViewCoupon"
 import CreateCoupon from "../pages/CreateCoupon"
 import ChooseCollab from "../pages/ChooseCollab"
+import Coming from "../pages/Coming"
 
 import customerStat from "../../data/customers.js"
 import coupnStat from "../../data/coupons.js"
@@ -114,7 +115,7 @@ class Body extends Component {
 
   render() {
     const { classes } = this.props
-    
+
     if (!this.state.isLogin) {
       return (
         <Redirect
@@ -164,16 +165,25 @@ class Body extends Component {
             />
             <Route
               path="/dashboard/coupons"
-              component={() => 
-              <ViewCoupon 
-              storeId={this.state.storeId} 
-              token={this.state.token}
-              option=""
-              />}
+              component={() => (
+                <ViewCoupon
+                  storeId={this.state.storeId}
+                  token={this.state.token}
+                  option=""
+                />
+              )}
             />
 
             {/* Collab coupons */}
-            <Route path="/dashboard/collab/create" component={() => <ChooseCollab storeId={this.state.storeId} address={this.state.address}/>} />
+            <Route
+              path="/dashboard/collab/create"
+              component={() => (
+                <ChooseCollab
+                  storeId={this.state.storeId}
+                  address={this.state.address}
+                />
+              )}
+            />
             <Route
               path="/dashboard/collab/createCoupon/:collabStore"
               component={() => (
@@ -187,15 +197,16 @@ class Body extends Component {
             <Route
               path="/dashboard/collab"
               component={() => (
-                <ViewCoupon 
-                storeId={this.state.storeId} 
+                <ViewCoupon
+                  storeId={this.state.storeId}
                   token={this.state.token}
-                option="collab" />
+                  option="collab"
+                />
               )}
             />
 
-            <Route path="/dashboard/support" component={Stats} />
-            <Route path="/dashboard/feedback" component={Stats} />
+            <Route path="/dashboard/support" component={Coming} />
+            <Route path="/dashboard/feedback" component={Coming} />
           </Switch>
         </Wrapper>
       </div>

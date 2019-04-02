@@ -36,8 +36,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "resolutions": {
-    "apollo-link-dedup": "^1.0.18"
-  }
+  ]
 }
