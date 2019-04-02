@@ -1,22 +1,36 @@
-FROM node:slim
+# Stage 1
+FROM node:8 as react-build
+WORKDIR /app
+COPY . ./
+RUN yarn
+RUN yarn build
 
-# Create app directory
-WORKDIR /usr/src/app
+# Stage 2 - the production environment
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=react-build /app/build /usr/share/nginx/html/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
-# Expose port for service
-EXPOSE 3000
+# FROM node:slim
 
-# Install and configure `serve`.
-RUN npm install -g serve
+# # Create app directory
+# WORKDIR /usr/src/app
 
-# Copy source code to image
-COPY . .
+# # Expose port for service
+# EXPOSE 3000
 
-# Install dependencies
-RUN yarn install --production
+# # Install and configure `serve`.
+# RUN npm install -g serve
 
-# Build app and start server from script
-CMD ["/usr/src/app/run"]
+# # Copy source code to image
+# COPY . .
+
+# # Install dependencies
+# RUN yarn install --production
+
+# # Build app and start server from script
+# CMD ["/usr/src/app/run"]
 
 # FROM node:8.10.0-alpine
 # RUN mkdir -p /code

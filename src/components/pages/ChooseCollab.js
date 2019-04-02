@@ -76,7 +76,6 @@ class ChooseCollab extends React.Component {
     if (this._isMounted) {
       this.setState({ stores: resData.data.stores })
     }
-    console.log(resData)
   }
 
   componentDidMount() {

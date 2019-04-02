@@ -69,6 +69,8 @@ class Authentication extends Component {
   }
 
   googleLogin = () => {
+    const url = window.location.href
+
     if (!window.location.href.includes("code")) {
       const clientId =
         "812921217937-d0gldtfcfa3r5c6c9rbqdc8tcnv7bt09.apps.googleusercontent.com"
@@ -78,7 +80,7 @@ class Authentication extends Component {
         `client_id=${clientId}&`,
         `response_type=code&`,
         `scope=openid%20email&`,
-        `redirect_uri=http://localhost:3000/login&`,
+        `redirect_uri=${url}&`,
         `access_type=offline`
       ].join("&")
     } else {
@@ -119,7 +121,6 @@ class Authentication extends Component {
     sessionStorage.setItem("auth", JSON.stringify(resData.data.login))
     this.setState({ auth: resData.data.login })
   }
-  
 
   componentDidMount() {
     if (window.location.href.includes("code")) {
