@@ -1,5 +1,6 @@
 const createCoupon = (
   name,
+  type,
   description,
   details,
   condition,
@@ -10,7 +11,7 @@ const createCoupon = (
   return {
     query: `
             mutation {
-                createCoupon(couponInput: {name: "${name}", description: "${description}", details: "${details}", condition: ${condition}, startDay: "${startDate}", expiredDay: "${endDate}"}, storeId: "${storeID}")
+                createCoupon(couponInput: {name: "${name}", description: "${description}", type: "${type}", details: "${details}", condition: ${condition}, startDay: "${startDate}", expiredDay: "${endDate}"}, storeId: "${storeID}")
                 {
                 _id
                 }
@@ -21,23 +22,54 @@ const createCoupon = (
 
 export const createCollabCoupon = (
   name,
+  type,
   description,
   details,
   condition,
   startDate,
-  endDate, 
+  endDate,
   storeID,
   collabId
 ) => {
   return {
     query: `
             mutation {
-                createCoupon(couponInput: {name: "${name}", description: "${description}", details: "${details}", condition: ${condition}, startDay: "${startDate}", expiredDay: "${endDate}"}, storeId: "${storeID}", collabId: "${collabId}")
+                createCoupon(couponInput: {name: "${name}", description: "${description}", type: "${type}", details: "${details}", condition: ${condition}, startDay: "${startDate}", expiredDay: "${endDate}"}, storeId: "${storeID}", collabId: "${collabId}")
                 {
                 _id
                 }
             }
         `
+  }
+}
+
+export const viewCoupon = (storeID, option) => {
+  return {
+    query: `
+      query {
+        coupons (storeId: "${storeID}",  option: "${option}") {
+          _id
+          name
+          description
+          condition
+          startDay
+          expiredDay
+        }
+      } 
+        `
+  }
+}
+
+export const deleteCoupon = couponId => {
+  return {
+    query: `
+    mutation {
+      deleteCoupon (couponId: "${couponId}") {
+        _id
+        storename
+      }
+    }
+    `
   }
 }
 

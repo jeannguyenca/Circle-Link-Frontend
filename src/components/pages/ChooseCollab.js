@@ -3,12 +3,14 @@ import { Query } from "react-apollo"
 import gql from "graphql-tag"
 import Grid from "@material-ui/core/Grid"
 import { withStyles } from "@material-ui/core/styles"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import Divider from "@material-ui/core/Divider"
-import Button from "@material-ui/core/Button"
-import Link from "@material-ui/core/Link"
-import Typography from "@material-ui/core/Typography"
+import {
+  List,
+  ListItem,
+  Divider,
+  Button,
+  Link,
+  Typography
+} from "@material-ui/core/"
 
 import SingleCollab from "../parts/SingleCollab"
 import MapHandle from "../parts/MapHandle"
@@ -42,7 +44,13 @@ const styles = theme => ({
     borderRadius: "10px"
   },
   button: {
-    margin: "20px"
+    margin: "20px",
+    textDecoration: "none",
+    "&:hover": {
+      background: theme.palette.primary.main,
+      color: "white",
+      textDecoration: "none"
+    }
   },
   divider: {
     marginBottom: "20px"
@@ -68,16 +76,21 @@ class ChooseCollab extends React.Component {
     })
   }
   launches() {
-    const { classes } = this.props
-
+    const { classes, storeId, address } = this.props
     return (
       <Query query={GET_STORES}>
         {({ data, loading, error }) => {
           if (loading) return <p>Loading...</p>
           if (error) return <p>ERROR</p>
+          let storeList = data.stores
+
+          for (let i = 0; i < storeList.length; i++) {
+            if (storeList[i]._id === storeId) {
+              storeList.splice(i, 1)
+            }
+          }
 
           return (
-            
             <Grid container className={classes.root} spacing={40}>
               <Grid item xs={12}>
                 <Typography
@@ -90,45 +103,49 @@ class ChooseCollab extends React.Component {
               </Grid>
               <Grid item xs={12} sm={5}>
                 <List className={classes.scrollList}>
-                  {data.stores &&
-                    data.stores.map((store, index) => {
+                  {storeList &&
+                    storeList.map((store, index) => {
                       return (
-                        // this.props.storeId !== store._id &&
-                        <React.Fragment key={index}>
-                          <ListItem
-                            button
-                            onClick={() => this.handleClick(index)}
-                            selected={this.state.selectedIndex === index}
-                            className={classes.listItem}
-                            classes={{ selected: classes.selected }}
-                          >
-                            <SingleCollab {...store} />
-                          </ListItem>
-                          <Link
-                            href={`/dashboard/collab/createCoupon/${store._id}`}
-                            // className={classes.link}
-                          >
-                            <Button
-                              color="primary"
-                              variant="outlined"
-                              className={classes.button}
+                        store._id !== storeId && (
+                          <React.Fragment key={index}>
+                            <ListItem
+                              button
+                              onClick={() => this.handleClick(index)}
+                              selected={this.state.selectedIndex === index}
+                              className={classes.listItem}
+                              classes={{ selected: classes.selected }}
                             >
-                              Choose Store
-                            </Button>
-                          </Link>
-                          <Divider
-                            component="div"
-                            className={classes.divider}
-                          />
-                        </React.Fragment>
+                              <SingleCollab {...store} />
+                            </ListItem>
+                            <Link
+                              href={`/dashboard/collab/createCoupon/${
+                                store._id
+                              }`}
+                              // className={classes.link}
+                            >
+                              <Button
+                                color="primary"
+                                variant="outlined"
+                                className={classes.button}
+                              >
+                                Choose Store
+                              </Button>
+                            </Link>
+                            <Divider
+                              component="div"
+                              className={classes.divider}
+                            />
+                          </React.Fragment>
+                        )
                       )
                     })}
                 </List>
               </Grid>
               <Grid item xs={12} sm={7}>
-                {data.stores && (
+                {storeList && address && (
                   <MapHandle
                     stores={data.stores}
+                    address={address}
                     selectedIndex={this.state.selectedIndex}
                   />
                 )}

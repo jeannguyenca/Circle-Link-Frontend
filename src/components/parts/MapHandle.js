@@ -23,17 +23,32 @@ class MapHandle extends Component {
     this.props.stores.map(store => {
       return this.searchPlaces(store.address)
     })
+    this.searchAPlace(this.props.address)
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.country !== prevProps.country) {
-      this.searchPlaces(this.props.country)
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   // Typical usage (don't forget to compare props):
+  //   if (this.props.country !== prevProps.country) {
+  //     this.searchPlaces(this.props.country)
+  //   }
+  // }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
+  }
+
+  searchAPlace = place => {
+    axios
+      .get(
+        `${"https://cors-anywhere.herokuapp.com/"}https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${place}&inputtype=textquery&fields=geometry&key=${KEY}`
+      )
+      .then(res => {
+        const newLngLat = res.data.candidates[0].geometry.location
+        if (this._isMounted) {
+          this.setState({ center: newLngLat })
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   searchPlaces = place => {

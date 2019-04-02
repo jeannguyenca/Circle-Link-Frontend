@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import { withStyles } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
 import Hidden from "@material-ui/core/Hidden"
@@ -153,6 +153,16 @@ class ResponsiveDrawer extends React.Component {
     })
   }
 
+  componentDidMount() {
+    this.setState({
+      selectedIndex: this.checkCurrentPath()
+    })
+  }
+
+  shouldComponentUpdate(prepProp, prepState) {
+    return prepProp !== this.props || prepState !== this.state
+  }
+
   checkCurrentPath() {
     const path = window.location.pathname
 
@@ -291,4 +301,4 @@ class ResponsiveDrawer extends React.Component {
   }
 }
 
-export default withStyles(styles)(ResponsiveDrawer)
+export default withStyles(styles)(withRouter(ResponsiveDrawer))

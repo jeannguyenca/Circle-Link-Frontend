@@ -3,11 +3,13 @@ import { compose, withProps } from "recompose"
 import {
   withScriptjs,
   withGoogleMap,
-  GoogleMap
+  GoogleMap,
+  Marker
 } from "react-google-maps"
 
 import blackMarker from "../../assets/icons/blackcircle.svg"
 import greenMarker from "../../assets/icons/greencircle.svg"
+import centerMarker from "../../assets/icons/location.svg"
 
 const {
   MarkerWithLabel
@@ -17,7 +19,6 @@ const KEY = `${process.env.REACT_APP_GOOGLE_MAP_KEY}`
 
 const labelSize = { width: 20 }
 const labelPadding = 16
-
 
 var markerStyling = {
   clear: "both",
@@ -50,6 +51,7 @@ const maps = compose(
       //   styles: props.style
       // }}
     >
+
       {props.isMarkerShown &&
         locations.map((location, index) => {
           if (index === props.selectedIndex) {
@@ -64,7 +66,7 @@ const maps = compose(
                 labelStyle={markerStyling}
                 icon={{ url: greenMarker }}
               >
-                <div>{index+1}</div>
+                <div>{index + 1}</div>
               </MarkerWithLabel>
             )
           } else {
@@ -79,11 +81,15 @@ const maps = compose(
                 labelStyle={markerStyling}
                 icon={{ url: blackMarker }}
               >
-                <div>{index+1}</div>
+                <div>{index + 1}</div>
               </MarkerWithLabel>
             )
           }
         })}
+              <Marker
+        position={props.center}
+        icon={{ url: centerMarker }}
+      />
     </GoogleMap>
   )
 })

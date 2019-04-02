@@ -36,11 +36,9 @@ const TopMenuList = props => {
         <img src={Notification} alt="notification" className={`${classes.icon} ${classes.notification}`} />
       </Hidden>
       <Hidden mdDown implementation="css">
-      {name && (
         <Typography variant="body1">
-          Hello, <span className={classes.userName}>{name}</span>
+          Hello, <span className={classes.userName}>{name || "guest"}</span>
         </Typography>
-      )}
       </Hidden>
       <DropDown logout={props.logout}/>
     </React.Fragment>

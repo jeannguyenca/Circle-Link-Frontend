@@ -26,6 +26,10 @@ const styles = theme => ({
     [theme.breakpoints.down("sm")]: {
       width: "calc(100% - 120px)",
       paddingBottom: "20px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "calc(100% - 60px)",
+      padding: "20px 30px 20px 30px"
     }
   },
   item: {
@@ -101,9 +105,7 @@ const AppBarDashBoard = props => {
           container
           alignItems="center"
         >
-          {props.name && (
-            <TopMenuList name={props.name} logout={props.logout} />
-          )}
+          <TopMenuList name={props.name} logout={props.logout} />
         </Grid>
       </Grid>
     </Toolbar>

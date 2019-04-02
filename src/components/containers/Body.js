@@ -35,6 +35,10 @@ const styles = theme => ({
     [theme.breakpoints.down("sm")]: {
       marginLeft: "60px",
       marginRight: "60px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "30px",
+      marginRight: "30px"
     }
   }
 })
@@ -64,7 +68,6 @@ class Body extends Component {
     this.fetchStoreId(this.state.token)
   }
 
-
   getUserInfo = () => {
     let data = JSON.parse(sessionStorage.getItem("auth"))
     let userInfo = {
@@ -86,6 +89,7 @@ class Body extends Component {
     if (result.length !== 0) {
       this.setState({
         storeId: result[0]._id,
+        address: result[0].address,
         name: result[0].creator.name,
         email: result[0].creator.email,
         fetched: true
@@ -110,7 +114,7 @@ class Body extends Component {
 
   render() {
     const { classes } = this.props
-
+    
     if (!this.state.isLogin) {
       return (
         <Redirect
@@ -126,11 +130,17 @@ class Body extends Component {
     )
     return (
       <div className={classes.container}>
-        <Menu logout={this.logout} name={this.state.name}/>
+        {this.state.name ? (
+          <Menu logout={this.logout} name={this.state.name} />
+        ) : (
+          <Menu logout={this.logout} />
+        )}
         <Wrapper>
           <Switch>
+            {/* Dashboard */}
             <Route exact path="/dashboard" component={Dashboard} />
 
+            {/* Statistic */}
             <Route
               path="/dashboard/stat/customers"
               component={() => (
@@ -142,21 +152,45 @@ class Body extends Component {
               component={() => <Stats data={coupnStat} keyData="coupons" />}
             />
 
-            <Route path="/dashboard/coupons/create" component={CreateCoupon} />
-            <Route path="/dashboard/coupons" component={ViewCoupon} />
+            {/* Coupons */}
+            <Route
+              path="/dashboard/coupons/create"
+              component={() => (
+                <CreateCoupon
+                  token={this.state.token}
+                  storeId={this.state.storeId}
+                />
+              )}
+            />
+            <Route
+              path="/dashboard/coupons"
+              component={() => 
+              <ViewCoupon 
+              storeId={this.state.storeId} 
+              token={this.state.token}
+              option=""
+              />}
+            />
 
-            <Route path="/dashboard/collab/create" component={ChooseCollab} />
+            {/* Collab coupons */}
+            <Route path="/dashboard/collab/create" component={() => <ChooseCollab storeId={this.state.storeId} address={this.state.address}/>} />
             <Route
               path="/dashboard/collab/createCoupon/:collabStore"
-              component={CreateCoupon}
+              component={() => (
+                <CreateCoupon
+                  token={this.state.token}
+                  storeId={this.state.storeId}
+                  option="collab"
+                />
+              )}
             />
             <Route
               path="/dashboard/collab"
               component={() => (
-                <ViewCoupon
-                  storeId="5c8964fd425d32025f175ad5"
-                  option="collab"
-                />
+                <ViewCoupon 
+                storeId={this.state.storeId} 
+                  token={this.state.token}
+                option="collab" />
               )}
             />
 

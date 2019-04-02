@@ -5,6 +5,7 @@ const getStoreId = () => {
                 stores (option: "mystore") {
                 _id
                 storename
+                address
                 creator {
                     name
                     email

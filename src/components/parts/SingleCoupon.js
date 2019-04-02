@@ -5,6 +5,8 @@ import Grid from "@material-ui/core/Grid"
 import Divider from "@material-ui/core/Divider"
 import Button from "@material-ui/core/Button"
 
+import red from "@material-ui/core/colors/red"
+
 import DateFormat from "../../helpers/DateFormat"
 
 const styles = theme => ({
@@ -23,17 +25,27 @@ const styles = theme => ({
   },
   button: {
     margin: "20px 0",
+    borderColor: theme.palette.primary.main,
+    background: "white",
+    color: theme.palette.primary.main,
+    "&:hover": {
+      color: "white",
+      border: `1px solid ${theme.palette.primary.main}`,
+      background: theme.palette.primary.main,
+    },
     "&:first-of-type": {
       marginRight: "20px"
-    }
+    },
   },
   buttonDelete: {
-    color: "#f44336",
-    borderColor: "#f44336",
-    margin: "20px 0 20px 0",
+    borderColor: red[500],
+    background: "white",
+    color: red[500],
     "&:hover": {
-      borderColor: "#f44336",
-      background: "rgba(244,67,54, 0.1)"
+      color: "white",
+      border: `1px solid ${red[500]}`,
+      background: red[500],
+      margin: "20px 0 20px 0",
     },
     [theme.breakpoints.down("sm")]: {
       margin: "0 0 20px 0"
@@ -52,8 +64,8 @@ const styles = theme => ({
 })
 
 const SingleCoupon = props => {
-  const { classes, name, description, condition, startDay, expiredDay } = props
-
+  const { classes, _id, name, description, condition, startDay, expiredDay } = props
+  
   return (
     <Grid container className={classes.container} spacing={8}>
       {/* ------ Content row ------- */}
@@ -116,6 +128,7 @@ const SingleCoupon = props => {
             color="secondary"
             variant="outlined"
             className={classes.buttonDelete}
+            onClick={() => props.deleteHandler(_id)}
           >
             Delete
           </Button>
