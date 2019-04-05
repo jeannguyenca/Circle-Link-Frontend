@@ -131,9 +131,10 @@ class ResponsiveDrawer extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }))
   }
 
-  handleClick = id => {
+  handleClick = (id, path) => {
     this.setState({
-      selectedIndex: id
+      selectedIndex: id,
+      path: path
     })
 
     if (this.state.mobileOpen === true) {
@@ -153,14 +154,40 @@ class ResponsiveDrawer extends React.Component {
     })
   }
 
+  // componentDidMount() {
+  //   this.setState({
+  //     selectedIndex: this.checkCurrentPath()
+  //   })
+  // }
+
   componentDidMount() {
-    this.setState({
-      selectedIndex: this.checkCurrentPath()
-    })
+    this.interval = setInterval(
+      this.setState({
+        selectedIndex: this.checkCurrentPath(),
+        path: window.location.pathname
+      }),
+      200
+    )
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
-  shouldComponentUpdate(prepProp, prepState) {
-    return prepProp !== this.props || prepState !== this.state
+  // shouldComponentUpdate(prepProp, prepState) {
+  //   console.log(window.location.pathname)
+  //   console.log(this.state.path)
+  //   return (
+  //     prepState !== this.state || this.state.path !== window.location.pathname
+  //   )
+  // }
+
+  componentDidUpdate() {
+    if (this.state.path !== window.location.pathname) {
+      this.setState({
+        selectedIndex: this.checkCurrentPath(),
+        path: window.location.pathname
+      })
+    }
   }
 
   checkCurrentPath() {
@@ -188,7 +215,10 @@ class ResponsiveDrawer extends React.Component {
     const drawer = (
       <div className={classes.drawer}>
         <Hidden smDown implementation="css">
-          <Link to="/dashboard" onClick={() => this.handleClick("-1")}>
+          <Link
+            to="/dashboard"
+            onClick={() => this.handleClick("-1", "/dashboard")}
+          >
             <img src={logo} alt="Logo" className={classes.responsiveImg} />
           </Link>
         </Hidden>
@@ -210,7 +240,9 @@ class ResponsiveDrawer extends React.Component {
                     component={Link}
                     to={linkTo[index][i]}
                     // change selected item
-                    onClick={() => this.handleClick(`${index}${i}`)}
+                    onClick={() =>
+                      this.handleClick(`${index}${i}`, linkTo[index][i])
+                    }
                     // handle mouseover item
                     onMouseEnter={() => this.handleHover(`${index}${i}`)}
                     onMouseLeave={() => this.handleOut()}

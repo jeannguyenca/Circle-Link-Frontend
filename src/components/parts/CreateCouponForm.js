@@ -67,7 +67,7 @@ const styles = theme => ({
   button: {
     boxShadow: "none",
     width: "130px",
-    marginRight: "20px",
+    marginRight: "20px"
   },
   submit: {
     color: "white",
@@ -179,6 +179,7 @@ const CreateCouponForm = props => {
             name="details"
             // placeholder="Coupon Details"
             variant="outlined"
+            type={type === "percentOff" ? "number" : ""}
             onChange={handleChange}
             InputLabelProps={{
               shrink: true
@@ -188,7 +189,8 @@ const CreateCouponForm = props => {
                 <InputAdornment position="end">
                   {type === "percentOff" ? "%" : ""}
                 </InputAdornment>
-              )
+              ),
+              inputProps: { min: 0, max: 100 }
             }}
           />
         </Grid>
@@ -207,7 +209,8 @@ const CreateCouponForm = props => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">points</InputAdornment>
-              )
+              ),
+              inputProps: { min: 0, max: 1000 }
             }}
           />
         </Grid>
@@ -265,6 +268,9 @@ const CreateCouponForm = props => {
             id="numcoupon"
             variant="outlined"
             type="number"
+            InputProps={{
+              inputProps: { min: 0, max: 1000 }
+            }}
           />
         </Grid>
 

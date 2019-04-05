@@ -50,7 +50,8 @@ class Authentication extends Component {
     this.state = {
       isLogin: true,
       email: "",
-      password: ""
+      password: "",
+      url: window.location.href
     }
     this.submitHandler = this.submitHandler.bind(this)
   }
@@ -69,7 +70,7 @@ class Authentication extends Component {
   }
 
   googleLogin = () => {
-    const url = window.location.href
+    const url = this.state.url
 
     if (!window.location.href.includes("code")) {
       const clientId =
@@ -91,10 +92,12 @@ class Authentication extends Component {
   }
 
   async retriveGoogleCode() {
+    const url = this.state.url.split("?")[0]
+
     var params = new URLSearchParams(window.location.search)
     var code = params.get("code")
 
-    let body = googleLogin(code)
+    let body = googleLogin(code, url)
 
     const resData = await fetchFunction(body, this.state.token)
 

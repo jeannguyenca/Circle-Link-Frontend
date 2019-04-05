@@ -49,7 +49,7 @@ class Customer extends Component {
     const startDate = this.state.startDay
     const endDate = this.state.endDay
     const storeID = this.props.storeId
-    const collabID = this.props.collabId
+    const collabID = this.props.match.params.collabStore
     const token = this.props.token
 
     let requestBody
@@ -66,6 +66,7 @@ class Customer extends Component {
         storeID,
         collabID
       )
+      console.log(requestBody)
     } else {
       requestBody = createCoupon(
         name,
@@ -81,29 +82,26 @@ class Customer extends Component {
 
     const resData = await fetchFunction(requestBody, token)
     this.setState({ result: resData, fetched: true })
-    
   }
 
   render() {
     const { handleChange, handleDate, submitHandler, handleRadio } = this
     return (
       <Fragment>
-        {this.state.fetched &&
-          this.props.collabID &&
-            <Redirect
-              to={{
-                pathname: "/dashboard/collab",
-              }}
-            />
-        }
-        {this.state.fetched &&
-          !this.props.collabID &&
-            <Redirect
-              to={{
-                pathname: "/dashboard/coupons",
-              }}
-            />
-        }
+        {this.state.fetched && this.props.match.params.collabStore && (
+          <Redirect
+            to={{
+              pathname: "/dashboard/collab"
+            }}
+          />
+        )}
+        {this.state.fetched && !this.props.match.params.collabStore && (
+          <Redirect
+            to={{
+              pathname: "/dashboard/coupons"
+            }}
+          />
+        )}
 
         <Form
           handleChange={handleChange}

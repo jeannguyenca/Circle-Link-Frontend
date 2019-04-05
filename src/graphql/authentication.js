@@ -24,11 +24,11 @@ export const createUser = (email, password, name, address) => {
   }
 }
 
-export const googleLogin = code => {
+export const googleLogin = (code, url) => {
   return {
     query: `
           mutation {
-            googleUser(code: "${code}") {
+            googleUser(code: "${code}", url: "${url}") {
               userId
               token
               tokenExpiration

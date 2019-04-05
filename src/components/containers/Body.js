@@ -156,10 +156,11 @@ class Body extends Component {
             {/* Coupons */}
             <Route
               path="/dashboard/coupons/create"
-              component={() => (
+              component={props => (
                 <CreateCoupon
                   token={this.state.token}
                   storeId={this.state.storeId}
+                  {...props}
                 />
               )}
             />
@@ -186,11 +187,12 @@ class Body extends Component {
             />
             <Route
               path="/dashboard/collab/createCoupon/:collabStore"
-              component={() => (
+              component={props => (
                 <CreateCoupon
                   token={this.state.token}
                   storeId={this.state.storeId}
                   option="collab"
+                  {...props}
                 />
               )}
             />
