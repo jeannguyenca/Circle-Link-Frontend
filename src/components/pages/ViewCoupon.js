@@ -34,7 +34,6 @@ class ViewCoupon extends Component {
     if (this._isMounted) {
       this.setState({ coupons: resData.data.coupons })
     }
-    // console.log(resData)
   }
 
   componentDidMount() {
@@ -52,7 +51,7 @@ class ViewCoupon extends Component {
         {this.state.coupons &&
           this.state.coupons.map((coupon, index) => (
             <Fragment key={index}>
-              <SingleCoupon {...coupon} deleteHandler={this.deleteHandler} />
+              <SingleCoupon {...coupon} option={this.props.option} deleteHandler={this.deleteHandler} />
             </Fragment>
           ))}
       </Fragment>

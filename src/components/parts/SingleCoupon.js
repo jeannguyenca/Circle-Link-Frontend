@@ -31,11 +31,11 @@ const styles = theme => ({
     "&:hover": {
       color: "white",
       border: `1px solid ${theme.palette.primary.main}`,
-      background: theme.palette.primary.main,
+      background: theme.palette.primary.main
     },
     "&:first-of-type": {
       marginRight: "20px"
-    },
+    }
   },
   buttonDelete: {
     borderColor: red[500],
@@ -45,7 +45,7 @@ const styles = theme => ({
       color: "white",
       border: `1px solid ${red[500]}`,
       background: red[500],
-      margin: "20px 0 20px 0",
+      margin: "20px 0 20px 0"
     },
     [theme.breakpoints.down("sm")]: {
       margin: "0 0 20px 0"
@@ -64,8 +64,18 @@ const styles = theme => ({
 })
 
 const SingleCoupon = props => {
-  const { classes, _id, name, description, condition, startDay, expiredDay } = props
-  
+  const {
+    classes,
+    _id,
+    name,
+    description,
+    condition,
+    startDay,
+    expiredDay,
+    status,
+  } = props
+
+  const option = props.option
   return (
     <Grid container className={classes.container} spacing={8}>
       {/* ------ Content row ------- */}
@@ -83,6 +93,10 @@ const SingleCoupon = props => {
             <span className={classes.span}>Condition: </span>
             {condition > 0 ? condition + " point" : "None"}
           </Typography>
+          {option === "collab" && <Typography variant="body1" style={{textTransform: "capitalize"}}>
+            <span className={classes.span}>Status: </span>
+            {status}
+          </Typography>}
         </Grid>
       </Grid>
       <Grid item xs={12} md={4} className={classes.itemRight}>

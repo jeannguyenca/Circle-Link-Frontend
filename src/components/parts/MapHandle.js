@@ -68,6 +68,7 @@ class MapHandle extends Component {
   }
 
   render() {
+    // console.log(this.state.locations)
     return (
       <React.Fragment>
         {this.state.locations.length > 0 && (

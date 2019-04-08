@@ -54,6 +54,7 @@ export const viewCoupon = (storeID, option) => {
           condition
           startDay
           expiredDay
+          status
         }
       } 
         `
